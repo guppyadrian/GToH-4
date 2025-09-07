@@ -1,0 +1,13 @@
+## 0.1.0 September 6, 2025
+- Added
+    - Library
+        - assets.js
+        - input.js
+        - keyboard.js
+        - master.js
+        - scene.js
+        - sprite.js
+        - vector2.js
+    - Game
+        - gameScene.js
+        - player.js
