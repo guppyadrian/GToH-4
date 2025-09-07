@@ -1,5 +1,8 @@
 // So thi
 
+import { Camera } from "./camera";
+import { Vector2 } from "./vector2";
+
 export class Master {
     static initialized = false;
     static currentScene;
@@ -32,7 +35,8 @@ export class Master {
 
     // TODO: this conflicts with a draw loop for Master. like the name does. I would like master to have draw() and update() loops, but I have to directly call currentScene.draw()
     static draw(image, x, y) {
-        Master.ctx.drawImage(image, x, y);
+        const drawPos = Camera.toScreen(x, y);
+        Master.ctx.drawImage(image, drawPos.x, drawPos.y);
     }
 
     static update() {

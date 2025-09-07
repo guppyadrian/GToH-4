@@ -8,6 +8,7 @@
         - scene.js
         - sprite.js
         - vector2.js
+        - camera.js
     - Game
         - gameScene.js
         - player.js
