@@ -7,6 +7,7 @@
 - [ ] mouse input? for gui
 - [ ] progress for loading would be nice...
 - [x] Make everything use guppy-lib module!
+- [ ] Sprite extends Rect/Area for collisions + LEFT + TOP + RIGHT + BOTTOM
 
 ## GAME
 - [ ] Lets make player physics

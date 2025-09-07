@@ -1,4 +1,4 @@
-import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
+import { Assets, Input, Master, Sprite, Vector2, Area } from "guppy-lib";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
@@ -33,10 +33,8 @@ export class Player extends Sprite {
     }
 
     colliding() {
-        // TODO: add logic
-        if (!(this.x + this.width > 20 && 20 + 30 > this.x)) return false;
-        if (!(this.y + this.height > 200 && 200 + 30 > this.y)) return false;
-        return true;
+        return super.colliding(new Area(20, 200, 30, 30));
+
     }
 
     physicsTick() {
