@@ -1,6 +1,8 @@
 import { Assets, Camera, Master, Scene, Sprite } from "guppy-lib";
 import { Player } from "../game/player";
 import { Block } from "../game/block";
+import { World } from "../game/world";
+import data from "../levels/level1.json" assert { type: "json" };
 
 export class GameScene extends Scene {
     player;
@@ -16,6 +18,7 @@ export class GameScene extends Scene {
     constructor() {
         super();
         this.player = new Player();
+        World.createWorld(data);
     }
 
     update() {
@@ -25,7 +28,7 @@ export class GameScene extends Scene {
     }
 
     draw() {
+        World.draw();
         this.player.draw();
-        new Block(20, 200, undefined, 2, 1).draw();
     }
 }

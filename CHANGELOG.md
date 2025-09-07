@@ -1,3 +1,11 @@
+## 0.1.2 September 7, 2025
+- Added
+    - Area class
+    - collision
+    - World & level loading
+- Changed
+    - lib is now its own package
+
 ## 0.1.1 September 6, 2025
 - Added
     - More documentation

@@ -19,6 +19,4 @@ Master.initialize(document.getElementById("game-canvas"));
 // OK RUN NOW
 Master.changeScene(LoadingScene.load(GameScene));
 
-//Master.currentScene.player.vel.x = 1;
-
 setInterval(Master.tick, 25);
