@@ -11,7 +11,7 @@ export class Master {
 
     // TODO: make error checking for these stuff
     static get width() {
-        return this.canvas.width;
+        return this.canvas.width; // TODO: make sure this is still accurate with zoom (probably not???)
     }
     static get height() {
         return this.canvas.height;

@@ -1,3 +1,13 @@
+## 0.1.1 September 6, 2025
+- Added
+    - More documentation
+- Changed
+    - sprite has a center property now to get it's center
+    - Camera follows player
+- Fixed
+    - Camera zoom being set to 0
+
+
 ## 0.1.0 September 6, 2025
 - Added
     - Library

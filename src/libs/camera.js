@@ -3,7 +3,7 @@ import { Vector2 } from "./vector2";
 export class Camera {
     static x = 0;
     static y = 0;
-    static z = 0;
+    static z = 1;
 
     /**
      * @overload

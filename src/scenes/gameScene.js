@@ -1,6 +1,9 @@
 import { Player } from "../game/player";
 import { Assets } from "../libs/assets";
+import { Camera } from "../libs/camera";
+import { Master } from "../libs/master";
 import { Scene } from "../libs/scene";
+import { Sprite } from "../libs/sprite";
 
 export class GameScene extends Scene {
     player;
@@ -20,9 +23,12 @@ export class GameScene extends Scene {
 
     update() {
         this.player.update();
+        Camera.x = this.player.center.x - Master.width / 2
+        Camera.y = this.player.center.y - Master.height / 2; 
     }
 
     draw() {
         this.player.draw();
+        Sprite.from('player', 20, 20).draw();
     }
 }

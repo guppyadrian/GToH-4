@@ -21,8 +21,19 @@ export class Sprite {
         this.pos.y = y;
     }
 
-    static from(filePath) {
-        return new this(Assets.get(filePath), 0, 0);
+    get width() {
+        return this.image.width;
+    }
+    get height() {
+        return this.image.height;
+    }
+
+    get center() {
+        return new Vector2(this.x + this.width / 2, this.y + this.height / 2);
+    }
+
+    static from(filePath, x = 0, y = 0) {
+        return new this(Assets.get(filePath), x, y);
     }
 
     constructor(image, x, y) {
