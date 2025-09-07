@@ -1,7 +1,7 @@
 {
   "name": "gtoh-vite-4",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,6 +13,7 @@
     "vite-plugin-singlefile": "^2.3.0"
   },
   "dependencies": {
+    "guppy-lib": "file:../guppy-lib",
     "socket.io-client": "^4.8.1"
   }
 }

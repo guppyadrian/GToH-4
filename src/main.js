@@ -1,7 +1,8 @@
 import { io } from "socket.io-client";
-import { Input } from "./libs/input";
-import { Master } from "./libs/master";
 import { GameScene } from "./scenes/gameScene";
+import { LoadingScene } from "./scenes/loadingScene";
+import { dat } from "./game/loadLevel";
+import { Input, Master } from "guppy-lib";
 
 io('http://localhost:3000');
 
@@ -15,16 +16,9 @@ Input.addBind('down', ['KeyS', 'ArrowDown']);
 // Set up MASTER
 Master.initialize(document.getElementById("game-canvas"));
 
-// Load assets
-const someTime = Date.now();
-GameScene.preload().then(() => {
-  console.log("took:", Date.now() - someTime, "ms to load");
-});
-
 // OK RUN NOW
-Master.changeScene(new GameScene());
+Master.changeScene(LoadingScene.load(GameScene));
 
 //Master.currentScene.player.vel.x = 1;
 
 setInterval(Master.tick, 25);
-

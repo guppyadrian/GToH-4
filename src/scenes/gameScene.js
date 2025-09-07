@@ -1,9 +1,5 @@
+import { Assets, Camera, Master, Scene, Sprite } from "guppy-lib";
 import { Player } from "../game/player";
-import { Assets } from "../libs/assets";
-import { Camera } from "../libs/camera";
-import { Master } from "../libs/master";
-import { Scene } from "../libs/scene";
-import { Sprite } from "../libs/sprite";
 
 export class GameScene extends Scene {
     player;
@@ -29,6 +25,6 @@ export class GameScene extends Scene {
 
     draw() {
         this.player.draw();
-        Sprite.from('player', 20, 20).draw();
+        Sprite.from('player', 20, 200).draw();
     }
 }
