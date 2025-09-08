@@ -1,11 +1,13 @@
-## 0.1.2 September 7, 2025
+## 0.2.0 September 7, 2025
 - Added
     - Area class
     - collision
     - World & level loading
+    - createBlock()
 - Changed
     - lib is now its own package
     - resolution is not 720x480
+    - Uses typescript
 
 ## 0.1.1 September 6, 2025
 - Added

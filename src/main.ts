@@ -3,7 +3,9 @@ import { GameScene } from "./scenes/gameScene";
 import { LoadingScene } from "./scenes/loadingScene.js";
 import { Input, Master } from "guppy-lib";
 
-io('http://localhost:3000');
+io('http://localhost:3000', {
+    reconnectionAttempts: 5
+});
 
 // set up keyboard
 Input.initialize();

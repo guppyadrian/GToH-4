@@ -8,7 +8,6 @@ interface SceneConstructor {
   preload(): Promise<void>;     // must have a static preload method
 }
 
-
 export class LoadingScene extends Scene {
     sceneToPreload;
 

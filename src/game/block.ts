@@ -14,9 +14,9 @@ export class Block extends Area {
         return this.size.y * this.tilesY;
     }
 
-    constructor(x = 0, y = 0, type = 'block', w = 1, h = 1) {
+    constructor(x = 0, y = 0, w = 1, h = 1) {
         super(x, y, 30, 30);
-        this.type = type;
+        this.type = "block";
         this.tilesX = w; // how many columns it has
         this.tilesY = h; // how many rows it has
     }

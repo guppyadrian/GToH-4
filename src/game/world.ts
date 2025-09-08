@@ -1,4 +1,5 @@
 import { Block } from "./block.js";
+import { createBlock } from "./createBlock.js";
 
 export class World {
     static data: Block[] = [];
@@ -19,7 +20,7 @@ export class World {
             const data = levelCode.data;
 
             for (const block of data) {
-                World.data.push(new Block(...block));
+                World.data.push(createBlock(...block as [number, number, string, number, number]));
             }
         }
     }
