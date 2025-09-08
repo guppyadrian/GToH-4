@@ -9,6 +9,7 @@
     - lib is now its own package
     - resolution is not 720x480
     - Uses typescript
+    - Able to jump as level starts
 
 ## 0.1.1 September 6, 2025
 - Added
