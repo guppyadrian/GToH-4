@@ -3,6 +3,9 @@
 import { Area, Camera, Master } from "guppy-lib"
 
 export class Block extends Area {
+    type;
+    tilesX;
+    tilesY;
 
     get width() {
         return this.size.x * this.tilesX;

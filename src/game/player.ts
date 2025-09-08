@@ -1,5 +1,5 @@
 import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
-import { World } from "./world";
+import { World } from "./world.js";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
@@ -13,10 +13,11 @@ const PlayerSettings = {
 }
 
 export class Player extends Sprite {
-    // not defining stuff here, look at constructor
+    canJump;
+    wallJumpCooldown;
 
-    constructor(x, y) {
-        super(Assets.get('player'));
+    constructor(x: number, y: number) {
+        super(Assets.get('player'), x, y);
 
         this.canJump = false;
         this.wallJumpCooldown = 0;
@@ -28,8 +29,8 @@ export class Player extends Sprite {
  
     getMovementVector() {
         const vec = new Vector2();
-        vec.x = (Input.get('right') - Input.get('left'));
-        vec.y = (Input.get('down') - Input.get('up'));
+        vec.x = (+Input.get('right') - +Input.get('left'));
+        vec.y = (+Input.get('down') - +Input.get('up'));
         return vec;
     }
 

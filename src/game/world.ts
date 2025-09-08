@@ -1,7 +1,7 @@
-import { Block } from "./block";
+import { Block } from "./block.js";
 
 export class World {
-    static data = [];
+    static data: Block[] = [];
     // This needs to have a chunk system
     // all the stuff in this needs to extend from area for collision check & draw methods
 
@@ -11,7 +11,7 @@ export class World {
         }
     }
 
-    static createWorld(levelCode) {
+    static createWorld(levelCode: any) {
         console.log(levelCode)
         World.data = [];
 

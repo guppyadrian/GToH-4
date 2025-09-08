@@ -3,18 +3,16 @@ import { Master, Scene } from "guppy-lib";
 
 // TODO: honestly this should be in libs, for more portability and so master can call this directly
 
+interface SceneConstructor {
+  new (): Scene;                // must be constructible into a Scene
+  preload(): Promise<void>;     // must have a static preload method
+}
+
+
 export class LoadingScene extends Scene {
-    static preload() {
-        super.preload();
-    }
-
-    static load(sceneToPreload) {
-        return new this(sceneToPreload);
-    }
-
     sceneToPreload;
 
-    constructor(sceneToPreload) {
+    constructor(sceneToPreload: SceneConstructor) {
         super();
         this.sceneToPreload = sceneToPreload;
     }
@@ -24,6 +22,8 @@ export class LoadingScene extends Scene {
         Master.ctx.textAlign = 'center';
         Master.ctx.fillText('Loading...', Master.width / 2, Master.height / 2);
     }
+
+    update() { }
 
     initialize() {
         const time = Date.now();

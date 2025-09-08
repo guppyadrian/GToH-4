@@ -1,23 +1,22 @@
-import { Assets, Camera, Master, Scene, Sprite } from "guppy-lib";
-import { Player } from "../game/player";
-import { Block } from "../game/block";
-import { World } from "../game/world";
+import { Assets, Camera, Master, Scene } from "guppy-lib";
+import { Player } from "../game/player.js";
+import { World } from "../game/world.js";
 import data from "../levels/level1.json" assert { type: "json" };
 
 export class GameScene extends Scene {
     player;
 
-    static preload() {
+    static preload(): Promise<void> {
         const promises = [];
 
         promises.push(Assets.load('player.png', 'player'));
 
-        return Promise.all(promises);
+        return Promise.all(promises).then(() => {});
     }
 
     constructor() {
         super();
-        this.player = new Player();
+        this.player = new Player(0, 0);
         World.createWorld(data);
     }
 
