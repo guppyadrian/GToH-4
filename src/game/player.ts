@@ -19,7 +19,7 @@ export class Player extends Sprite {
     constructor(x: number, y: number) {
         super(Assets.get('player'), x, y);
 
-        this.canJump = false;
+        this.canJump = true;
         this.wallJumpCooldown = 0;
     }
 

@@ -17,17 +17,21 @@ export class GameScene extends Scene {
     constructor() {
         super();
         this.player = new Player(0, 0);
-        World.createWorld(data);
+        this.startLevel(data);
+    }
+
+    startLevel(levelData: any) {
+        this.player = new Player(150, 60);
+        World.createWorld(levelData);
     }
 
     update() {
         this.player.update();
         // Camera.x = this.player.center.x - Master.width / 2
         // Camera.y = this.player.center.y - Master.height / 2; 
-        Camera.x -= Math.round((Camera.x - (this.player.center.x - Master.width / 2)) / 10 * Master.width) / Master.width; // TODO: Rewrite this
+        Camera.x -= Math.round((Camera.x - (this.player.center.x - Master.width / 2)) / 10 * Master.width) / Master.width; // TODO: Rewrite this, I'm sure I could shave some of it down
         Camera.y -= Math.round((Camera.y - (this.player.center.y - Master.height / 2)) / 10 * Master.height) / Master.height;
     }
-
 
     draw() {
         World.draw();
