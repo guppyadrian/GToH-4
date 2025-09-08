@@ -4,6 +4,7 @@
     - collision
     - World & level loading
     - createBlock()
+    - Camera easing
 - Changed
     - lib is now its own package
     - resolution is not 720x480
