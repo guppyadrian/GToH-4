@@ -1,7 +1,7 @@
 import { Assets, Camera, Master, Scene } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
-import data from "../levels/level1.json" assert { type: "json" };
+import { Levels } from "../game/levels.js";
 
 export class GameScene extends Scene {
     player;
@@ -17,7 +17,7 @@ export class GameScene extends Scene {
     constructor() {
         super();
         this.player = new Player(0, 0);
-        this.startLevel(data);
+        this.startLevel(Levels.get(1));
     }
 
     startLevel(levelData: any) {

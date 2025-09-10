@@ -1,5 +1,6 @@
 import { Block } from "./block.js";
 import { createBlock } from "./createBlock.js";
+import type { LevelData } from "./levels.js";
 
 export class World {
     static data: Block[] = [];
@@ -12,12 +13,12 @@ export class World {
         }
     }
 
-    static createWorld(levelCode: any) {
-        console.log(levelCode)
+    static createWorld(levelData: LevelData) {
+        console.log(levelData)
         World.data = [];
 
-        if (levelCode.format === 2 || levelCode.format === 1) {
-            const data = levelCode.data;
+        if (levelData.format === 2 || levelData.format === 1) {
+            const data = levelData.data;
 
             for (const block of data) {
                 World.data.push(createBlock(...block as [number, number, string, number, number]));

@@ -11,11 +11,12 @@
 
 ## GAME
 - [ ] win somehow needs to access game scene, or a static game class.
-- [ ] Lets make player physics
-- [ ] Make world <-- this is next please
-- [ ] Do some collision stuff, I bet some of it should be part of the library
-- [ ] make the loadLevel.js load json files from a folder.
+- [x] Lets make player physics
+- [x] Make world <-- this is next please
+- [x] Do some collision stuff, I bet some of it should be part of the library
+- [x] make the loadLevel.js load json files from a folder.
 - [ ] unplement autozoom
+- [ ] add methods to levels.ts (maybe turn it into a static class)
 
 how will collision work? need some way to get all statuses i think that is how original worked.
 efficient collision method where if colliding, move until no longer colliding with that SPECIFIC block.
@@ -26,4 +27,4 @@ canvas class has a full draw method, including rotstions/scaling
 also camera values should be get set, for camera transforms like shake. alsso camera should eotate that would be cool
 draw method also for gui. Gui should have origin for scsling.
 if an element is at the bottom put origin at bottom so it scales up.
-look into build macros. when builds it packs all levels into an array. a file should be automated to import all json when builds
+- [x] look into build macros. when builds it packs all levels into an array. a file should be automated to import all json when builds

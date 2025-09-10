@@ -1,3 +1,8 @@
+## 0.2.1 September 9, 2025
+- Added
+    - level.ts to store a map of all levels in levels/ folder
+        - Each level must have an unique ID now!
+
 ## 0.2.0 September 7, 2025
 - Added
     - Area class
