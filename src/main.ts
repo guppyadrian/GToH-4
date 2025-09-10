@@ -4,7 +4,7 @@ import { LoadingScene } from "./scenes/loadingScene.js";
 import { Input, Master } from "guppy-lib";
 
 io('http://localhost:3000', {
-    reconnectionAttempts: 5
+    reconnectionAttempts: 2
 });
 
 // set up keyboard

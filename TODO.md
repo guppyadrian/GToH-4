@@ -8,6 +8,7 @@
 - [ ] progress for loading would be nice...
 - [x] Make everything use guppy-lib module!
 - [x] Sprite extends Rect/Area for collisions + LEFT + TOP + RIGHT + BOTTOM
+- [ ] skip drawing stuff offscreen (if it's even faster idk?)
 
 ## GAME
 - [ ] win somehow needs to access game scene, or a static game class.
@@ -17,6 +18,7 @@
 - [x] make the loadLevel.js load json files from a folder.
 - [ ] unplement autozoom
 - [ ] add methods to levels.ts (maybe turn it into a static class)
+- [ ] compare frame draw time to old GToH versions (GToH OG, Ancient, Expanded, Remastered)
 
 how will collision work? need some way to get all statuses i think that is how original worked.
 efficient collision method where if colliding, move until no longer colliding with that SPECIFIC block.

@@ -1,0 +1,5 @@
+Collision is done with each group of blocks, not every block. (unknown how fast)
+World is stored in chunks, so collision is only checked with the chunks the player is in (unknown how fast)
+Groups of blocks are drawn with a ctx pattern, so only one draw call is made (unknown how fast) (up to 20x as fast according to chatGPT)
+When stuck in a block, collision checks are only done with that one block (unknown how fast)
+Many things such as the world data are now stored in Maps instead of Arrays (value lookups are ~130x as fast)

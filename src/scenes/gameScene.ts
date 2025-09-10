@@ -18,6 +18,8 @@ export class GameScene extends Scene {
         super();
         this.player = new Player(0, 0);
         this.startLevel(Levels.get(1));
+        //Camera.z = 2;
+        //Camera.z = Master.width / 700;
     }
 
     startLevel(levelData: any) {
