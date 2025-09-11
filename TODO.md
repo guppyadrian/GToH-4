@@ -3,7 +3,7 @@
 - [x] Add a loader scene for loading in assets
 - [ ] Add a justPressed method to keyboard
 - [ ] Camera should have an array for tranformations. So multiple transformations could be applied at once!
-- [ ] Zoom needs to scale images~!
+- [x] Zoom needs to scale images~!
 - [ ] mouse input? for gui
 - [ ] progress for loading would be nice...
 - [x] Make everything use guppy-lib module!
@@ -16,7 +16,7 @@
 - [x] Make world <-- this is next please
 - [x] Do some collision stuff, I bet some of it should be part of the library
 - [x] make the loadLevel.js load json files from a folder.
-- [ ] unplement autozoom
+- [x] unplement autozoom
 - [ ] add methods to levels.ts (maybe turn it into a static class)
 - [ ] compare frame draw time to old GToH versions (GToH OG, Ancient, Expanded, Remastered)
 - [ ] try embedding images and using an import meta blob?

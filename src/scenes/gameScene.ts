@@ -1,4 +1,4 @@
-import { Assets, Camera, Master, Scene } from "guppy-lib";
+import { Assets, Camera, Canvas, Master, Scene } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
 import { Levels } from "../game/levels.js";
@@ -19,8 +19,8 @@ export class GameScene extends Scene {
         super();
         this.player = new Player(0, 0);
         this.startLevel(Levels.get(1));
-        //Camera.z = 2;
-        //Camera.z = Master.width / 700;
+        Canvas.fullscreen();
+        Camera.z = Master.width / 700;
     }
 
     startLevel(levelData: any) {
@@ -32,8 +32,8 @@ export class GameScene extends Scene {
         this.player.update();
         // Camera.x = this.player.center.x - Master.width / 2
         // Camera.y = this.player.center.y - Master.height / 2; 
-        Camera.x -= Math.round((Camera.x - (this.player.center.x - Master.width / 2)) / 10 * Master.width) / Master.width; // TODO: Rewrite this, I'm sure I could shave some of it down
-        Camera.y -= Math.round((Camera.y - (this.player.center.y - Master.height / 2)) / 10 * Master.height) / Master.height;
+        Camera.x -= Math.round((Camera.x - this.player.center.x) / 10); // TODO: Rewrite this, I'm sure I could shave some of it down
+        Camera.y -= Math.round((Camera.y - this.player.center.y) / 10);
     }
 
     draw() {

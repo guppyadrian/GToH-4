@@ -15,7 +15,6 @@
     "vite-plugin-singlefile": "^2.3.0"
   },
   "dependencies": {
-    "guppy-lib": "^2.5.0",
     "socket.io-client": "^4.8.1"
   }
 }
