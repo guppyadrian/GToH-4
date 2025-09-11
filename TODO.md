@@ -19,6 +19,7 @@
 - [ ] unplement autozoom
 - [ ] add methods to levels.ts (maybe turn it into a static class)
 - [ ] compare frame draw time to old GToH versions (GToH OG, Ancient, Expanded, Remastered)
+- [ ] try embedding images and using an import meta blob?
 
 how will collision work? need some way to get all statuses i think that is how original worked.
 efficient collision method where if colliding, move until no longer colliding with that SPECIFIC block.

@@ -3,6 +3,7 @@ import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
 import { Levels } from "../game/levels.js";
 
+
 export class GameScene extends Scene {
     player;
 

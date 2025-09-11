@@ -22,7 +22,7 @@ export class Block extends Area {
     }
 
     draw() {
-        const ctx = Master.ctx;
+        const ctx = Master.canvas.ctx;
 
         const screenPos = Camera.toScreen(this.pos);
 
