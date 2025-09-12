@@ -1,15 +1,16 @@
 import { Assets, Camera, Canvas, Input, Scene } from "guppy-lib";
-import { Block } from "../game/block";
+import { createBlock } from "../game/createBlock";
+import type { Block } from "../game/blockModels/block";
 
 export class DebugScene extends Scene {
     zoom: number = 1;
-    block: Block;
+    block: Block; // TODO: Make a block interface in createBLock maybe?
 
     constructor() {
         super();
         Camera.z = 2;
         Camera.x = 20;
-        this.block = new Block(15, 15);
+        this.block = createBlock(15, 15, 'block', 1, 1);
     }
 
     static preload() {

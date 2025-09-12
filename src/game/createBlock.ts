@@ -1,6 +1,6 @@
 import { Block } from "./blockModels/block";
-import { SwapBlock } from "./blockModels/swapBlock";
 import { BlueBlock } from "./blocks/blueBlock";
+import { NormalBlock } from "./blocks/normalBlock";
 import { OrangeBlock } from "./blocks/orangeBlock";
 import { PurpleBlock } from "./blocks/purpleBlock";
 import { RedBlock } from "./blocks/redBlock";
@@ -11,7 +11,7 @@ export interface BlockTags {
 }
 
 const blockMap: Record<string, new (a: number, b: number, c: number, d: number, e?: BlockTags) => Block> = {
-    block: Block,
+    block: NormalBlock,
     red: RedBlock,
     blue: BlueBlock,
     orange: OrangeBlock,

@@ -24,7 +24,7 @@ export class Block extends Area {
     }
 
     draw() {
-        Canvas.drawPattern(this.x, this.y, this.width, this.height, 'metal-block')
+        Canvas.drawPattern(this.x, this.y, this.width, this.height, this.texture);
     }
 
     update() {
