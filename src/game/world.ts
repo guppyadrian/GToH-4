@@ -1,5 +1,5 @@
 import { Area, Vector2 } from "guppy-lib";
-import { Block } from "./block.js";
+import { Block } from "./blockModels/block.js";
 import { createBlock } from "./createBlock.js";
 import type { LevelData } from "./levels.js";
 
