@@ -22,5 +22,3 @@ for (const path in modules) {
     const level = modules[path] as LevelData;
     Levels.set(level.id, level);
 }
-
-console.log(Levels);

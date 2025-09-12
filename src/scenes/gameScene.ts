@@ -12,8 +12,13 @@ export class GameScene extends Scene {
     static preload(): Promise<void> {
         const promises = [];
 
+        
+
         promises.push(Assets.load('player.png', 'player'));
         promises.push(Assets.load('textures/blocks/metalblock.png', 'metal-block'));
+        promises.push(Assets.load('textures/blocks/block.png', 'block'));
+        promises.push(Assets.load('textures/blocks/redblock.png', 'red-block'));
+        promises.push(Assets.load('textures/blocks/blueblock.png', 'blue-block'));
 
         return Promise.all(promises).then(() => {});
     }

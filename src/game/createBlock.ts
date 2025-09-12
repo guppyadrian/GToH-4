@@ -1,13 +1,26 @@
-import { Block } from "./block";
-import { SwapBlock } from "./blocks/swapBlock";
+import { Block } from "./blockModels/block";
+import { BlueBlock } from "./blocks/blueBlock";
+import { NormalBlock } from "./blocks/normalBlock";
+import { OrangeBlock } from "./blocks/orangeBlock";
+import { PurpleBlock } from "./blocks/purpleBlock";
+import { RedBlock } from "./blocks/redBlock";
 
-const blockMap: Record<string, new (a: number, b: number, c: number, d: number) => Block> = {
-    block: Block,
-    red: SwapBlock,
-    blue: SwapBlock,
+export interface BlockTags {
+    inverted?: boolean; // for orange/purple & red/blue
+    direction?: number; // TODO: Make this an enum? also side note enum for direction for player physics loop
+}
+
+const blockMap: Record<string, new (a: number, b: number, c: number, d: number, e?: BlockTags) => Block> = {
+    block: NormalBlock,
+    red: RedBlock,
+    blue: BlueBlock,
+    orange: OrangeBlock,
+    purple: PurpleBlock
 };
+// TODO: dynamically import blocks
 
-export function createBlock(x: number, y: number, type: string, w: number, h: number) {
+
+export function createBlock(x: number, y: number, type: string, w: number, h: number, _tags?: BlockTags) {
     const ctor = blockMap[type];
     if (!ctor) {
         console.error("Trying to create nonexistant block type:", type);
