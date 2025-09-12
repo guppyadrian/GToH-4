@@ -1,3 +1,9 @@
+## 0.3.0 September 10, 2025
+- Changed canvas to be its own class.
+    - Some stuff might still need to be migrated
+- Game is now in fullscreen
+- Partially implemented repeating textures.
+
 ## 0.2.1 September 9, 2025
 - Added
     - level.ts to store a map of all levels in levels/ folder

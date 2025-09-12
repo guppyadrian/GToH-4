@@ -1,7 +1,6 @@
 // so this is a group of blocks all at once, so a collision check will just check this group instead of a ton of blocks.
-
-import { Area, Camera, Master } from "guppy-lib"
 import type { BlockTags } from "../createBlock";
+import { Area, Canvas } from "guppy-lib"
 
 export class Block extends Area {
     type;
@@ -25,11 +24,7 @@ export class Block extends Area {
     }
 
     draw() {
-        const ctx = Master.ctx;
-
-        const screenPos = Camera.toScreen(this.pos);
-
-        ctx.fillRect(screenPos.x, screenPos.y, this.width, this.height);
+        Canvas.drawPattern(this.x, this.y, this.width, this.height, 'metal-block')
     }
 
     update() {

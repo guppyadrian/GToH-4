@@ -17,9 +17,9 @@ export class LoadingScene extends Scene {
     }
 
     draw() {
-        Master.ctx.font = '32px Arial';
-        Master.ctx.textAlign = 'center';
-        Master.ctx.fillText('Loading...', Master.width / 2, Master.height / 2);
+        Master.canvas.ctx.font = '32px Arial';
+        Master.canvas.ctx.textAlign = 'center';
+        Master.canvas.ctx.fillText('Loading...', Master.width / 2, Master.height / 2);
     }
 
     update() { }
