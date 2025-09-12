@@ -9,11 +9,11 @@ const PlayerSettings = {
     speedHardcap: 30,
     maxSlopeHeight: 14, // max height the player will step up when moving horizontally
     coyoteFrames: 3,
-    maxHorizontalNudge: 3, // if barely in block or jumping onto ceiling
     maxFloorHeight: 19, // if vertically colliding, will try and move the player up, up to this, then gives up and moves down until not colliding
 }
 
-export class Player extends Sprite {
+// SO THIS IS FOR ACCURACY
+export class OldPlayer extends Sprite {
     canJump;
     wallJumpCooldown;
 
@@ -80,13 +80,13 @@ export class Player extends Sprite {
                 this.canJump = true;
 
                 // Go backwards until no longer in floor
-                for (let i = 0; i < PlayerSettings.maxFloorHeight; i++) {
+                for (let i = 0; i < 19; i++) {
                     if (!this.colliding()) break;
                     this.y -= 1;
 
                     // Stuck in wall, so lets just go down
-                    if (i === PlayerSettings.maxFloorHeight - 1) {
-                        this.y += PlayerSettings.maxFloorHeight;
+                    if (i === 18) {
+                        this.y += 19;
                         while (this.colliding()) {
                             this.y++;
                         }
@@ -96,16 +96,16 @@ export class Player extends Sprite {
                 // TODO: Shake & slam particles
 
             } else { // if not falling (either swapped while in wall or is hitting ceiling)
-                for (let i = 0; i < PlayerSettings.maxHorizontalNudge; i++) { // lets try nudging u to the left
+                for (let i = 0; i < 3; i++) { // lets try nudging u to the left
                     if (!this.colliding()) break;
                     this.x--;
-                    if (i === PlayerSettings.maxHorizontalNudge - 1) this.x += PlayerSettings.maxHorizontalNudge;
+                    if (i === 2) this.x += 3;
                 }
 
-                for (let i = 0; i < PlayerSettings.maxHorizontalNudge; i++) { // lets try nudging u to the right
+                for (let i = 0; i < 3; i++) { // lets try nudging u to the right
                     if (!this.colliding()) break;
                     this.x++;
-                    if (i === PlayerSettings.maxHorizontalNudge - 1) this.x -= PlayerSettings.maxHorizontalNudge;
+                    if (i === 2) this.x -= 3;
                 }
 
                 while (this.colliding()) this.y++; // nudging is not working activate nuclear mode and send u down
@@ -114,7 +114,7 @@ export class Player extends Sprite {
         }
 
         // If falling, then you are not on the ground which means u can't jump!
-        if (this.vy > PlayerSettings.coyoteFrames) {
+        if (this.vy > 3) {
             this.canJump = false;
         }
 
