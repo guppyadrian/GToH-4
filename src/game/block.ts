@@ -22,8 +22,6 @@ export class Block extends Area {
     }
 
     draw() {
-        const screenPos = Camera.toScreen(this.pos);
-
-        Canvas.drawRect(screenPos.x, screenPos.y, this.width, this.height)
+        Canvas.drawPattern(this.x, this.y, this.width, this.height, 'metal-block')
     }
 }
