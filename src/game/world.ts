@@ -42,6 +42,12 @@ export class World {
         ];
     }
 
+    static update() {
+        for (const block of World.data) {
+            block.update();
+        }
+    }
+
     static getChunksInArea(area: Area) {
         // get top left chunk pos & bottom right
         const [topLeftChunk, bottomRightChunk] = this.getCornerChunks(area);
@@ -82,6 +88,14 @@ export class World {
         }
     }
 
+    /*
+        to split block
+        Split along x axis. for loop:
+            startX: either the true start, or true start + amount of blocks to reach edge of chunk
+            amountOfChunksForEdge = 
+    
+    */
+
     static splitBlock(block: Block): Map<string, Block> {
         const blocks = new Map<string, Block>();
 
@@ -103,7 +117,7 @@ export class World {
             // make block from
         for (let x = topLeftChunk.x; x <= bottomRightChunk.x; x++) {
             for (let y = topLeftChunk.y; y <= bottomRightChunk.y; y++) {
-                const blockX = Math.max(block.x, x * ChunkSize);
+                const blockX = Math.max(block.x, x * ChunkSize); // blockX is either block.x or start of chunk - offset
                 const blockY = Math.max(block.y, y * ChunkSize);
 
                 const blockW = (x === bottomRightChunk.x) ? Math.ceil((block.x + block.width) % ChunkSize / block.size.x) : Math.ceil((ChunkSize - blockX % ChunkSize) / block.size.x);
@@ -127,4 +141,4 @@ export class World {
 
 //console.log(World.getChunksInArea(new Area(0, -5, 5*30, 40)));
 
-console.log(World.splitBlock(createBlock(0, 0, 'block', 5, 1)));
+console.log(World.splitBlock(createBlock(35, 0, 'block', 5, 1)));

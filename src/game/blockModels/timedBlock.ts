@@ -10,7 +10,7 @@ export abstract class TimedBlock extends SwapBlock {
     }
 
     update() {
-        super.update();
+        //super.update();
         this.inc++; 
         if (this.inc === 40) { // TODO: FPS?
             this.active = !this.active;

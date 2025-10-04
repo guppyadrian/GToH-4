@@ -5,6 +5,7 @@
   "about": { "name": "Steeple of Simplicity", "create": "", "diff": "Medium"},
   "reward": {"Medium": 1},
   "data":[
+    [300, 230, "red", 1, 1],
     [0, 240, "block", 20, 1],
     [0, 180, "block", 4, 3],
     [200, 80, "block", 3, 1],

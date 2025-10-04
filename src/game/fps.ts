@@ -2,13 +2,16 @@ export class FPSCounter {
     frameCount: number;
     startTime: number;
     endTime: number;
-    tickTime: number;
+    tickTime: DOMHighResTimeStamp;
     idleTime: number;
     fpsTimes: number[];
     measureRate: number;
     
     get fps() {
-        return Math.round(this.fpsTimes.reduce((acc, cur) => acc + cur) / this.fpsTimes.length * 10) / 10;
+        if (this.fpsTimes.length > 1) {
+            return Math.round(this.fpsTimes.reduce((acc, cur) => acc + cur) / this.fpsTimes.length * 10) / 10;
+        }
+        return this.fpsTimes[0] || 0;
     }
 
     /**

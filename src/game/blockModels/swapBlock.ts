@@ -1,5 +1,6 @@
-import type { Area } from "guppy-lib";
+import { Canvas, type Area } from "guppy-lib";
 import { Block } from "./block";
+import { GameState } from "../../scenes/gameScene";
 
 export abstract class SwapBlock extends Block {
     active: boolean;
@@ -13,8 +14,26 @@ export abstract class SwapBlock extends Block {
         this.active = !inverted;
     }
 
+    draw() {
+        if (!this.active)
+            Canvas.setAlpha(0.3);
+
+        super.draw();
+
+        if (!this.active)
+            Canvas.setAlpha(1);
+    }
+
+    update() {
+        if (this.inverted) {
+            this.active = GameState.redActive;
+        } else {
+            this.active = !GameState.redActive;
+        }
+    }
+
     colliding(otherArea: Area): boolean {
-        if (!this.active) return true;
+        if (!this.active) return false;
 
         return super.colliding(otherArea);
     }
