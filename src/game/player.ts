@@ -1,4 +1,4 @@
-import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
+import { Area, Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
 
 const PlayerSettings = {
@@ -36,8 +36,10 @@ export class Player extends Sprite {
     }
 
     colliding() {
+        const thisArea = new Area(this.x, this.y, this.width, this.height);
+
         for (const block of World.data) {
-            if (super.colliding(block)) return true;
+            if (block.colliding(thisArea)) return true;
         }
         return false;
     }
