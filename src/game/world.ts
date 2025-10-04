@@ -2,7 +2,6 @@ import { Area, Vector2 } from "guppy-lib";
 import { Block } from "./blockModels/block.js";
 import { createBlock } from "./createBlock.js";
 import type { LevelData } from "./levels.js";
-import { NormalBlock } from "./blocks/normalBlock.js";
 
 const ChunkSize = 4 * 30;
 

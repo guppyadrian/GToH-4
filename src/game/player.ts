@@ -1,4 +1,4 @@
-import { Area, Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
+import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
 
 const PlayerSettings = {
