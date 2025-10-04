@@ -13,8 +13,6 @@ export class GameScene extends Scene {
     visualPlayer;
     drawfps;
     physicsfps;
-
-    lastUpdate;
     futurePos;
 
     static preload(): Promise<void> {
@@ -24,7 +22,7 @@ export class GameScene extends Scene {
 
         promises.push(Assets.load('player.png', 'player'));
         promises.push(Assets.load('textures/blocks/metalblock.png', 'metal-block'));
-        promises.push(Assets.load('textures/blocks/metalblock.png', 'block'));
+        promises.push(Assets.load('textures/blocks/block.png', 'block'));
         promises.push(Assets.load('textures/blocks/redblock.png', 'red-block'));
         promises.push(Assets.load('textures/blocks/blueblock.png', 'blue-block'));
         promises.push(Assets.load('textures/blocks/orangeblock.png', 'orange-block'));
@@ -46,10 +44,7 @@ export class GameScene extends Scene {
         
         Camera.z = 2;  //Canvas.width / 700;
 
-        this.lastUpdate = Date.now();
         this.futurePos = Vector2.zero;
-
-        console.log(Camera.z);
     }
 
     startLevel(levelData: any) {
@@ -67,24 +62,24 @@ export class GameScene extends Scene {
 
         // TODO: when world updated?
         World.update();
-        
 
         this.player.update();
 
-        if (Math.abs(this.player.x - this.futurePos.x) > 2) {
+        if (Math.abs(this.player.x - this.futurePos.x) > 2)
             console.log("Incorrect extrapolation of X: ", this.futurePos.x - this.player.x);
-        }
+        if (Math.abs(this.player.y - this.futurePos.y) > 2)
+            console.log("Incorrect extrapolation of Y: ", this.futurePos.y - this.player.y);
 
         // for extrapolation
-        const tempPlayer = new Player(this.player.x, this.player.y);
-        tempPlayer.vel = {...this.player.vel} as Vector2;
-        tempPlayer.update();
-        this.futurePos = tempPlayer.pos;
+        this.visualPlayer.x = this.player.x;
+        this.visualPlayer.y = this.player.y;
+        this.visualPlayer.vx = this.player.vx;
+        this.visualPlayer.vy = this.player.vy;
+        this.visualPlayer.update();
+        this.futurePos = this.visualPlayer.pos;
         
 
         this.physicsfps.tickEnded();
-
-        this.lastUpdate = performance.now();
     }
 
     draw() {
@@ -95,14 +90,8 @@ export class GameScene extends Scene {
         this.drawfps.tickStarted();
         World.draw();
 
-        //console.log("X Error: " + (this.player.pos.x - this.futurePos.x));
-        //console.log("y Error: " + (this.player.pos.y - this.lastPlayerPos.y));
-
-
         const interpolation = Master.tickAcc / Master.tickTime;
-
         this.visualPlayer.pos = lerpVec2(this.player.pos, this.futurePos, interpolation);
-
         this.visualPlayer.draw();
 
         this.drawfps.tickEnded();

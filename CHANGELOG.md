@@ -1,3 +1,14 @@
+## 0.4.1 October 4, 2025
+- Make canvas rendering like 10x faster
+- Added metal block
+- Added status block
+
+## 0.4.0 October 3, 2025
+- Added interpolation
+- Changed canvas rendering slightly to hopefully avoid weird visuals
+- Added swap and timed blocks
+- changed game zoom to 2x for now. Will hopefully make a real fix
+
 ## 0.3.0 September 10, 2025
 - Changed canvas to be its own class.
     - Some stuff might still need to be migrated

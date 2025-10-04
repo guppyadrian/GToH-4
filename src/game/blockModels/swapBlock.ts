@@ -9,7 +9,6 @@ export abstract class SwapBlock extends Block {
     constructor(x: number, y: number, w: number, h: number, inverted: boolean) {
         super(x, y, w, h);
         this.type = "swapBlock";
-        this.texture = "error";
         this.inverted = inverted;
         this.active = !inverted;
     }

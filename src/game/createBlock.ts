@@ -1,5 +1,6 @@
 import { Block } from "./blockModels/block";
 import { BlueBlock } from "./blocks/blueBlock";
+import { MetalBlock } from "./blocks/metalBlock";
 import { NormalBlock } from "./blocks/normalBlock";
 import { OrangeBlock } from "./blocks/orangeBlock";
 import { PurpleBlock } from "./blocks/purpleBlock";
@@ -15,7 +16,9 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     red: RedBlock,
     blue: BlueBlock,
     orange: OrangeBlock,
-    purple: PurpleBlock
+    purple: PurpleBlock,
+    metal: MetalBlock,
+    njump: MetalBlock,
 };
 // TODO: dynamically import blocks
 

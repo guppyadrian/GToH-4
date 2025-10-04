@@ -138,7 +138,3 @@ export class World {
         return blocks;
     }
 }
-
-//console.log(World.getChunksInArea(new Area(0, -5, 5*30, 40)));
-
-console.log(World.splitBlock(createBlock(35, 0, 'block', 5, 1)));

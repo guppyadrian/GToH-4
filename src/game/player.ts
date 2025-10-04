@@ -16,12 +16,14 @@ const PlayerSettings = {
 export class Player extends Sprite {
     canJump;
     wallJumpCooldown;
+    statuses;
 
     constructor(x: number, y: number) {
         super(Assets.get('player'), x, y);
 
         this.canJump = true;
         this.wallJumpCooldown = 0;
+        this.statuses = new Set<string>();
     }
 
     update() {
@@ -29,19 +31,25 @@ export class Player extends Sprite {
     }
  
     getMovementVector() {
-        const vec = new Vector2();
-        vec.x = (+Input.get('right') - +Input.get('left'));
-        vec.y = (+Input.get('down') - +Input.get('up'));
-        return vec;
+        return new Vector2(
+            +Input.get('right') - +Input.get('left'),
+            +Input.get('down') - +Input.get('up')
+        );
     }
 
     colliding() {
-        const thisArea = new Area(this.x, this.y, this.width, this.height);
-
         for (const block of World.data) {
-            if (block.colliding(thisArea)) return true;
+            if (block.colliding(this)) return true;
         }
         return false;
+    }
+
+    addStatus(status: string) {
+        this.statuses.add(status);
+    }
+
+    hasStatus(status: string) {
+        return this.statuses.has(status);
     }
 
     physicsTick() {
@@ -144,7 +152,7 @@ export class Player extends Sprite {
                 while(this.colliding()) this.x -= Math.sign(this.vx);
 
                 if (movementVector.y === -1 && Math.abs(this.vx) > 2) {
-                    if (this.wallJumpCooldown < 3) { // some njump thing goes here
+                    if (this.wallJumpCooldown < 3 && !this.hasStatus('no-wj')) { // some njump thing goes here
                         this.vx = Math.round(this.vx * -1.2);
                         this.vy = Math.round(PlayerSettings.jumpStrength / -1.5);
                         this.wallJumpCooldown = 7; // 7 frame cooldown
@@ -165,5 +173,7 @@ export class Player extends Sprite {
 
         // If fall out of world, reset
 
+        // clear statuses
+        this.statuses.clear();
     }
 }

@@ -16,6 +16,9 @@ Input.addBind('left', ['KeyA', 'ArrowLeft']);
 Input.addBind('up', ['KeyW', 'ArrowUp']);
 Input.addBind('down', ['KeyS', 'ArrowDown']);
 
+// instead of master we testing webgl
+//GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);
+
 // Set up MASTER
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
 
