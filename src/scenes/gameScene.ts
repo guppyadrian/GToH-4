@@ -39,7 +39,7 @@ export class GameScene extends Scene {
 
         this.player = new Player(0, 0);
         this.visualPlayer = new Player(0, 0);
-        this.startLevel(Levels.get(3));
+        this.startLevel(Levels.get(4));
         Canvas.fullscreen();
         
         Camera.z = 2;  //Canvas.width / 700;
