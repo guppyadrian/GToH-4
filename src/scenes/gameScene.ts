@@ -108,10 +108,6 @@ export class GameScene extends Scene {
             }
         }
 
-        if (Input.justGet("options")) {
-            Master.changeScene(new OptionsScene());
-        }
-
         // TODO: when world updated?
         World.update();
 
@@ -133,6 +129,10 @@ export class GameScene extends Scene {
                 Camera.x = this.player.center.x;
                 Camera.y = this.player.center.y;
             }
+        }
+
+        if (Input.justGet("options")) {
+            Master.changeScene(new OptionsScene());
         }
 
         this.physicsfps.tickEnded();

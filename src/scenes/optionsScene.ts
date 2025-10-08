@@ -32,6 +32,7 @@ export class OptionsScene extends Scene {
     }
 
     draw() {
+        console.log(Camera.x)
         Canvas.drawText("Press O to go back to game", 0, -50);
         Canvas.drawText("Press A to toggle high fps: " + (Options.HighFPS ? "Enabled" : "Disabled"), 0, -20);
         Canvas.drawText("Press D to toggle smooth camera: " + (Options.SmoothCamera ? "Enabled" : "Disabled"), 0, 0);
