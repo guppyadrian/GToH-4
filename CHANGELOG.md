@@ -1,9 +1,11 @@
 ## 0.5.0 October 8, 2025
 - Added
     - Lobby level
-    - First 6 levels
+    - All world 1 levels
     - Win & portal blocks
     - basic settings scene
+    - Smooth camera option
+    - High fps option
 - Changed 
     - lvl format uses JSON5 to make it more readable
 - Parity fixes with original GToH

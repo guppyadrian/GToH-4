@@ -126,8 +126,13 @@ export class GameScene extends Scene {
         this.futurePos = this.visualPlayer.pos;
 
         if (!Options.HighFPS) {
-            Camera.x += (this.player.center.x - Camera.x) / 10;
-            Camera.y += (this.player.center.y - Camera.y) / 10;
+            if (Options.SmoothCamera) {
+                Camera.x += (this.player.center.x - Camera.x) / 10;
+                Camera.y += (this.player.center.y - Camera.y) / 10;
+            } else {
+                Camera.x = this.player.center.x;
+                Camera.y = this.player.center.y;
+            }
         }
 
         this.physicsfps.tickEnded();
@@ -145,8 +150,13 @@ export class GameScene extends Scene {
 
         const followSpeed = 5.5;
         if (Options.HighFPS) {
-            Camera.x += (this.visualPlayer.center.x - Camera.x) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
-            Camera.y += (this.visualPlayer.center.y - Camera.y) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+            if (Options.SmoothCamera) {
+                Camera.x += (this.visualPlayer.center.x - Camera.x) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+                Camera.y += (this.visualPlayer.center.y - Camera.y) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+            } else {
+                Camera.x = this.visualPlayer.center.x;
+                Camera.y = this.visualPlayer.center.y;
+            }
         }
 
         this.drawfps.tickStarted();
@@ -175,6 +185,9 @@ export class GameScene extends Scene {
 
         Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
         Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
+
+        Canvas.ctx.font = '15px Arial';
+        Canvas.ctx.fillText("Press O for options", 80, 90);
     }
 }
 

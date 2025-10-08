@@ -25,17 +25,15 @@ export class OptionsScene extends Scene {
         }
         if (Input.justGet("left")) {
             Options.HighFPS = !Options.HighFPS;
-
-            if (Options.HighFPS) {
-                //Master.drawTime = undefined;
-            } else {
-                //Master.drawTime = 1000 / 40; // 40fps
-            }
+        }
+        if (Input.justGet("right")) {
+            Options.SmoothCamera = !Options.SmoothCamera;
         }
     }
 
     draw() {
         Canvas.drawText("Press O to go back to game", 0, -50);
         Canvas.drawText("Press A to toggle high fps: " + (Options.HighFPS ? "Enabled" : "Disabled"), 0, -20);
+        Canvas.drawText("Press D to toggle smooth camera: " + (Options.SmoothCamera ? "Enabled" : "Disabled"), 0, 0);
     }
 }
