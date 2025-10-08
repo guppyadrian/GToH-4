@@ -20,13 +20,15 @@ export class Player extends Sprite {
     wallJumpCooldown;
     statuses;
     nextLevel: number | undefined; // where to go next frame
+    realPlayer: boolean; // whether or not player is the actual one. Controls changing lvls and stuff
 
-    constructor(x: number, y: number) {
+    constructor(x: number, y: number, real = true) {
         super(Assets.get('player'), x, y);
 
         this.canJump = true;
         this.wallJumpCooldown = 0;
         this.statuses = new Set<string>();
+        this.realPlayer = real;
 
         this.vy = -3; // parity with original
     }
@@ -178,15 +180,18 @@ export class Player extends Sprite {
         }
 
         // New level stuff
-        if (this.hasStatus('win')) {
-            (Master.currentScene as GameScene).startLevel(GameState.lobbyLevel);
-        } 
-        if (this.nextLevel) {
+        if (this.realPlayer && this.nextLevel !== undefined) {
             (Master.currentScene as GameScene).startLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
             this.nextLevel = undefined; // TODO: If I don't have this line it breaks. But that shouldn't be the case!
         }
+        if (this.realPlayer && this.hasStatus('win')) {
+            // trying this instead so you can see yourself in the win for 1 frame like original game
+            this.nextLevel = GameState.lobbyLevel;
 
-        // If fall out of world, reset
+            // (Master.currentScene as GameScene).startLevel(GameState.lobbyLevel);
+        } 
+
+        // TODO: If fall out of world, reset
 
         // clear statuses
         this.statuses.clear();

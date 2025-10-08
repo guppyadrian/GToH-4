@@ -1,7 +1,7 @@
 import { Assets, Camera, Canvas, Input, Master, Scene, Vector2 } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
-import { GetLevel, Levels, type LevelData } from "../game/levels.js";
+import { GetLevel } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
@@ -51,7 +51,7 @@ export class GameScene extends Scene {
         this.physicsfps = new FPSCounter();
 
         this.player = new Player(0, 0);
-        this.visualPlayer = new Player(0, 0);
+        this.visualPlayer = new Player(0, 0, false);
         this.startLevel(0);
         Canvas.fullscreen();
         Canvas.ctx.textAlign = 'center';
@@ -83,7 +83,7 @@ export class GameScene extends Scene {
 
         // reset player and camera
         this.player = new Player(150, 60); // TODO: make this use spawn pos instead!
-        this.visualPlayer = new Player(150, 60);
+        this.visualPlayer = new Player(150, 60, false);
         Camera.x = this.player.center.x;
         Camera.y = this.player.center.y;
         GameState.redActive = false;
