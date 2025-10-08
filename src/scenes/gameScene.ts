@@ -5,7 +5,7 @@ import { GetLevel, Levels, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 
 export class GameState {
-    static redActive = true;
+    static redActive = false;
     static currentLevel: number;
     static lobbyLevel: number;
     static lastLevel: number;
@@ -52,6 +52,7 @@ export class GameScene extends Scene {
         this.visualPlayer = new Player(0, 0);
         this.startLevel(0);
         Canvas.fullscreen();
+        Canvas.ctx.textAlign = 'center';
 
         Camera.z = 2;  //Canvas.width / 700;
 
@@ -80,10 +81,12 @@ export class GameScene extends Scene {
 
         // reset player and camera
         this.player = new Player(150, 60); // TODO: make this use spawn pos instead!
+        this.visualPlayer = new Player(150, 60);
         Camera.x = this.player.center.x;
         Camera.y = this.player.center.y;
+        GameState.redActive = false;
         
-        GameState.lastLevel = GameState.currentLevel;
+        GameState.lastLevel = GameState.currentLevel || 0;
         GameState.currentLevel = levelID;
     }
 
@@ -142,21 +145,18 @@ export class GameScene extends Scene {
         this.drawfps.tickEnded();
 
         // debug
-        Canvas.ctx.fillStyle = "black";
-        Canvas.ctx.fillText("Physics FPS: " + this.physicsfps.fps.toString(), 20, 10);
-        Canvas.ctx.fillText("Physics idle: " + this.physicsfps.idleTime.toString(), 20, 30);
-        Canvas.ctx.fillText("Physics tick: " + this.physicsfps.tickTime.toString(), 20, 50);
+        Canvas.setFillStyle('black');
+        Canvas.ctx.font = '10px Arial';
+        Canvas.ctx.fillText("Physics FPS: " + this.physicsfps.fps.toString(), 40, 10);
+        Canvas.ctx.fillText("Physics idle: " + this.physicsfps.idleTime.toString(), 40, 30);
+        Canvas.ctx.fillText("Physics tick: " + this.physicsfps.tickTime.toString(), 40, 50);
 
         Canvas.ctx.fillText("Draw FPS: " + this.drawfps.fps.toString(), 120, 10);
         Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
         Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
 
-        Canvas.ctx.fillText("Player X: " + this.player.x, 20, 70);
-
-        if (this.physicsfps.tickTime > 1) {
-            console.log("WARNING: 2ms for tick time! Something wrong?");
-        }
-
+        Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
+        Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
     }
 }
 

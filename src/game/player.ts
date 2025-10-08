@@ -27,6 +27,8 @@ export class Player extends Sprite {
         this.canJump = true;
         this.wallJumpCooldown = 0;
         this.statuses = new Set<string>();
+
+        this.vy = -3; // parity with original
     }
 
     update() {
