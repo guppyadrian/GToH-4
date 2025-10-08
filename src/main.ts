@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import { GameScene } from "./scenes/gameScene";
 import { LoadingScene } from "./scenes/loadingScene.js";
 import { Input, Master } from "guppy-lib";
+import { OptionsScene } from "./scenes/optionsScene.js";
 
 io('http://localhost:3000', {
     reconnectionAttempts: 2
@@ -15,6 +16,7 @@ Input.addBind('left', ['KeyA', 'ArrowLeft']);
 Input.addBind('up', ['KeyW', 'ArrowUp']);
 Input.addBind('down', ['KeyS', 'ArrowDown']);
 Input.addBind('exit', ['KeyR']);
+Input.addBind('options', ['KeyO']);
 
 // instead of master we testing webgl
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);

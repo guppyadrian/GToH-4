@@ -3,9 +3,13 @@
     - Lobby level
     - First 6 levels
     - Win & portal blocks
+    - basic settings scene
 - Changed 
     - lvl format uses JSON5 to make it more readable
-    - Input it reset after changing levels (fix parity with original GToH)
+- Parity fixes with original GToH
+    - Input is reset after changing levels
+    - Blue starts active instead of red
+    - Start level with -3 y velocity
 
 
 ## 0.4.1 October 4, 2025

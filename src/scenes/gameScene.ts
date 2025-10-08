@@ -3,6 +3,8 @@ import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
 import { GetLevel, Levels, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
+import { OptionsScene } from "./optionsScene.js";
+import { Options } from "../game/options.js";
 
 export class GameState {
     static redActive = false;
@@ -106,6 +108,10 @@ export class GameScene extends Scene {
             }
         }
 
+        if (Input.justGet("options")) {
+            Master.changeScene(new OptionsScene());
+        }
+
         // TODO: when world updated?
         World.update();
 
@@ -119,6 +125,10 @@ export class GameScene extends Scene {
         this.visualPlayer.update();
         this.futurePos = this.visualPlayer.pos;
 
+        if (!Options.HighFPS) {
+            Camera.x += (this.player.center.x - Camera.x) / 10;
+            Camera.y += (this.player.center.y - Camera.y) / 10;
+        }
 
         this.physicsfps.tickEnded();
     }
@@ -133,14 +143,22 @@ export class GameScene extends Scene {
         this.visualPlayer.pos = lerpVec2(this.player.pos, this.futurePos, interpolation);
 
 
-        const followSpeed = 6.7;
-        Camera.x += (this.visualPlayer.center.x - Camera.x) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
-        Camera.y += (this.visualPlayer.center.y - Camera.y) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+        const followSpeed = 5.5;
+        if (Options.HighFPS) {
+            Camera.x += (this.visualPlayer.center.x - Camera.x) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+            Camera.y += (this.visualPlayer.center.y - Camera.y) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+        }
 
         this.drawfps.tickStarted();
 
         World.draw();
-        this.visualPlayer.draw();
+
+        if (Options.HighFPS) {
+            this.visualPlayer.draw();
+        } else {
+            this.player.draw();
+        }
+        
 
         this.drawfps.tickEnded();
 
