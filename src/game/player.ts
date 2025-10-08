@@ -1,5 +1,7 @@
 import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
+import { GameState, type GameScene } from "../scenes/gameScene.js";
+import { Levels } from "./levels.js";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
@@ -17,6 +19,7 @@ export class Player extends Sprite {
     canJump;
     wallJumpCooldown;
     statuses;
+    nextLevel: number | undefined; // where to go next frame
 
     constructor(x: number, y: number) {
         super(Assets.get('player'), x, y);
@@ -63,6 +66,7 @@ export class Player extends Sprite {
         }
 
         // TODO: Bounce block stuff happens here i think
+        this.colliding();
 
         this.y += this.vy;
 
@@ -169,6 +173,15 @@ export class Player extends Sprite {
         if (movementVector.y === -1 && this.canJump) {
             this.vy = -PlayerSettings.jumpStrength;
             this.canJump = false;
+        }
+
+        // New level stuff
+        if (this.hasStatus('win')) {
+            (Master.currentScene as GameScene).startLevel(GameState.lobbyLevel);
+        } 
+        if (this.nextLevel) {
+            (Master.currentScene as GameScene).startLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
+            this.nextLevel = undefined; // TODO: If I don't have this line it breaks. But that shouldn't be the case!
         }
 
         // If fall out of world, reset

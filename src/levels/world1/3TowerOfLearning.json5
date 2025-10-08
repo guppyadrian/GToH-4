@@ -1,0 +1,38 @@
+{
+    id: 3,
+    "format": 1,//old levels follow format 1
+    "spawn": [150, 60],//old levels have [150,60] spawn pos
+    "about": { name: 'Tower of Learning', create: '', diff: 'Medium+', req: ''},
+    "music": 'main',
+    "reward": {StyleToken: 1, Medium: 1},
+    "timeConditions": [20, 16.5, 13.75],
+    "swapConditions": 0,
+    "data":[
+        [0, 240, 'block', 20, 1],
+        [0, 150, 'block', 2, 1],
+        [0, 60, 'block', 1, 1],
+        [120, 0, 'block', 2],
+        [150, -120, 'block', 1, 4],
+        [0, -130, 'block', 2, 1],
+        [150, -360, 'block', 1, 5],
+        [240, -150, 'blue', 2, 1],
+        [360, -210, 'red', 4, 1],
+        [360, -330, 'blue', 3, 1],
+        [450, -300, 'blue', 1, 1],
+        [240, -420, 'block', 1, 1],
+        [0, -450, 'block', 2, 1],
+        [120, -510,'small', 1, 1],
+        [120, -600, 'small', 1, 1],
+        [210, -690, 'red', 1, 1],
+        [60, -720, 'blue', 1, 1],
+        [50, -810, 'blue', 1, 1],
+        [210, -840, 'block', 4, 1],
+        [450, -750, 'red', 2, 1],
+        [510, -900, 'blue', 1, 4],
+        [540, -780, 'blue', 2, 1],
+        [570, -690, 'block', 1, 1],
+        [580, -900, 'block', 1, 1],
+        [490, -1005, 'block', 1, 1],
+        [310, -1120, 'win'],
+    ]
+}

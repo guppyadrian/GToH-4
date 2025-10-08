@@ -12,10 +12,11 @@
     "@types/node": "^24.3.1",
     "typescript": "^5.9.2",
     "vite": "^7.1.2",
+    "vite-plugin-json5": "^1.2.0",
     "vite-plugin-singlefile": "^2.3.0"
   },
   "dependencies": {
-    "guppy-lib": "^2.7.0",
+    "json5": "^2.2.3",
     "socket.io-client": "^4.8.1"
   }
 }

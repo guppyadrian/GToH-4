@@ -1,7 +1,21 @@
+## 0.5.0 October 8, 2025
+- Added
+    - Lobby level
+    - First 6 levels
+    - Win & portal blocks
+- Changed 
+    - lvl format uses JSON5 to make it more readable
+    - Input it reset after changing levels (fix parity with original GToH)
+
+
 ## 0.4.1 October 4, 2025
 - Make canvas rendering like 10x faster
 - Added metal block
 - Added status block
+- Changed how assets are preloaded
+- Added bounce block
+- Added force block
+- Performance improvements
 
 ## 0.4.0 October 3, 2025
 - Added interpolation

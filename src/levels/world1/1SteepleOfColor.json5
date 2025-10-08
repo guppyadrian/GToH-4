@@ -1,0 +1,24 @@
+{
+  id: 1,
+  "format": 1,//old levels follow format 1
+  "spawn": [150, 60],//old levels have [150,60] spawn pos
+  "about": { name: 'Steeple of Color', create: '', diff: 'Intense', req: ''},
+  "reward": {StyleToken: 1, Intense: 1},
+  "timeConditions": [20, 10, 7],
+  "swapConditions": 0,
+  "data":[
+    [0,240,'block',10,1],
+    [50,120,'block',1,2],
+    [190, 10, 'red', 1, 3],
+    [75, -15, 'blue', 1, 1],
+    [220, -150, 'red', 1, 3],
+    [80, -180, 'blue', 1, 3],
+    [50, -275, 'blue', 5, 1],
+    [170, -305, 'blue', 1, 1],
+    [270, -395, 'block', 1, 1],
+    [140, -485, 'blue', 1, 7],
+    [140, -565, 'block', 1, 1],
+    [120, -680, 'block', 5, 1],
+    [250, -750, 'win', 1, 1]
+  ]
+}

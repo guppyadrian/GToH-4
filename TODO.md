@@ -1,6 +1,6 @@
 ## NEW
 - Fix drawing to be pixel perfect
-- Memory management better
+- add lobbys (level types. Just look at levels.ts)
 
 
 ## LIBRARY

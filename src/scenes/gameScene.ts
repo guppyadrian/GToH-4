@@ -1,34 +1,45 @@
 import { Assets, Camera, Canvas, Input, Master, Scene, Vector2 } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
-import { Levels } from "../game/levels.js";
+import { GetLevel, Levels, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 
 export class GameState {
     static redActive = true;
+    static currentLevel: number;
+    static lobbyLevel: number;
+    static lastLevel: number;
 }
 
 export class GameScene extends Scene {
     player;
-    visualPlayer;
     drawfps;
     physicsfps;
+
+    // linear interpolation
+    visualPlayer;
     futurePos;
+    lastFrameTime;
 
     static preload(): Promise<void> {
-        const promises = [];
 
-        
+        const blockAtlas = [
+            ['metal-block', 'metalblock.png'],
+            ['block', 'block.png'],
+            ['red-block', 'redblock.png'],
+            ['blue-block', 'blueblock.png'],
+            ['orange-block', 'orangeblock.png'],
+            ['purple-block', 'purpleblock.png'],
+            ['bounce-up', 'bounceUp.png'],
+            ['yellow-block', 'yellowblock.png'],
+            ['green-portal', 'portalgreen.png'],
+        ];
 
-        promises.push(Assets.load('player.png', 'player'));
-        promises.push(Assets.load('textures/blocks/metalblock.png', 'metal-block'));
-        promises.push(Assets.load('textures/blocks/block.png', 'block'));
-        promises.push(Assets.load('textures/blocks/redblock.png', 'red-block'));
-        promises.push(Assets.load('textures/blocks/blueblock.png', 'blue-block'));
-        promises.push(Assets.load('textures/blocks/orangeblock.png', 'orange-block'));
-        promises.push(Assets.load('textures/blocks/purpleblock.png', 'purple-block'));
+        const promises = blockAtlas.map(([key, path]) => Assets.load('textures/blocks/' + path, key));
 
-        return Promise.all(promises).then(() => {});
+        promises.push(Assets.load('textures/player.png', 'player'));
+
+        return Promise.all(promises).then(() => { });
     }
 
     constructor() {
@@ -39,17 +50,41 @@ export class GameScene extends Scene {
 
         this.player = new Player(0, 0);
         this.visualPlayer = new Player(0, 0);
-        this.startLevel(Levels.get(4));
+        this.startLevel(0);
         Canvas.fullscreen();
-        
+
         Camera.z = 2;  //Canvas.width / 700;
 
         this.futurePos = Vector2.zero;
+
+        this.lastFrameTime = 0;
     }
 
-    startLevel(levelData: any) {
-        this.player = new Player(150, 60);
-        World.createWorld(levelData);
+    startLevel(levelID: number) {
+        try {
+            const lvl = GetLevel(levelID);
+
+            World.createWorld(lvl);
+
+            // Update info on level ids
+            if (lvl.type === 'lobby') {
+                GameState.lobbyLevel = levelID;
+            }
+        } 
+        catch (error) {
+            alert("Tried loading a level that doesn't exist! levelID: " + levelID);
+            console.error(error);
+        }
+
+        Input.reset();
+
+        // reset player and camera
+        this.player = new Player(150, 60); // TODO: make this use spawn pos instead!
+        Camera.x = this.player.center.x;
+        Camera.y = this.player.center.y;
+        
+        GameState.lastLevel = GameState.currentLevel;
+        GameState.currentLevel = levelID;
     }
 
     update() {
@@ -60,15 +95,18 @@ export class GameScene extends Scene {
             GameState.redActive = !GameState.redActive;
         }
 
+        if (Input.justGet("exit")) {
+            if (GameState.currentLevel === GameState.lobbyLevel) {
+                this.startLevel(GameState.lastLevel);
+            } else {
+                this.startLevel(GameState.lobbyLevel);
+            }
+        }
+
         // TODO: when world updated?
         World.update();
 
         this.player.update();
-
-        if (Math.abs(this.player.x - this.futurePos.x) > 2)
-            console.log("Incorrect extrapolation of X: ", this.futurePos.x - this.player.x);
-        if (Math.abs(this.player.y - this.futurePos.y) > 2)
-            console.log("Incorrect extrapolation of Y: ", this.futurePos.y - this.player.y);
 
         // for extrapolation
         this.visualPlayer.x = this.player.x;
@@ -77,21 +115,28 @@ export class GameScene extends Scene {
         this.visualPlayer.vy = this.player.vy;
         this.visualPlayer.update();
         this.futurePos = this.visualPlayer.pos;
-        
+
 
         this.physicsfps.tickEnded();
     }
 
     draw() {
 
-        Camera.x -= ((Camera.x - this.player.center.x) / 25); // TODO: Rewrite this, I'm sure I could shave some of it down
-        Camera.y -= ((Camera.y - this.player.center.y) / 25); // update: nvm its cleaner
-
-        this.drawfps.tickStarted();
-        World.draw();
+        const frameTime = performance.now();
+        const deltaTime = frameTime - this.lastFrameTime;
+        this.lastFrameTime = frameTime;
 
         const interpolation = Master.tickAcc / Master.tickTime;
         this.visualPlayer.pos = lerpVec2(this.player.pos, this.futurePos, interpolation);
+
+
+        const followSpeed = 6.7;
+        Camera.x += (this.visualPlayer.center.x - Camera.x) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+        Camera.y += (this.visualPlayer.center.y - Camera.y) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+
+        this.drawfps.tickStarted();
+
+        World.draw();
         this.visualPlayer.draw();
 
         this.drawfps.tickEnded();
@@ -105,6 +150,8 @@ export class GameScene extends Scene {
         Canvas.ctx.fillText("Draw FPS: " + this.drawfps.fps.toString(), 120, 10);
         Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
         Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
+
+        Canvas.ctx.fillText("Player X: " + this.player.x, 20, 70);
 
         if (this.physicsfps.tickTime > 1) {
             console.log("WARNING: 2ms for tick time! Something wrong?");

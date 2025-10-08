@@ -1,6 +1,7 @@
 {
-  "id": 1,
+  "id": 2,
   "format": 1,
+  "type": "lobby",
   "spawn": [150, 60],
   "about": { "name": "Steeple of Simplicity", "create": "", "diff": "Medium"},
   "reward": {"Medium": 1},
