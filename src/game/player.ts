@@ -1,7 +1,6 @@
 import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
 import { GameState, type GameScene } from "../scenes/gameScene.js";
-import { Levels } from "./levels.js";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
