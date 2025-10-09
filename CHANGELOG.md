@@ -1,3 +1,10 @@
+## 0.6.0 October 9, 2025
+- Added
+    - Main lobby
+    - World 2
+- Fixed
+    - Portals with no destination now display an error name instead of crashing
+
 ## 0.5.0 October 8, 2025
 - Added
     - Lobby level
