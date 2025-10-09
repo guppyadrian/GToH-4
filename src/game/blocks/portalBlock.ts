@@ -13,7 +13,12 @@ export class PortalBlock extends StatusBlock {
         this.texture = 'green-portal'
 
         this.nextLevel = tags[0];
-        this.levelName = GetLevel(tags[0]).about.name;
+        try {
+            this.levelName = GetLevel(tags[0]).about.name;
+        }
+        catch {
+            this.levelName = "ERROR";
+        }
     }
 
     colliding(otherArea: Player): boolean {

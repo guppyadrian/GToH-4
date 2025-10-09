@@ -52,7 +52,7 @@ export class GameScene extends Scene {
 
         this.player = new Player(0, 0);
         this.visualPlayer = new Player(0, 0, false);
-        this.startLevel(0);
+        this.startLevel(-2);
         Canvas.fullscreen();
         Canvas.ctx.textAlign = 'center';
 
@@ -73,6 +73,9 @@ export class GameScene extends Scene {
             if (lvl.type === 'lobby') {
                 GameState.lobbyLevel = levelID;
             }
+
+            this.player = new Player(lvl.spawn?.[0] ?? 150, lvl.spawn?.[1] ?? 60);
+            this.visualPlayer = new Player(150, 60, false);
         } 
         catch (error) {
             alert("Tried loading a level that doesn't exist! levelID: " + levelID);
@@ -81,9 +84,7 @@ export class GameScene extends Scene {
 
         Input.reset();
 
-        // reset player and camera
-        this.player = new Player(150, 60); // TODO: make this use spawn pos instead!
-        this.visualPlayer = new Player(150, 60, false);
+        // reset camera
         Camera.x = this.player.center.x;
         Camera.y = this.player.center.y;
         GameState.redActive = false;

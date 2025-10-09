@@ -26,6 +26,8 @@ for (const path in modules) {
 
 export function GetLevel(lvlID: number) {
     const lvl = Levels.get(lvlID);
-    if (!lvl) throw new Error("Could not get level with ID: " + lvlID);
+    console.log(`LVL: ${lvlID}`);
+    console.log(lvl);
+    if (lvl === undefined) throw new Error("Could not get level with ID: " + lvlID);
     return lvl;
 }

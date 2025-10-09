@@ -1,0 +1,22 @@
+{
+    "id": -3,
+    "format": 1,
+    type: "lobby",
+    "spawn": [0, 210],
+    "about": {name: '', diff: 'World Two', create: '', req: ''},
+    "requirements": { RankOneReward: 1 },
+    "music": "hecc3",
+    "levels": [7,8,12,14,15,16,17,18,19],
+    "data": [[-100,240,"block",50,1],
+    [-100,120,"portal",1,1,[-2]],
+    [110,120,"portal",1,1,[12]],
+    [220,120,"portal",1,1,[7]],
+    [345,120,"portal",1,1,[16]],
+    [470,120,"portal",1,1,[15]],
+    [625,120,"portal",1,1,[8]],
+    [790,120,"portal",1,1,[14]],
+    [925,120,"portal",1,1,[17]],
+    [1100,120,"portal",1,1,[18]],
+    [1300,120,"portal",1,1,[19]]
+    ]
+}
