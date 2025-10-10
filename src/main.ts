@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import { GameScene } from "./scenes/gameScene";
 import { LoadingScene } from "./scenes/loadingScene.js";
 import { Input, Master } from "guppy-lib";
+import { MainMenuScene } from "./scenes/mainMenuScene.js";
 
 io('http://localhost:3000', {
     reconnectionAttempts: 2
@@ -24,7 +25,7 @@ Input.addBind('options', ['KeyO']);
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
 
 // OK RUN NOW
-Master.changeScene(new LoadingScene(GameScene));
+Master.changeScene(new LoadingScene(MainMenuScene));
 
 
 Master.start()
