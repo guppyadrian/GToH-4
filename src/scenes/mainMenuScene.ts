@@ -15,7 +15,7 @@ export class MainMenuScene extends Scene {
     constructor() {
         super();
 
-        this.button = new Button(Assets.get("play-remastered"), 0, 0, () => {
+        this.button = this.addButton(Assets.get("play-remastered"), 0, 0, () => {
             Master.changeScene(new LoadingScene(GameScene));
         });
     }
