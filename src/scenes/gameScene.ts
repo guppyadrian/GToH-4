@@ -1,7 +1,7 @@
 import { Assets, Camera, Canvas, Input, Master, Scene, Vector2 } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
-import { GetLevel } from "../game/levels.js";
+import { GetLevel, PromptPlayerLevel, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
@@ -63,10 +63,26 @@ export class GameScene extends Scene {
         this.lastFrameTime = 0;
     }
 
-    startLevel(levelID: number) {
+    startLevel(levelData: Array<any>[]): void;
+    startLevel(levelData: LevelData): void;
+    startLevel(levelID: number): void;
+    startLevel(level: number | LevelData | Array<any>[]) {
+        let levelID = 0;
+        let lvl: LevelData;
         try {
-            const lvl = GetLevel(levelID);
-
+            if (typeof level === 'number') {
+                lvl = GetLevel(level);
+                levelID = level;
+            } else if (Array.isArray(level)) {
+                lvl = {
+                    id: 0,
+                    format: 1,
+                    data: level
+                };
+            } else {
+                lvl = level;
+            }
+            
             World.createWorld(lvl);
 
             // Update info on level ids
@@ -78,7 +94,10 @@ export class GameScene extends Scene {
             this.visualPlayer = new Player(150, 60, false);
         } 
         catch (error) {
-            alert("Tried loading a level that doesn't exist! levelID: " + levelID);
+            if (typeof level === 'number')
+                alert("Tried loading a level that doesn't exist! levelID: " + level);
+            else 
+                alert ("Failed loading custom level");
             console.error(error);
         }
 
@@ -107,6 +126,11 @@ export class GameScene extends Scene {
             } else {
                 this.startLevel(GameState.lobbyLevel);
             }
+        }
+
+        if (Input.justGet("load-level")) {
+            const lvl = PromptPlayerLevel();
+            if (lvl) this.startLevel(lvl);
         }
 
         // TODO: when world updated?

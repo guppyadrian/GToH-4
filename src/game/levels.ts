@@ -1,11 +1,12 @@
+import JSON5 from 'json5';
 const modules = import.meta.glob('/src/levels/**/*.json5', { eager: true });
 
 export const Levels = new Map<number, LevelData>();
 
 export interface LevelData {
     format: number,
-    type: string,
-    about: LevelAbout,
+    type?: string,
+    about?: LevelAbout,
     data: any[],
     spawn?: number[],
     reward?: any,
@@ -30,4 +31,11 @@ export function GetLevel(lvlID: number) {
     console.log(lvl);
     if (lvl === undefined) throw new Error("Could not get level with ID: " + lvlID);
     return lvl;
+}
+
+export function PromptPlayerLevel() {
+    const p = prompt("Enter level data:");
+    if (p === null || p === '') return false;
+    const data = JSON5.parse(p);
+    return data;
 }
