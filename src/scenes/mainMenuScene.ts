@@ -1,22 +1,35 @@
-import { Assets, Button, Master, Mouse, Scene } from "guppy-lib";
+import { Assets, Button, Canvas, Master, Mouse, Scene } from "guppy-lib";
 import { LoadingScene } from "./loadingScene";
 import { GameScene } from "./gameScene";
+import { AncientGameScene } from "./ancientGameScene";
 
 export class MainMenuScene extends Scene {
 
-    button: Button;
+    remasteredButton: Button;
+    ancientButton: Button;
 
     static preload(): Promise<void> {
+        const promises = [];
+
         Mouse.initialize();
 
-        return Assets.load("textures/menu/playRemastered.png", 'play-remastered');
+        promises.push(Assets.load("textures/menu/playRemastered.png", 'play-remastered'));
+        promises.push(Assets.load("textures/menu/playAncient.png", 'play-ancient'));
+
+        return Promise.all(promises).then(() => { });
     }
 
     constructor() {
         super();
 
-        this.button = this.addButton(Assets.get("play-remastered"), 0, 0, () => {
+        Canvas.fullscreen();
+
+        this.remasteredButton = this.addButton(Assets.get("play-remastered"), -450, -100, () => {
             Master.changeScene(new LoadingScene(GameScene));
+        });
+
+        this.ancientButton = this.addButton(Assets.get("play-ancient"), 150, -100, () => {
+            Master.changeScene(new LoadingScene(AncientGameScene));
         });
     }
 
@@ -25,6 +38,7 @@ export class MainMenuScene extends Scene {
     }
 
     draw(): void {
-        this.button.draw();
+        this.remasteredButton.draw();
+        this.ancientButton.draw();
     }
 }
