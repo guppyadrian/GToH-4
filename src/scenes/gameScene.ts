@@ -11,6 +11,18 @@ export class GameState {
     static currentLevel: number;
     static lobbyLevel: number;
     static lastLevel: number;
+    static inventory: any = {};
+
+    static resetState() {
+        GameState.redActive = false;
+        GameState.inventory = {};
+    }
+
+    static changeLevel(newLvlID: number) {
+        this.resetState();
+        GameState.lastLevel = GameState.currentLevel || 0;
+        GameState.currentLevel = newLvlID;
+    }
 }
 
 export class GameScene extends Scene {
@@ -106,10 +118,8 @@ export class GameScene extends Scene {
         // reset camera
         Camera.x = this.player.center.x;
         Camera.y = this.player.center.y;
-        GameState.redActive = false;
         
-        GameState.lastLevel = GameState.currentLevel || 0;
-        GameState.currentLevel = levelID;
+        GameState.changeLevel(levelID);
     }
 
     update() {
