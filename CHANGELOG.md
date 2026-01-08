@@ -6,6 +6,8 @@
 - Parity fixes with original GToH
     - purple now starts out active instead of orange
     - actually fixed blue not starting out active instead of red
+- Changed
+    - Temporarily disabled main menu
 
 ## 0.6.0 October 9, 2025
 - Added
