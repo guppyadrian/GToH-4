@@ -1,4 +1,4 @@
-import type { Area } from "guppy-lib";
+import { Canvas, type Area } from "guppy-lib";
 import { Block } from "./block";
 import { GameState } from "../../scenes/gameScene";
 
@@ -19,5 +19,15 @@ export class LockedBlock extends Block {
         }
 
         return false;
+    }
+
+    draw() {
+        if (GameState.inventory[this.item])
+            Canvas.setAlpha(0.3);
+
+        super.draw();
+
+        if (GameState.inventory[this.item])
+            Canvas.setAlpha(1.0);
     }
 }

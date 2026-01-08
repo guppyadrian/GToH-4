@@ -14,7 +14,7 @@ export class PortalBlock extends StatusBlock {
 
         this.nextLevel = tags[0];
         try {
-            this.levelName = GetLevel(tags[0]).about.name;
+            this.levelName = GetLevel(tags[0]).about!.name; // TODO: be safe. Remove the exclamation mark!!!!
         }
         catch {
             this.levelName = "ERROR";

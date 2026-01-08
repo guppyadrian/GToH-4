@@ -14,8 +14,6 @@ export class CollectableBlock extends Block {
     colliding(otherArea: Area): boolean {
         if (super.colliding(otherArea)) {
             GameState.inventory[this.item] = true;
-
-            return true;
         }
 
         return false;

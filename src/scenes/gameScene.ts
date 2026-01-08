@@ -47,6 +47,9 @@ export class GameScene extends Scene {
             ['bounce-up', 'bounceUp.png'],
             ['yellow-block', 'yellowblock.png'],
             ['green-portal', 'portalgreen.png'],
+            ['door0', 'door0.png'],
+            ['key0', 'key0.png'],
+            ['ice', 'iceblock.png'],
         ];
 
         const promises = blockAtlas.map(([key, path]) => Assets.load('textures/blocks/' + path, key));
@@ -223,6 +226,8 @@ export class GameScene extends Scene {
 
         Canvas.ctx.font = '15px Arial';
         Canvas.ctx.fillText("Press O for options", 80, 90);
+
+        Canvas.ctx.fillText("Icy: " + this.player.hasStatus('icy'), 200, 10);
     }
 }
 
