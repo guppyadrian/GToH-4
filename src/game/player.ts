@@ -68,12 +68,12 @@ export class Player extends Sprite {
             this.vy--;
         }
 
-        // TODO: Bounce block stuff happens here i think
+        // this is to trigger effects such as bounce blocks
         this.colliding();
 
         this.y += this.vy;
 
-        // Some mud check
+        // Some mud check needs to go here
 
         let previouslyTouchedIce = this.hasStatus('icy');
 

@@ -1,6 +1,7 @@
 ## 0.8.0 January 8, 2026
 - Added
     - Vine block
+    - Bounce left, right, and down blocks
 
 ## 0.7.1 January 8, 2026
 - Fixed levels in world 3 not having a format, which stopped the level from being loaded

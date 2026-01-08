@@ -1,6 +1,9 @@
 import { Block } from "./blockModels/block";
 import { BlueBlock } from "./blocks/blueBlock";
 import { BounceBlock } from "./blocks/bounceBlock";
+import { BounceDownBlock } from "./blocks/bounceDownBlock";
+import { BounceLeftBlock } from "./blocks/bounceLeftBlock";
+import { BounceRightBlock } from "./blocks/bounceRightBlock";
 import { DoorBlock } from "./blocks/doorBlock";
 import { IceBlock } from "./blocks/iceBlock";
 import { KeyBlock } from "./blocks/keyBlock";
@@ -28,6 +31,9 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     metal: MetalBlock,
     njump: MetalBlock,
     bounce: BounceBlock,
+    dbounce: BounceDownBlock,
+    rbounce: BounceRightBlock,
+    lbounce: BounceLeftBlock,
     portal: PortalBlock,
     win: WinBlock,
     door: DoorBlock,
