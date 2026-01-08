@@ -75,11 +75,13 @@ export class Player extends Sprite {
 
         // Some mud check
 
+        let previouslyTouchedIce = this.hasStatus('icy');
+
         // slowdown if not moving
-        if (movementVector.x === 0) {
+        if (movementVector.x === 0 && !this.hasStatus('icy')) {
             this.vx -= Math.sign(this.vx);
         }
-        if (Math.abs(this.vx) > PlayerSettings.speedHardcap) { // TODO: Don't make these magic numbers!
+        if (Math.abs(this.vx) > PlayerSettings.speedHardcap) {
             this.vx = Math.sign(this.vx) * PlayerSettings.speedHardcap;
         }
 
@@ -95,6 +97,9 @@ export class Player extends Sprite {
             if (this.vy > 0) { // if falling
                 // TODO: whatever rjump is it goes here
                 this.canJump = true;
+
+                this.statuses.delete('icy');
+                previouslyTouchedIce = false;
 
                 // Go backwards until no longer in floor
                 for (let i = 0; i < PlayerSettings.maxFloorHeight; i++) {
@@ -143,7 +148,7 @@ export class Player extends Sprite {
         }
 
         // limit x velocity
-        if (Math.abs(this.vx) > PlayerSettings.speed && this.wallJumpCooldown === 0) {
+        if (Math.abs(this.vx) > PlayerSettings.speed + (this.hasStatus('icy') ? 3 : 0) && this.wallJumpCooldown === 0) { // TODO: allow for temp changing player speed so I don't put this hasStatus ternary in the conditional
             this.vx -= Math.sign(this.vx);
         }
 
@@ -192,7 +197,13 @@ export class Player extends Sprite {
 
         // TODO: If fall out of world, reset
 
+        if (this.hasStatus('icy'))
+            previouslyTouchedIce = true;
+
         // clear statuses
         this.statuses.clear();
+
+        if (previouslyTouchedIce)
+            this.statuses.add('icy');
     }
 }

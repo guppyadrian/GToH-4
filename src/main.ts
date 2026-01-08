@@ -26,7 +26,7 @@ Input.addBind('load-level', ['KeyL']);
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
 
 // OK RUN NOW
-Master.changeScene(new LoadingScene(MainMenuScene));
+Master.changeScene(new LoadingScene(GameScene));
 
 
 Master.start()

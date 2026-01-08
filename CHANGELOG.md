@@ -1,3 +1,21 @@
+## 0.7.1 January 8, 2026
+- Fixed levels in world 3 not having a format, which stopped the level from being loaded
+    - Tower of Ratio
+    - Tower of Jobe
+    - Prison Escape Tower
+    - Tower of Good Timing
+
+## 0.7.0 January 7, 2026
+- Added
+    - World 3
+    - Key and Door blocks
+    - Ice blocks
+- Parity fixes with original GToH
+    - purple now starts out active instead of orange
+    - actually fixed blue not starting out active instead of red
+- Changed
+    - Temporarily disabled main menu
+
 ## 0.6.0 October 9, 2025
 - Added
     - Main lobby

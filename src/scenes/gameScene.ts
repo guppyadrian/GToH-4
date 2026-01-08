@@ -11,6 +11,18 @@ export class GameState {
     static currentLevel: number;
     static lobbyLevel: number;
     static lastLevel: number;
+    static inventory: any = {};
+
+    static resetState() {
+        GameState.redActive = false;
+        GameState.inventory = {};
+    }
+
+    static changeLevel(newLvlID: number) {
+        this.resetState();
+        GameState.lastLevel = GameState.currentLevel || 0;
+        GameState.currentLevel = newLvlID;
+    }
 }
 
 export class GameScene extends Scene {
@@ -25,7 +37,7 @@ export class GameScene extends Scene {
 
     static preload(): Promise<void> {
 
-        const blockAtlas = [
+        const blockAtlas = [ // TODO: for some reason i can't check if the textures fail to load. check assets.ts for more info but the onerror just isn't firing!
             ['metal-block', 'metalblock.png'],
             ['block', 'block.png'],
             ['red-block', 'redblock.png'],
@@ -35,13 +47,22 @@ export class GameScene extends Scene {
             ['bounce-up', 'bounceUp.png'],
             ['yellow-block', 'yellowblock.png'],
             ['green-portal', 'portalgreen.png'],
+            ['ice', 'iceblock.png'],
         ];
+
+        for (let i = 0; i < 10; i++) // adding all 10 doors/keys in with code cause im lazy!!!
+        {
+            blockAtlas.push([`door${i}`, `doors/door${i}.png`]);
+            blockAtlas.push([`key${i}`, `keys/key${i}.png`]);
+        }
 
         const promises = blockAtlas.map(([key, path]) => Assets.load('textures/blocks/' + path, key));
 
         promises.push(Assets.load('textures/player.png', 'player'));
 
-        return Promise.all(promises).then(() => { });
+        Assets.load("oisdg", 'hi');
+
+        return Promise.all(promises).then(() => { }, () => {alert("failed to preload game! Maybe a texture is missing?")});
     }
 
     constructor() {
@@ -95,21 +116,21 @@ export class GameScene extends Scene {
         } 
         catch (error) {
             if (typeof level === 'number')
-                alert("Tried loading a level that doesn't exist! levelID: " + level);
+                alert("Failed loading level! levelID: " + level + ". Maybe it doesn't exist?");
             else 
                 alert ("Failed loading custom level");
             console.error(error);
         }
+
+        console.log(World.data)
 
         Input.reset();
 
         // reset camera
         Camera.x = this.player.center.x;
         Camera.y = this.player.center.y;
-        GameState.redActive = false;
         
-        GameState.lastLevel = GameState.currentLevel || 0;
-        GameState.currentLevel = levelID;
+        GameState.changeLevel(levelID);
     }
 
     update() {
