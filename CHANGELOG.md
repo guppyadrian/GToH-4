@@ -2,6 +2,10 @@
 - Added
     - Vine block
     - Bounce left, right, and down blocks
+    - Trials World
+- Fixed
+    - Bounce blocks no longer push during collision checks. This is a problem when halfway on a bounce and halfway on a solid block,
+    during the collision check the player would temporarily be lowered into the bounce block, triggering it.
 
 ## 0.7.1 January 8, 2026
 - Fixed levels in world 3 not having a format, which stopped the level from being loaded
