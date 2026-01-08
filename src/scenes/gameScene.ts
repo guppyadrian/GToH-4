@@ -37,7 +37,7 @@ export class GameScene extends Scene {
 
     static preload(): Promise<void> {
 
-        const blockAtlas = [
+        const blockAtlas = [ // TODO: for some reason i can't check if the textures fail to load. check assets.ts for more info but the onerror just isn't firing!
             ['metal-block', 'metalblock.png'],
             ['block', 'block.png'],
             ['red-block', 'redblock.png'],
@@ -47,16 +47,22 @@ export class GameScene extends Scene {
             ['bounce-up', 'bounceUp.png'],
             ['yellow-block', 'yellowblock.png'],
             ['green-portal', 'portalgreen.png'],
-            ['door0', 'door0.png'],
-            ['key0', 'key0.png'],
             ['ice', 'iceblock.png'],
         ];
+
+        for (let i = 0; i < 10; i++) // adding all 10 doors/keys in with code cause im lazy!!!
+        {
+            blockAtlas.push([`door${i}`, `doors/door${i}.png`]);
+            blockAtlas.push([`key${i}`, `keys/key${i}.png`]);
+        }
 
         const promises = blockAtlas.map(([key, path]) => Assets.load('textures/blocks/' + path, key));
 
         promises.push(Assets.load('textures/player.png', 'player'));
 
-        return Promise.all(promises).then(() => { });
+        Assets.load("oisdg", 'hi');
+
+        return Promise.all(promises).then(() => { }, () => {alert("failed to preload game! Maybe a texture is missing?")});
     }
 
     constructor() {
@@ -226,8 +232,6 @@ export class GameScene extends Scene {
 
         Canvas.ctx.font = '15px Arial';
         Canvas.ctx.fillText("Press O for options", 80, 90);
-
-        Canvas.ctx.fillText("Icy: " + this.player.hasStatus('icy'), 200, 10);
     }
 }
 

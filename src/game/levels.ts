@@ -29,7 +29,7 @@ export function GetLevel(lvlID: number) {
     const lvl = Levels.get(lvlID);
     console.log(`LVL: ${lvlID}`);
     console.log(lvl);
-    if (lvl === undefined) throw new Error("Could not get level with ID: " + lvlID);
+    if (lvl === undefined) throw new Error("Failed loading level with ID: " + lvlID + ". Maybe it doesn't exist?");
     return lvl;
 }
 

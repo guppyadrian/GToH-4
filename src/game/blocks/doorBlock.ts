@@ -1,9 +1,9 @@
 import { LockedBlock } from "../blockModels/lockedBlock";
 
 export class DoorBlock extends LockedBlock {
-    constructor(x: number, y: number, w: number, h: number) {
-        super(x, y, w, h, 'key0');
-        this.texture = "door0";
+    constructor(x: number, y: number, w: number, h: number, tags: string[]) {
+        super(x, y, w, h, "key" + tags[0][4]); // TODO: so scuffed... I hate dealing with old level formats
+        this.texture = tags[0];
         this.type = "door";
     }
 }
