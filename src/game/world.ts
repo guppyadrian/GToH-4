@@ -85,6 +85,10 @@ export class World {
                 World.data.push(createBlock(...block as [number, number, string, number, number]));
             }
         }
+        else
+        {
+            alert("Loading level with unknown format!");
+        }
     }
 
     /*

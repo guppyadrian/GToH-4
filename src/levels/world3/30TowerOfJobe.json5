@@ -1,5 +1,6 @@
 {
     "id": 30,
+    "format": 1,
     "spawn":[150,60],
     "about": { name: "Tower of Jobe", diff: "Extreme", create: "Jobe", req: ""},
     "reward": {StyleToken: 3, Extreme: 1, LToken: 1},

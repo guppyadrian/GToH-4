@@ -1,5 +1,6 @@
 {
     "id": 39,
+    "format": 1,
     "spawn":[150, 60],
     "about": { name: "Tower of Good Timing", diff: "Extreme+", create: "", req: ""},
     "reward": {StyleToken: 3, Extreme: 1, LToken: 1},

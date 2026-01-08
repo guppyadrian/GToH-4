@@ -1,5 +1,6 @@
 {
     "id": 32,
+    "format": 1,
     "spawn":[90,210],
     "about": { name: "Prison Escape Tower", diff: "Hard", create: "Firespark27", req: ""},
     "reward": {StyleToken: 1, Hard: 1},

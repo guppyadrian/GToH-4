@@ -1,5 +1,6 @@
 {
     "id": 29,
+    "format": 1,
     "spawn":[150,60],
     "about": { name: "Tower of Ratio", diff: "Medium", create: "Retrobop", req: ""},
     "reward": {StyleToken: 1, Medium: 1},

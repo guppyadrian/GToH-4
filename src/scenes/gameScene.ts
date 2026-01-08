@@ -116,11 +116,13 @@ export class GameScene extends Scene {
         } 
         catch (error) {
             if (typeof level === 'number')
-                alert("Tried loading a level that doesn't exist! levelID: " + level);
+                alert("Failed loading level! levelID: " + level + ". Maybe it doesn't exist?");
             else 
                 alert ("Failed loading custom level");
             console.error(error);
         }
+
+        console.log(World.data)
 
         Input.reset();
 
