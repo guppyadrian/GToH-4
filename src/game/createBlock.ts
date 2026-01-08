@@ -10,6 +10,7 @@ import { OrangeBlock } from "./blocks/orangeBlock";
 import { PortalBlock } from "./blocks/portalBlock";
 import { PurpleBlock } from "./blocks/purpleBlock";
 import { RedBlock } from "./blocks/redBlock";
+import { VineBlock } from "./blocks/vineBlock";
 import { WinBlock } from "./blocks/winBlock";
 
 // TODO: This is unused. Use it or lose it! (edit: alr cornball pack it up)
@@ -32,6 +33,7 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     door: DoorBlock,
     key: KeyBlock,
     ice: IceBlock,
+    vine: VineBlock,
 };
 // TODO: dynamically import blocks
 
