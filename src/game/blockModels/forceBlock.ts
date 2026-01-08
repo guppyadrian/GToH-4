@@ -17,11 +17,13 @@ export abstract class ForceBlock extends Block {
         this.forceY = vy;
     }
 
-    colliding(otherArea: Sprite): boolean {
+    colliding(otherArea: Sprite, firstCheck = false): boolean {
         if (!super.colliding(otherArea)) return false;
 
-        otherArea.vx = this.forceX || otherArea.vx;
-        otherArea.vy = this.forceY || otherArea.vy;
+        if (firstCheck) {
+            otherArea.vx = this.forceX || otherArea.vx;
+            otherArea.vy = this.forceY || otherArea.vy;
+        }
 
         return false;
     }

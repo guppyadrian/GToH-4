@@ -43,9 +43,9 @@ export class Player extends Sprite {
         );
     }
 
-    colliding() {
+    checkCollision(firstCheck?: boolean) {
         for (const block of World.data) {
-            if (block.colliding(this)) return true;
+            if (block.colliding(this, firstCheck)) return true;
         }
         return false;
     }
@@ -69,7 +69,7 @@ export class Player extends Sprite {
         }
 
         // this is to trigger effects such as bounce blocks
-        this.colliding();
+        this.checkCollision(true);
 
         this.y += this.vy;
 
@@ -93,7 +93,7 @@ export class Player extends Sprite {
         }
 
         // some goofty ahh collision code
-        if (this.colliding()) {
+        if (this.checkCollision()) {
             if (this.vy > 0) { // if falling
                 // TODO: whatever rjump is it goes here
                 this.canJump = true;
@@ -103,13 +103,13 @@ export class Player extends Sprite {
 
                 // Go backwards until no longer in floor
                 for (let i = 0; i < PlayerSettings.maxFloorHeight; i++) {
-                    if (!this.colliding()) break;
+                    if (!this.checkCollision()) break;
                     this.y -= 1;
 
                     // Stuck in wall, so lets just go down
                     if (i === PlayerSettings.maxFloorHeight - 1) {
                         this.y += PlayerSettings.maxFloorHeight;
-                        while (this.colliding()) {
+                        while (this.checkCollision()) {
                             this.y++;
                         }
                     }
@@ -119,18 +119,18 @@ export class Player extends Sprite {
 
             } else { // if not falling (either swapped while in wall or is hitting ceiling)
                 for (let i = 0; i < PlayerSettings.maxHorizontalNudge; i++) { // lets try nudging u to the left
-                    if (!this.colliding()) break;
+                    if (!this.checkCollision()) break;
                     this.x--;
                     if (i === PlayerSettings.maxHorizontalNudge - 1) this.x += PlayerSettings.maxHorizontalNudge;
                 }
 
                 for (let i = 0; i < PlayerSettings.maxHorizontalNudge; i++) { // lets try nudging u to the right
-                    if (!this.colliding()) break;
+                    if (!this.checkCollision()) break;
                     this.x++;
                     if (i === PlayerSettings.maxHorizontalNudge - 1) this.x -= PlayerSettings.maxHorizontalNudge;
                 }
 
-                while (this.colliding()) this.y++; // nudging is not working activate nuclear mode and send u down
+                while (this.checkCollision()) this.y++; // nudging is not working activate nuclear mode and send u down
             }
             this.vy = 0;
         }
@@ -156,12 +156,12 @@ export class Player extends Sprite {
         this.x += this.vx;
         // add collision checking
         for (let i = 0; i < PlayerSettings.maxSlopeHeight; i++) {
-            if (!this.colliding()) break;
+            if (!this.checkCollision()) break;
 
             this.y--;
             if (i === PlayerSettings.maxSlopeHeight - 1) {
                 this.y += PlayerSettings.maxSlopeHeight;
-                while(this.colliding()) this.x -= Math.sign(this.vx);
+                while(this.checkCollision()) this.x -= Math.sign(this.vx);
 
                 if (movementVector.y === -1 && Math.abs(this.vx) > 2) {
                     if (this.wallJumpCooldown < 3 && !this.hasStatus('no-wj')) { // some njump thing goes here
