@@ -55,6 +55,7 @@ export class GameScene extends Scene {
             ['mud-block', 'mudblock.png'],
             ['no-jump-block', 'nojumpblock.png'],
             ['small-block', 'smallblock.png'],
+            ['death-block', 'skullblock.png'],
         ];
 
         for (let i = 0; i < 10; i++) // adding all 10 doors/keys in with code cause im lazy!!!
@@ -128,8 +129,6 @@ export class GameScene extends Scene {
                 alert ("Failed loading custom level");
             console.error(error);
         }
-
-        console.log(World.data)
 
         Input.reset();
 

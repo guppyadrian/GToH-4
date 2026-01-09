@@ -4,6 +4,7 @@ import { BounceBlock } from "./blocks/bounceBlock";
 import { BounceDownBlock } from "./blocks/bounceDownBlock";
 import { BounceLeftBlock } from "./blocks/bounceLeftBlock";
 import { BounceRightBlock } from "./blocks/bounceRightBlock";
+import { DeathBlock } from "./blocks/deathBlock";
 import { DoorBlock } from "./blocks/doorBlock";
 import { IceBlock } from "./blocks/iceBlock";
 import { KeyBlock } from "./blocks/keyBlock";
@@ -46,6 +47,7 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     mud: MudBlock,
     rjump: NoJumpBlock,
     small: SmallBlock,
+    die: DeathBlock,
 };
 // TODO: dynamically import blocks
 
