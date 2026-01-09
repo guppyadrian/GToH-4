@@ -65,7 +65,7 @@ export class Player extends Sprite {
 
         // slow gravity if too fast
         if (this.vy > PlayerSettings.maxFallSpeed) {
-            this.vy--;
+            this.vy -= 1;
         }
 
         // this is to trigger effects such as bounce blocks
@@ -163,35 +163,21 @@ export class Player extends Sprite {
             this.vx -= Math.sign(this.vx);
         }
 
-        // change x
-        this.x += this.vx;
-        // add collision checking
-        for (let i = 0; i < PlayerSettings.maxSlopeHeight; i++) {
-            if (!this.checkCollision()) break;
-
-            this.y--;
-            if (i === PlayerSettings.maxSlopeHeight - 1) {
-                this.y += PlayerSettings.maxSlopeHeight;
-                while(this.checkCollision()) this.x -= Math.sign(this.vx);
-
-                if (movementVector.y === -1 && Math.abs(this.vx) > 2) {
-                    if (this.wallJumpCooldown < 3 && !this.hasStatus('no-wj')) { // some njump thing goes here
-                        this.vx = Math.round(this.vx * -1.2);
-                        this.vy = Math.round(PlayerSettings.jumpStrength / -1.5);
-                        this.wallJumpCooldown = 7; // 7 frame cooldown
-                    }
-                } else {
-                    this.vx = 0;
-                }
-            }
-        }
+        this.updateXPos(movementVector);
 
         // particle stuff here
 
         // jump
-        if (movementVector.y === -1 && ((this.canJump && !this.hasStatus('mud')) || (this.hasStatus('mud') && Input.justGet('up')))) {
-            this.vy = -PlayerSettings.jumpStrength;
-            this.canJump = false;
+        if (movementVector.y === -1) {
+            if (this.hasStatus('mud'))
+            {
+                if (Input.justGet('up'))
+                    this.jump();
+            } 
+            else if (this.canJump)
+            {
+                this.jump();
+            }
         }
 
         // New level stuff
@@ -216,5 +202,35 @@ export class Player extends Sprite {
 
         if (previouslyTouchedIce)
             this.statuses.add('icy');
+    }
+
+    updateXPos(movementVector: Vector2) {
+        // change x
+        this.x += this.vx;
+        // add collision checking
+        for (let i = 0; i < PlayerSettings.maxSlopeHeight; i++) {
+            if (!this.checkCollision()) break;
+
+            this.y--;
+            if (i === PlayerSettings.maxSlopeHeight - 1) {
+                this.y += PlayerSettings.maxSlopeHeight;
+                while(this.checkCollision()) this.x -= Math.sign(this.vx);
+
+                if (movementVector.y === -1 && Math.abs(this.vx) > 2) {
+                    if (this.wallJumpCooldown < 3 && !this.hasStatus('no-wj')) { // some njump thing goes here
+                        this.vx = Math.round(this.vx * -1.2);
+                        this.vy = Math.round(PlayerSettings.jumpStrength / -1.5);
+                        this.wallJumpCooldown = 7; // 7 frame cooldown
+                    }
+                } else {
+                    this.vx = 0;
+                }
+            }
+        }
+    }
+
+    jump() {
+        this.vy = -PlayerSettings.jumpStrength;
+        this.canJump = false;
     }
 }
