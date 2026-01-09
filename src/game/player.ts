@@ -20,6 +20,16 @@ export class Player extends Sprite {
     statuses;
     nextLevel: number | undefined; // where to go next frame
     realPlayer: boolean; // whether or not player is the actual one. Controls changing lvls and stuff
+    gravityMult: number;
+
+    // which way gravity is. Positive means falling down, negative falls up
+    get gravityDir() {
+        return Math.sign(this.gravityMult);
+    }
+
+    set gravityDir(val: number) {
+        this.gravityMult = Math.abs(this.gravityMult) * val;
+    }
 
     constructor(x: number, y: number, real = true) {
         super(Assets.get('player'), x, y);
@@ -28,6 +38,7 @@ export class Player extends Sprite {
         this.wallJumpCooldown = 0;
         this.statuses = new Set<string>();
         this.realPlayer = real;
+        this.gravityMult = 1;
 
         this.vy = -3; // parity with original
     }
@@ -61,11 +72,11 @@ export class Player extends Sprite {
     physicsTick() {
         const movementVector = this.getMovementVector();
 
-        this.vy += PlayerSettings.gravity;
+        this.vy += PlayerSettings.gravity * this.gravityMult;
 
         // slow gravity if too fast
-        if (this.vy > PlayerSettings.maxFallSpeed) {
-            this.vy -= 1;
+        if (this.vy * this.gravityDir > PlayerSettings.maxFallSpeed) {
+            this.vy -= this.gravityMult;
         }
 
         // this is to trigger effects such as bounce blocks
@@ -101,7 +112,7 @@ export class Player extends Sprite {
 
         // some goofty ahh collision code
         if (this.checkCollision()) {
-            if (this.vy > 0 || this.hasStatus('mud')) { // if falling
+            if (this.vy * this.gravityMult > 0 || this.hasStatus('mud')) { // if falling
                 if (!this.hasStatus('no-jump-regen'))
                     this.canJump = true;
 
@@ -111,13 +122,13 @@ export class Player extends Sprite {
                 // Go backwards until no longer in floor
                 for (let i = 0; i < PlayerSettings.maxFloorHeight; i++) {
                     if (!this.checkCollision()) break;
-                    this.y -= 1;
+                    this.y -= this.gravityDir; // TODO: make a var outside the loop instead of calling Math.sign repeatedly?
 
                     // Stuck in wall, so lets just go down
                     if (i === PlayerSettings.maxFloorHeight - 1) {
-                        this.y += PlayerSettings.maxFloorHeight;
+                        this.y += PlayerSettings.maxFloorHeight * this.gravityDir;
                         while (this.checkCollision()) {
-                            this.y++;
+                            this.y += this.gravityDir;
                         }
                     }
                 }
@@ -137,13 +148,13 @@ export class Player extends Sprite {
                     if (i === PlayerSettings.maxHorizontalNudge - 1) this.x -= PlayerSettings.maxHorizontalNudge;
                 }
 
-                while (this.checkCollision()) this.y++; // nudging is not working activate nuclear mode and send u down
+                while (this.checkCollision()) this.y += this.gravityDir; // nudging is not working activate nuclear mode and send u down
             }
             this.vy = 0;
         }
 
         // If falling, then you are not on the ground which means u can't jump!
-        if (this.vy > PlayerSettings.coyoteFrames) {
+        if (this.vy * this.gravityDir > PlayerSettings.coyoteFrames) { // TODO: velocity maybe should be divided by this.gravityMult for this check. Coyote frames should be consistent across different gravity strengths
             this.canJump = false;
         }
 
@@ -211,15 +222,15 @@ export class Player extends Sprite {
         for (let i = 0; i < PlayerSettings.maxSlopeHeight; i++) {
             if (!this.checkCollision()) break;
 
-            this.y--;
+            this.y -= this.gravityDir;
             if (i === PlayerSettings.maxSlopeHeight - 1) {
-                this.y += PlayerSettings.maxSlopeHeight;
+                this.y += PlayerSettings.maxSlopeHeight * this.gravityDir;
                 while(this.checkCollision()) this.x -= Math.sign(this.vx);
 
                 if (movementVector.y === -1 && Math.abs(this.vx) > 2) {
                     if (this.wallJumpCooldown < 3 && !this.hasStatus('no-wj')) { // some njump thing goes here
                         this.vx = Math.round(this.vx * -1.2);
-                        this.vy = Math.round(PlayerSettings.jumpStrength / -1.5);
+                        this.vy = Math.round(PlayerSettings.jumpStrength / -1.5 * this.gravityDir);
                         this.wallJumpCooldown = 7; // 7 frame cooldown
                     }
                 } else {
@@ -230,7 +241,7 @@ export class Player extends Sprite {
     }
 
     jump() {
-        this.vy = -PlayerSettings.jumpStrength;
+        this.vy = -PlayerSettings.jumpStrength * this.gravityDir;
         this.canJump = false;
     }
 }
