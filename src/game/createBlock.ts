@@ -19,6 +19,7 @@ import { PortalBlock } from "./blocks/portalBlock";
 import { PurpleBlock } from "./blocks/purpleBlock";
 import { RedBlock } from "./blocks/redBlock";
 import { SmallBlock } from "./blocks/smallBlock";
+import { TeleportBlock } from "./blocks/teleportBlock";
 import { VineBlock } from "./blocks/vineBlock";
 import { WinBlock } from "./blocks/winBlock";
 
@@ -52,6 +53,7 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     die: DeathBlock,
     greverse: GravityReverseBlock,
     gnormal: GravityNormalBlock,
+    tp: TeleportBlock,
 };
 // TODO: dynamically import blocks
 

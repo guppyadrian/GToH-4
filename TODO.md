@@ -1,10 +1,8 @@
 ## NEW
 - Fix drawing to be pixel perfect
-- Add death blocks
 - Add metal colored blocks???
 - add in the level portals
 - Add water block
-- Reverse gravity
 - Interlude?
 
 
