@@ -3,6 +3,7 @@
     - Trials World
     - Interlude world
     - Final 4 levels in world 3
+    - Race of keys
     - Vine block
     - Bounce left, right, and down blocks
     - Mud block
