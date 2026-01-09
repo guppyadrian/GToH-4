@@ -74,11 +74,18 @@ export class Player extends Sprite {
         this.y += this.vy;
 
         // Some mud check needs to go here
+        this.checkCollision(); 
+        // TODO: try removing this checkCollision and see if the mud still behaves the same
+        //       I am not sure if checking collision again after y movement will really change that much
+
+        if (this.hasStatus('mud')) {
+            this.vy = 0;
+        }
 
         let previouslyTouchedIce = this.hasStatus('icy');
 
         // slowdown if not moving
-        if (movementVector.x === 0 && !this.hasStatus('icy')) {
+        if ((movementVector.x === 0 && !this.hasStatus('icy')) || this.hasStatus('mud')) {
             this.vx -= Math.sign(this.vx);
         }
         if (Math.abs(this.vx) > PlayerSettings.speedHardcap) {
@@ -94,9 +101,9 @@ export class Player extends Sprite {
 
         // some goofty ahh collision code
         if (this.checkCollision()) {
-            if (this.vy > 0) { // if falling
-                // TODO: whatever rjump is it goes here
-                this.canJump = true;
+            if (this.vy > 0 || this.hasStatus('mud')) { // if falling
+                if (!this.hasStatus('no-jump-regen'))
+                    this.canJump = true;
 
                 this.statuses.delete('icy');
                 previouslyTouchedIce = false;
@@ -147,8 +154,12 @@ export class Player extends Sprite {
             this.wallJumpCooldown--;
         }
 
+        let speed = PlayerSettings.speed;
+        if (this.hasStatus('icy')) speed += 3;
+        if (this.hasStatus('mud')) speed -= 3;
+
         // limit x velocity
-        if (Math.abs(this.vx) > PlayerSettings.speed + (this.hasStatus('icy') ? 3 : 0) && this.wallJumpCooldown === 0) { // TODO: allow for temp changing player speed so I don't put this hasStatus ternary in the conditional
+        if (Math.abs(this.vx) > speed && this.wallJumpCooldown === 0) { // TODO: allow for temp changing player speed so I don't put this hasStatus ternary in the conditional
             this.vx -= Math.sign(this.vx);
         }
 
@@ -178,7 +189,7 @@ export class Player extends Sprite {
         // particle stuff here
 
         // jump
-        if (movementVector.y === -1 && this.canJump) {
+        if (movementVector.y === -1 && ((this.canJump && !this.hasStatus('mud')) || (this.hasStatus('mud') && Input.justGet('up')))) {
             this.vy = -PlayerSettings.jumpStrength;
             this.canJump = false;
         }

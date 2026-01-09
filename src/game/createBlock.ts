@@ -8,6 +8,8 @@ import { DoorBlock } from "./blocks/doorBlock";
 import { IceBlock } from "./blocks/iceBlock";
 import { KeyBlock } from "./blocks/keyBlock";
 import { MetalBlock } from "./blocks/metalBlock";
+import { MudBlock } from "./blocks/mudBlock";
+import { NoJumpBlock } from "./blocks/noJumpBlock";
 import { NormalBlock } from "./blocks/normalBlock";
 import { OrangeBlock } from "./blocks/orangeBlock";
 import { PortalBlock } from "./blocks/portalBlock";
@@ -40,6 +42,8 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     key: KeyBlock,
     ice: IceBlock,
     vine: VineBlock,
+    mud: MudBlock,
+    rjump: NoJumpBlock,
 };
 // TODO: dynamically import blocks
 

@@ -1,6 +1,12 @@
 ## NEW
 - Fix drawing to be pixel perfect
-- add lobbys (level types. Just look at levels.ts)
+- Add small blocks?
+- Add rjump / nojump blocks
+- Add death blocks
+- Add metal colored blocks???
+- add in the level portals
+
+
 
 
 ## LIBRARY
