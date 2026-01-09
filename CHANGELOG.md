@@ -7,6 +7,8 @@
     - Nojump block
     - Small block
     - Death block
+    - Reverse and normalize gravity blocks
+    - Final 4 levels in world 3
 - Fixed
     - Bounce blocks no longer push during collision checks. This is a problem when halfway on a bounce and halfway on a solid block,
     during the collision check the player would temporarily be lowered into the bounce block, triggering it.
