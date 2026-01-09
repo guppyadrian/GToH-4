@@ -5,6 +5,7 @@
     - Trials World
     - Mud block
     - Nojump block
+    - Small block
 - Fixed
     - Bounce blocks no longer push during collision checks. This is a problem when halfway on a bounce and halfway on a solid block,
     during the collision check the player would temporarily be lowered into the bounce block, triggering it.

@@ -54,6 +54,7 @@ export class GameScene extends Scene {
             ['vine', 'vines.png'],
             ['mud-block', 'mudblock.png'],
             ['no-jump-block', 'nojumpblock.png'],
+            ['small-block', 'smallblock.png'],
         ];
 
         for (let i = 0; i < 10; i++) // adding all 10 doors/keys in with code cause im lazy!!!

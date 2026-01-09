@@ -1,10 +1,11 @@
 ## NEW
 - Fix drawing to be pixel perfect
-- Add small blocks?
-- Add rjump / nojump blocks
 - Add death blocks
 - Add metal colored blocks???
 - add in the level portals
+- Add water block
+- Reverse gravity
+- Interlude?
 
 
 

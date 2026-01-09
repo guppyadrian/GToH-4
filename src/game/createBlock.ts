@@ -15,6 +15,7 @@ import { OrangeBlock } from "./blocks/orangeBlock";
 import { PortalBlock } from "./blocks/portalBlock";
 import { PurpleBlock } from "./blocks/purpleBlock";
 import { RedBlock } from "./blocks/redBlock";
+import { SmallBlock } from "./blocks/smallBlock";
 import { VineBlock } from "./blocks/vineBlock";
 import { WinBlock } from "./blocks/winBlock";
 
@@ -44,6 +45,7 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     vine: VineBlock,
     mud: MudBlock,
     rjump: NoJumpBlock,
+    small: SmallBlock,
 };
 // TODO: dynamically import blocks
 
