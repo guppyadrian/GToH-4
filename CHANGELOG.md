@@ -1,3 +1,7 @@
+## 0.9.0 January 9, 2026 `INDEV`
+- Changed
+    - Moved multiplayer code to its own class
+
 ## 0.8.0 January 9, 2026
 - Added
     - Trials World

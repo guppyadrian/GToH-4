@@ -1,7 +1,8 @@
 ## NEW
 - Fix drawing to be pixel perfect
 - Add metal colored blocks???
-
+- Grass block
+- do water...
 
 
 
