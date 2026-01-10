@@ -1,12 +1,8 @@
-import { io } from "socket.io-client";
 import { GameScene } from "./scenes/gameScene";
 import { LoadingScene } from "./scenes/loadingScene.js";
 import { Input, Master } from "guppy-lib";
 import { MainMenuScene } from "./scenes/mainMenuScene.js";
-
-io('http://localhost:3000', {
-    reconnectionAttempts: 2
-});
+import { Multiplayer } from "./multiplayer.js";
 
 // set up keyboard
 Input.initialize();
@@ -30,3 +26,5 @@ Master.changeScene(new LoadingScene(GameScene));
 
 
 Master.start()
+
+Multiplayer.start();
