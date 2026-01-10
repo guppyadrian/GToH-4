@@ -7,6 +7,7 @@ const ChunkSize = 4 * 30;
 
 export class World {
     static data: Block[] = []
+    static format: number = 1;
     static chunks = new Map<string, Block[]>();
     // This needs to have a chunk system
     // all the stuff in this needs to extend from area for collision check & draw methods
@@ -76,6 +77,8 @@ export class World {
 
     static createWorld(levelData: LevelData) {
         World.data = [];
+
+        World.format = levelData.format;
 
         if (levelData.format === 2 || levelData.format === 1) {
             const data = levelData.data;

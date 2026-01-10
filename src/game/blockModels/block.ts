@@ -49,6 +49,15 @@ export class Block extends Area {
         }
     }
 
+    /**
+     * 
+     * @param otherArea Other area
+     * @param firstCheck If this is the first check. Used for applying bounce forces only at the beginning of a physics tick
+     */
+    colliding(otherArea: Area, _firstCheck = false): boolean {
+        return super.colliding(otherArea);
+    }
+
     update() {
         
     }

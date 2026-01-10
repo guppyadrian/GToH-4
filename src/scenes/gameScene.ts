@@ -45,9 +45,19 @@ export class GameScene extends Scene {
             ['orange-block', 'orangeblock.png'],
             ['purple-block', 'purpleblock.png'],
             ['bounce-up', 'bounceUp.png'],
+            ['bounce-down', 'bounceDown.png'],
+            ['bounce-left', 'bounceLeft.png'],
+            ['bounce-right', 'bounceRight.png'],
             ['yellow-block', 'yellowblock.png'],
             ['green-portal', 'portalgreen.png'],
             ['ice', 'iceblock.png'],
+            ['vine', 'vines.png'],
+            ['mud-block', 'mudblock.png'],
+            ['no-jump-block', 'nojumpblock.png'],
+            ['small-block', 'smallblock.png'],
+            ['death-block', 'skullblock.png'],
+            ['reverse-gravity-block', 'rgravblock.png'],
+            ['normal-gravity-block', 'ngravblock.png'],
         ];
 
         for (let i = 0; i < 10; i++) // adding all 10 doors/keys in with code cause im lazy!!!
@@ -121,8 +131,6 @@ export class GameScene extends Scene {
                 alert ("Failed loading custom level");
             console.error(error);
         }
-
-        console.log(World.data)
 
         Input.reset();
 

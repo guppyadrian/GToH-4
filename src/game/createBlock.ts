@@ -1,15 +1,26 @@
 import { Block } from "./blockModels/block";
 import { BlueBlock } from "./blocks/blueBlock";
 import { BounceBlock } from "./blocks/bounceBlock";
+import { BounceDownBlock } from "./blocks/bounceDownBlock";
+import { BounceLeftBlock } from "./blocks/bounceLeftBlock";
+import { BounceRightBlock } from "./blocks/bounceRightBlock";
+import { DeathBlock } from "./blocks/deathBlock";
 import { DoorBlock } from "./blocks/doorBlock";
+import { GravityNormalBlock } from "./blocks/gravityNormalBlock";
+import { GravityReverseBlock } from "./blocks/gravityReverseBlock";
 import { IceBlock } from "./blocks/iceBlock";
 import { KeyBlock } from "./blocks/keyBlock";
 import { MetalBlock } from "./blocks/metalBlock";
+import { MudBlock } from "./blocks/mudBlock";
+import { NoJumpBlock } from "./blocks/noJumpBlock";
 import { NormalBlock } from "./blocks/normalBlock";
 import { OrangeBlock } from "./blocks/orangeBlock";
 import { PortalBlock } from "./blocks/portalBlock";
 import { PurpleBlock } from "./blocks/purpleBlock";
 import { RedBlock } from "./blocks/redBlock";
+import { SmallBlock } from "./blocks/smallBlock";
+import { TeleportBlock } from "./blocks/teleportBlock";
+import { VineBlock } from "./blocks/vineBlock";
 import { WinBlock } from "./blocks/winBlock";
 
 // TODO: This is unused. Use it or lose it! (edit: alr cornball pack it up)
@@ -27,11 +38,22 @@ const blockMap: Record<string, new (a: number, b: number, c: number, d: number, 
     metal: MetalBlock,
     njump: MetalBlock,
     bounce: BounceBlock,
+    dbounce: BounceDownBlock,
+    rbounce: BounceRightBlock,
+    lbounce: BounceLeftBlock,
     portal: PortalBlock,
     win: WinBlock,
     door: DoorBlock,
     key: KeyBlock,
     ice: IceBlock,
+    vine: VineBlock,
+    mud: MudBlock,
+    rjump: NoJumpBlock,
+    small: SmallBlock,
+    die: DeathBlock,
+    greverse: GravityReverseBlock,
+    gnormal: GravityNormalBlock,
+    tp: TeleportBlock,
 };
 // TODO: dynamically import blocks
 
