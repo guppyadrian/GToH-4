@@ -21,6 +21,7 @@ export class Player extends Sprite {
     nextLevel: number | undefined; // where to go next frame
     realPlayer: boolean; // whether or not player is the actual one. Controls changing lvls and stuff
     gravityMult: number;
+    godMode: boolean;
 
     // which way gravity is. Positive means falling down, negative falls up
     get gravityDir() {
@@ -39,12 +40,16 @@ export class Player extends Sprite {
         this.statuses = new Set<string>();
         this.realPlayer = real;
         this.gravityMult = 1;
+        this.godMode = false;
 
         this.vy = -3; // parity with original
     }
 
     update() {
-        this.physicsTick();
+        if (this.godMode)
+            this.flyMovement();
+        else
+            this.physicsTick();
     }
  
     getMovementVector() {
@@ -67,6 +72,18 @@ export class Player extends Sprite {
 
     hasStatus(status: string) {
         return this.statuses.has(status);
+    }
+
+    flyMovement() {
+        if (!this.realPlayer) return;
+        
+        const movementVector = this.getMovementVector();
+
+        this.x += movementVector.x * 10;
+        this.y += movementVector.y * 10;
+
+        this.vx = 0;
+        this.vy = 0;
     }
 
     physicsTick() {
@@ -245,3 +262,4 @@ export class Player extends Sprite {
         this.canJump = false;
     }
 }
+

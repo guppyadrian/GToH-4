@@ -1,7 +1,7 @@
 import { GameScene } from "./scenes/gameScene";
 import { LoadingScene } from "./scenes/loadingScene.js";
 import { Input, Master } from "guppy-lib";
-import { MainMenuScene } from "./scenes/mainMenuScene.js";
+//import { MainMenuScene } from "./scenes/mainMenuScene.js";
 import { Multiplayer } from "./multiplayer.js";
 
 // set up keyboard

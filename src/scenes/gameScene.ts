@@ -92,6 +92,11 @@ export class GameScene extends Scene {
         this.futurePos = Vector2.zero;
 
         this.lastFrameTime = 0;
+
+        (window as any).fly = () => {
+            this.player.godMode = !this.player.godMode;
+            this.visualPlayer.godMode = this.player.godMode;
+        };
     }
 
     startLevel(levelData: Array<any>[]): void;
