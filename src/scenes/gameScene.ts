@@ -5,6 +5,7 @@ import { GetLevel, PromptPlayerLevel, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
+import { Multiplayer } from "../multiplayer.js";
 
 export class GameState {
     static redActive = false;
@@ -97,6 +98,10 @@ export class GameScene extends Scene {
             this.player.godMode = !this.player.godMode;
             this.visualPlayer.godMode = this.player.godMode;
         };
+
+        if (Multiplayer.started) {
+            Multiplayer.socket.on("send-player", (i) => console.log(i));
+        }
     }
 
     startLevel(levelData: Array<any>[]): void;
@@ -194,6 +199,10 @@ export class GameScene extends Scene {
             Master.changeScene(new OptionsScene());
         }
 
+        if (Multiplayer.started) {
+            Multiplayer.sendPlayer(this.player);
+        }
+
         this.physicsfps.tickEnded();
     }
 
@@ -226,6 +235,13 @@ export class GameScene extends Scene {
             this.visualPlayer.draw();
         } else {
             this.player.draw();
+        }
+
+        // Draw other players
+        if (Multiplayer.started) {
+            Multiplayer.playerList.forEach(player => {
+                player.draw();
+            });
         }
         
 

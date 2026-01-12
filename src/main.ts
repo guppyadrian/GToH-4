@@ -18,6 +18,8 @@ Input.addBind('load-level', ['KeyL']);
 // instead of master we testing webgl
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);
 
+Multiplayer.start();
+
 // Set up MASTER
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
 
@@ -26,5 +28,3 @@ Master.changeScene(new LoadingScene(GameScene));
 
 
 Master.start()
-
-Multiplayer.start();
