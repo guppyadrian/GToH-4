@@ -98,10 +98,6 @@ export class GameScene extends Scene {
             this.player.godMode = !this.player.godMode;
             this.visualPlayer.godMode = this.player.godMode;
         };
-
-        if (Multiplayer.started) {
-            Multiplayer.socket.on("send-player", (i) => console.log(i));
-        }
     }
 
     startLevel(levelData: Array<any>[]): void;

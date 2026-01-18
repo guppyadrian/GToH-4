@@ -17,17 +17,18 @@ class Multiplayer
     static started = false;
     static socket: Socket;
     static playerList: Map<UUID, OnlinePlayer> = new Map();
+    static uuid: UUID;
 
     static get connected()
     {
         return Multiplayer.socket.connected;
     }
 
-    static start()
+    static start(serverIP: string)
     {
         if (Multiplayer.started) return false;
 
-        Multiplayer.socket = io('http://localhost:3000', {
+        Multiplayer.socket = io(serverIP, {
             reconnectionAttempts: 2
         });
 
@@ -35,6 +36,8 @@ class Multiplayer
         Multiplayer.socket.on('player-join', this.onPlayerJoin);
         Multiplayer.socket.on('player-leave', this.onPlayerLeave);
         Multiplayer.socket.on('send-player', this.onSendPlayer);
+        Multiplayer.socket.on('send-uuid', (uuid) => {Multiplayer.uuid = uuid});
+
         Multiplayer.started = true;
 
         return true;
@@ -60,7 +63,10 @@ class Multiplayer
             const player = Multiplayer.playerList.get(packet[0]); // TODO: be safe. remove exclamation point
 
             if (!player) continue;
+            if (player.uuid === Multiplayer.uuid) continue;
 
+            player.vx = player.x;
+            player.vy = player.y;
             player.x = packet[1];
             player.y = packet[2];
         }
@@ -69,6 +75,8 @@ class Multiplayer
     private static onPlayerJoin(uuid: UUID)
     {
         Multiplayer.playerList.set(uuid, new OnlinePlayer(uuid));
+        console.log("joined with uuid: ", uuid);
+        console.log("my uuid: ", Multiplayer.uuid);
     }
 
     private static onPlayerLeave(uuid: UUID)

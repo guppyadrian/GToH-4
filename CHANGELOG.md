@@ -1,4 +1,6 @@
-## 0.9.0 January 9, 2026 `INDEV`
+## 0.9.0 January 12, 2026 `INDEV`
+- Added
+    - You can see other players
 - Changed
     - Moved multiplayer code to its own class
 

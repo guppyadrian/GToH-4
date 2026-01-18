@@ -18,7 +18,7 @@ Input.addBind('load-level', ['KeyL']);
 // instead of master we testing webgl
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);
 
-Multiplayer.start();
+Multiplayer.start('10.59.64.100:3000');
 
 // Set up MASTER
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
