@@ -12,7 +12,7 @@ export class GameState {
     static currentLevel: number;
     static lobbyLevel: number;
     static lastLevel: number;
-    static inventory: any = {};
+    static inventory: Record<string, boolean | number> = {};
 
     static resetState() {
         GameState.redActive = false;
@@ -195,7 +195,7 @@ export class GameScene extends Scene {
             Master.changeScene(new OptionsScene());
         }
 
-        if (Multiplayer.started) {
+        if (Multiplayer.started) { // TODO: rn this is sending 40 times a second
             Multiplayer.sendPlayer(this.player);
         }
 

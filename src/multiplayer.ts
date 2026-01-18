@@ -37,6 +37,17 @@ class Multiplayer
         Multiplayer.socket.on('player-leave', this.onPlayerLeave);
         Multiplayer.socket.on('send-player', this.onSendPlayer);
         Multiplayer.socket.on('send-uuid', (uuid) => {Multiplayer.uuid = uuid});
+        Multiplayer.socket.on('player-changed-level', (packet) => {
+            const uuid: UUID = packet[0];
+            const level: number = packet[1];
+            const player = Multiplayer.playerList.get(uuid);
+
+            if (!player) {
+                console.log("Unknown player was trying to change level!");
+                return;
+            }
+            player.level = level;
+        });
 
         Multiplayer.started = true;
 

@@ -1,4 +1,4 @@
-## 0.9.0 January 12, 2026 `INDEV`
+## 0.9.0 January 17, 2026
 - Added
     - You can see other players
 - Changed
