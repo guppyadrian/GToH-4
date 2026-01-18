@@ -86,8 +86,6 @@ class Multiplayer
     private static onPlayerJoin(uuid: UUID)
     {
         Multiplayer.playerList.set(uuid, new OnlinePlayer(uuid));
-        console.log("joined with uuid: ", uuid);
-        console.log("my uuid: ", Multiplayer.uuid);
     }
 
     private static onPlayerLeave(uuid: UUID)
