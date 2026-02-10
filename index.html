@@ -11,10 +11,13 @@
     <div id="game-div">
       <canvas id="game-canvas" width="720" height="480"></canvas>
     </div>
-    <div id="login-dev" style="text-align: center;" hidden>
-      <p>username:</p><input type="text"><br>
-      <p>password:</p><input type="password"><br>
-      <button>Login</button>
+    <div id="login-div" style="text-align: center;" hidden>
+      <p>username:</p><input id="username-input" type="text"><br>
+      <p>password:</p><input id="password-input" type="password"><br>
+      <button id="login-button">Login</button><br>
+      <p id="login-status">...</p>
+      <br><br>
+      <button id="back-button">Go Back</button>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

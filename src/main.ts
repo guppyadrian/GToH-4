@@ -13,7 +13,7 @@ Input.addBind('up', ['KeyW', 'ArrowUp']);
 Input.addBind('down', ['KeyS', 'ArrowDown']);
 Input.addBind('exit', ['KeyR']);
 Input.addBind('options', ['KeyO']);
-Input.addBind('load-level', ['KeyL']);
+Input.addBind('login', ['KeyL']);
 
 // instead of master we testing webgl
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);

@@ -2,6 +2,7 @@ import { io, Socket } from "socket.io-client";
 import { OnlinePlayer } from "./game/multiplayer/onlinePlayer";
 import type { Player } from "./game/player";
 import { GameState } from "./scenes/gameScene";
+import { setLoginStatus } from "./account";
 
 type UUID = string;
 
@@ -17,10 +18,20 @@ class Multiplayer
     static started = false;
     static socket: Socket;
     static playerList: Map<UUID, OnlinePlayer> = new Map();
-    static uuid: UUID;
+    static _uuid: UUID;
+
+    static get uuid() {
+        return this._uuid;
+    }
+
+    static set uuid(value) {
+        this._uuid = value;
+        console.log("new UUID:", value);
+    }
 
     static get connected()
     {
+        if (!Multiplayer.started) return false;
         return Multiplayer.socket.connected;
     }
 
@@ -47,6 +58,16 @@ class Multiplayer
                 return;
             }
             player.level = level;
+        });
+
+        Multiplayer.socket.on('login-result', (success, message) => {
+            if (success) {
+                Multiplayer.uuid = message;
+                setLoginStatus("Successfully logged in! You can go back to the game now");
+            } else {
+                setLoginStatus(message);
+            }
+            // TODO: also send over username
         });
 
         Multiplayer.started = true;
@@ -91,6 +112,11 @@ class Multiplayer
     private static onPlayerLeave(uuid: UUID)
     {
         Multiplayer.playerList.delete(uuid);
+    }
+
+    static attemptLogin(username: string, password: string)
+    {
+        Multiplayer.socket.emit('attempt-login', username, password);
     }
 }
 
