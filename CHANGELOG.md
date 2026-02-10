@@ -1,3 +1,11 @@
+## 0.10.0 Febuary 10, 2026
+- Added
+    - Logging in
+    - Minecraft font
+    - Level difficulty and creator
+- Fixed
+    - World 1 missing back portal
+
 ## 0.9.0 January 17, 2026
 - Added
     - You can see other players
