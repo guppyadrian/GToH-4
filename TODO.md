@@ -27,7 +27,7 @@
 - [ ] add methods to levels.ts (maybe turn it into a static class)
 - [ ] compare frame draw time to old GToH versions (GToH OG, Ancient, Expanded, Remastered)
 - [ ] when colliding, player only needs to check collision with that one block. Honestly, could just teleport to the edge of the block!
-
+- Note with above ^ wouldn't that mess with some stuff technically? other blocked touched while moving over
 
 
 
