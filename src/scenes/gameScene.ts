@@ -5,13 +5,15 @@ import { GetLevel, PromptPlayerLevel, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
+import { Multiplayer } from "../multiplayer.js";
+import { inLoginScreen, showLoginScreen } from "../account.js";
 
 export class GameState {
     static redActive = false;
     static currentLevel: number;
     static lobbyLevel: number;
     static lastLevel: number;
-    static inventory: any = {};
+    static inventory: Record<string, boolean | number> = {};
 
     static resetState() {
         GameState.redActive = false;
@@ -70,7 +72,7 @@ export class GameScene extends Scene {
 
         promises.push(Assets.load('textures/player.png', 'player'));
 
-        Assets.load("oisdg", 'hi');
+        Canvas.font = "MinecraftRegular";
 
         return Promise.all(promises).then(() => { }, () => {alert("failed to preload game! Maybe a texture is missing?")});
     }
@@ -92,6 +94,11 @@ export class GameScene extends Scene {
         this.futurePos = Vector2.zero;
 
         this.lastFrameTime = 0;
+
+        (window as any).fly = () => {
+            this.player.godMode = !this.player.godMode;
+            this.visualPlayer.godMode = this.player.godMode;
+        };
     }
 
     startLevel(levelData: Array<any>[]): void;
@@ -102,7 +109,7 @@ export class GameScene extends Scene {
         let lvl: LevelData;
         try {
             if (typeof level === 'number') {
-                lvl = GetLevel(level);
+                lvl = GetLevel(level)!;
                 levelID = level;
             } else if (Array.isArray(level)) {
                 lvl = {
@@ -132,6 +139,7 @@ export class GameScene extends Scene {
             console.error(error);
         }
 
+        
         Input.reset();
 
         // reset camera
@@ -142,6 +150,10 @@ export class GameScene extends Scene {
     }
 
     update() {
+        if (Input.justGet('login')) showLoginScreen();
+        if (inLoginScreen) return; // TODO: will this break stuff?
+
+
         this.physicsfps.tickStarted();
 
         // TODO: Check when color swap is done; beofre or after player update?
@@ -157,7 +169,7 @@ export class GameScene extends Scene {
             }
         }
 
-        if (Input.justGet("load-level")) {
+        if (Input.justGet("load-level")) { // TODO: this doesn't exist anymore
             const lvl = PromptPlayerLevel();
             if (lvl) this.startLevel(lvl);
         }
@@ -187,6 +199,10 @@ export class GameScene extends Scene {
 
         if (Input.justGet("options")) {
             Master.changeScene(new OptionsScene());
+        }
+
+        if (Multiplayer.started) { // TODO: rn this is sending 40 times a second
+            Multiplayer.sendPlayer(this.player);
         }
 
         this.physicsfps.tickEnded();
@@ -221,6 +237,13 @@ export class GameScene extends Scene {
             this.visualPlayer.draw();
         } else {
             this.player.draw();
+        }
+
+        // Draw other players
+        if (Multiplayer.started) {
+            Multiplayer.playerList.forEach(player => {
+                player.draw();
+            });
         }
         
 

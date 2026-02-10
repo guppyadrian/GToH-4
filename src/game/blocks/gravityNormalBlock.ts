@@ -1,4 +1,3 @@
-import type { Area } from "guppy-lib";
 import { Block } from "../blockModels/block";
 import type { Player } from "../player";
 

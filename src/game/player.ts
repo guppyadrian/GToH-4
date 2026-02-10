@@ -1,6 +1,6 @@
 import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
-import { GameState, type GameScene } from "../scenes/gameScene.js";
+import { GameScene, GameState } from "../scenes/gameScene.js";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
@@ -21,6 +21,7 @@ export class Player extends Sprite {
     nextLevel: number | undefined; // where to go next frame
     realPlayer: boolean; // whether or not player is the actual one. Controls changing lvls and stuff
     gravityMult: number;
+    godMode: boolean;
 
     // which way gravity is. Positive means falling down, negative falls up
     get gravityDir() {
@@ -39,12 +40,16 @@ export class Player extends Sprite {
         this.statuses = new Set<string>();
         this.realPlayer = real;
         this.gravityMult = 1;
+        this.godMode = false;
 
         this.vy = -3; // parity with original
     }
 
     update() {
-        this.physicsTick();
+        if (this.godMode)
+            this.flyMovement();
+        else
+            this.physicsTick();
     }
  
     getMovementVector() {
@@ -67,6 +72,18 @@ export class Player extends Sprite {
 
     hasStatus(status: string) {
         return this.statuses.has(status);
+    }
+
+    flyMovement() {
+        if (!this.realPlayer) return;
+        
+        const movementVector = this.getMovementVector();
+
+        this.x += movementVector.x * 10;
+        this.y += movementVector.y * 10;
+
+        this.vx = 0;
+        this.vy = 0;
     }
 
     physicsTick() {
@@ -101,13 +118,6 @@ export class Player extends Sprite {
         }
         if (Math.abs(this.vx) > PlayerSettings.speedHardcap) {
             this.vx = Math.sign(this.vx) * PlayerSettings.speedHardcap;
-        }
-
-        // Debug code, remove pls
-        if (this.y > Master.height) {
-            this.y = Master.height;
-            this.vy = 0;
-            this.canJump = true;
         }
 
         // some goofty ahh collision code
@@ -191,6 +201,11 @@ export class Player extends Sprite {
             }
         }
 
+        if (this.y > 1000)
+        {
+            this.nextLevel = GameState.currentLevel;
+        }
+
         // New level stuff
         if (this.realPlayer && this.nextLevel !== undefined) {
             (Master.currentScene as GameScene).startLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
@@ -245,3 +260,4 @@ export class Player extends Sprite {
         this.canJump = false;
     }
 }
+
