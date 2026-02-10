@@ -83,9 +83,9 @@ class Multiplayer
         }
     }
 
-    private static onPlayerJoin(uuid: UUID)
+    private static onPlayerJoin(uuid: UUID, username: string)
     {
-        Multiplayer.playerList.set(uuid, new OnlinePlayer(uuid));
+        Multiplayer.playerList.set(uuid, new OnlinePlayer(uuid, username));
     }
 
     private static onPlayerLeave(uuid: UUID)

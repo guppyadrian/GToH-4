@@ -1,6 +1,6 @@
 import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
-import { GameState, type GameScene } from "../scenes/gameScene.js";
+import { GameScene, GameState } from "../scenes/gameScene.js";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
@@ -120,13 +120,6 @@ export class Player extends Sprite {
             this.vx = Math.sign(this.vx) * PlayerSettings.speedHardcap;
         }
 
-        // Debug code, remove pls
-        if (this.y > Master.height) {
-            this.y = Master.height;
-            this.vy = 0;
-            this.canJump = true;
-        }
-
         // some goofty ahh collision code
         if (this.checkCollision()) {
             if (this.vy * this.gravityMult > 0 || this.hasStatus('mud')) { // if falling
@@ -206,6 +199,11 @@ export class Player extends Sprite {
             {
                 this.jump();
             }
+        }
+
+        if (this.y > 1000)
+        {
+            this.nextLevel = GameState.currentLevel;
         }
 
         // New level stuff

@@ -71,7 +71,7 @@ export class GameScene extends Scene {
 
         promises.push(Assets.load('textures/player.png', 'player'));
 
-        Assets.load("oisdg", 'hi');
+        Canvas.font = "MinecraftRegular";
 
         return Promise.all(promises).then(() => { }, () => {alert("failed to preload game! Maybe a texture is missing?")});
     }
@@ -108,7 +108,7 @@ export class GameScene extends Scene {
         let lvl: LevelData;
         try {
             if (typeof level === 'number') {
-                lvl = GetLevel(level);
+                lvl = GetLevel(level)!;
                 levelID = level;
             } else if (Array.isArray(level)) {
                 lvl = {

@@ -6,6 +6,8 @@ import { GetLevel } from "../levels";
 export class PortalBlock extends StatusBlock {
     nextLevel;
     levelName;
+    levelDifficulty;
+    levelCreator;
 
     constructor(x: number, y: number, w: number, h: number, tags: number[]) { // TODO: figure out how to make tags convert from old
         super (x, y, w, h, 'portal');
@@ -13,11 +15,18 @@ export class PortalBlock extends StatusBlock {
         this.texture = 'green-portal'
 
         this.nextLevel = tags[0];
-        try {
-            this.levelName = GetLevel(tags[0]).about!.name; // TODO: be safe. Remove the exclamation mark!!!! (edit: it's in a try catch I don't need to be safe)
+        const level = GetLevel(tags[0])?.about;
+        if (level)
+        {
+            this.levelName = level.name || '';
+            this.levelDifficulty = level.diff || '';
+            this.levelCreator = level.create ? 'By ' + level.create : '';
         }
-        catch {
+        else
+        {
             this.levelName = "ERROR";
+            this.levelCreator = "";
+            this.levelDifficulty = "";
         }
     }
 
@@ -32,6 +41,8 @@ export class PortalBlock extends StatusBlock {
     draw() {
         super.draw();
 
-        Canvas.drawText(this.levelName, this.center.x, this.center.y - 30, 10);
+        Canvas.drawText(this.levelName, this.center.x, this.center.y - 35, 8);
+        Canvas.drawText(this.levelDifficulty, this.center.x, this.center.y - 10, 16);
+        Canvas.drawText(this.levelCreator, this.center.x, this.center.y - 50, 8);
     }
 }

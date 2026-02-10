@@ -6,6 +6,10 @@
 - Add metal colored blocks???
 - Grass block
 - do water...
+- Add a menu for logging in
+- Show player names
+- Add best times
+- Add world records
 
 ## Multiplayer
 - multiplayer.ts should just be for handling connections?
@@ -23,3 +27,19 @@
 - [ ] add methods to levels.ts (maybe turn it into a static class)
 - [ ] compare frame draw time to old GToH versions (GToH OG, Ancient, Expanded, Remastered)
 - [ ] when colliding, player only needs to check collision with that one block. Honestly, could just teleport to the edge of the block!
+
+
+
+
+## Redesign
+Maybe multiplayer should be separated from the rest of the game and just watches.
+It calls functions in the game to create and modify entities
+
+### Rework guppy-lib
+What do I want exposed with guppy-lib?
+especially with an ECS how is drawing best done?
+- I want a scene object. data should transfer between scenes
+
+### Entity component system
+Should swap to entity component system? or at least use components for blocks
+Entity store exists
