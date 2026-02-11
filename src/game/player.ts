@@ -1,6 +1,7 @@
-import { Assets, Input, Master, Sprite, Vector2 } from "guppy-lib";
+import { Assets, Canvas, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
 import { GameScene, GameState } from "../scenes/gameScene.js";
+import { Multiplayer } from "../multiplayer.js";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
@@ -258,6 +259,12 @@ export class Player extends Sprite {
     jump() {
         this.vy = -PlayerSettings.jumpStrength * this.gravityDir;
         this.canJump = false;
+    }
+
+    draw(): void {
+        super.draw();
+        
+        Canvas.drawText(Multiplayer.username, this.center.x, this.center.y - 20, 12);
     }
 }
 

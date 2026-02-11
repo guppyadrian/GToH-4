@@ -1,3 +1,12 @@
+## 0.11.0 GOALS:
+- Add registering users
+- Add storing progress locally
+- Add server broadcast messages
+
+## 0.11.0 February 11, 2026
+- Added
+    - Usernames shown
+
 ## 0.10.0 Febuary 10, 2026
 - Added
     - Logging in

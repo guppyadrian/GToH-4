@@ -2,7 +2,7 @@ import { io, Socket } from "socket.io-client";
 import { OnlinePlayer } from "./game/multiplayer/onlinePlayer";
 import type { Player } from "./game/player";
 import { GameState } from "./scenes/gameScene";
-import { setLoginStatus } from "./account";
+import { requestedUsername, setLoginStatus } from "./account";
 
 type UUID = string;
 
@@ -19,6 +19,7 @@ class Multiplayer
     static socket: Socket;
     static playerList: Map<UUID, OnlinePlayer> = new Map();
     static _uuid: UUID;
+    static username = 'Guest';
 
     static get uuid() {
         return this._uuid;
@@ -63,6 +64,7 @@ class Multiplayer
         Multiplayer.socket.on('login-result', (success, message) => {
             if (success) {
                 Multiplayer.uuid = message;
+                Multiplayer.username = requestedUsername;
                 setLoginStatus("Successfully logged in! You can go back to the game now");
             } else {
                 setLoginStatus(message);

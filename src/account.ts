@@ -4,6 +4,7 @@ import { Multiplayer } from "./multiplayer";
 // i guess this isn't a static class
 
 export let inLoginScreen = false;
+export let requestedUsername = "ERR";
 
 const loginStatusElement = document.getElementById('login-status')!;
 export function setLoginStatus(text: string) {
@@ -26,6 +27,8 @@ export function hideLoginScreen() {
 export function attemptLogin() {
     const username = (document.getElementById('username-input') as HTMLInputElement).value;
     const password = (document.getElementById('password-input') as HTMLInputElement).value;
+
+    requestedUsername = username;
 
     if (!username || !password)
     {
