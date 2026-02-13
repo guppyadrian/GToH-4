@@ -8,6 +8,7 @@ import { Options } from "../game/options.js";
 import { Multiplayer } from "../multiplayer.js";
 import { inLoginScreen, showLoginScreen } from "../account.js";
 import { runCommand } from "../game/commands.js";
+import { ChatSystem } from "../game/chat.js";
 
 export class GameState {
     static redActive = false;
@@ -37,6 +38,9 @@ export class GameScene extends Scene {
     visualPlayer;
     futurePos;
     lastFrameTime;
+
+    // systems
+    chat;
 
     static preload(): Promise<void> {
 
@@ -96,10 +100,7 @@ export class GameScene extends Scene {
 
         this.lastFrameTime = 0;
 
-        (window as any).fly = () => {
-            this.player.godMode = !this.player.godMode;
-            this.visualPlayer.godMode = this.player.godMode;
-        };
+        this.chat = new ChatSystem();
     }
 
     startLevel(levelData: Array<any>[]): void;
@@ -158,7 +159,7 @@ export class GameScene extends Scene {
             const p = prompt("enter message or command");
             if (p != null && p != '') {
                 if (p[0] === '/') runCommand(p.substring(1, p.length));
-                else console.log("message sent");
+                else this.chat.sendMessage(p);
             } 
         }
 
@@ -254,6 +255,7 @@ export class GameScene extends Scene {
             });
         }
         
+        this.chat.draw();
 
         this.drawfps.tickEnded();
 

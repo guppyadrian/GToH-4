@@ -9,9 +9,10 @@ for (let i = -100; i < lvlData.length; i++) {
     const output = { id: i, ...level };
     const fileName = `${String(i).padStart(2, '0')}${level.about.name.replace(/ +/g, "")}.json5`;
     fs.writeFileSync('levels/' + fileName, stringifyTopLevelOnly(output));
-    console.log(`✅ Saved ${fileName}`);
+    console.log(`Saved ${fileName}`);
 }
 
+// this all ai btw
 function stringifyTopLevelOnly(obj) {
   let result = '{\n';
   const entries = Object.entries(obj);

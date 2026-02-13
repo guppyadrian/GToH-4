@@ -1,12 +1,9 @@
-## 0.11.0 GOALS:
-- Add storing progress locally
-- Add server broadcast messages
-
 ## 0.11.0 February 13, 2026
 - Added
     - Usernames shown
     - Registering
     - `/god` command
+    - Chatting
 
 ## 0.10.0 Febuary 10, 2026
 - Added
