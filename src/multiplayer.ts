@@ -116,9 +116,9 @@ class Multiplayer
         Multiplayer.playerList.delete(uuid);
     }
 
-    static attemptLogin(username: string, password: string)
+    static attemptLogin(username: string, password: string, registering = false)
     {
-        Multiplayer.socket.emit('attempt-login', username, password);
+        Multiplayer.socket.emit(registering ? 'attempt-register' : 'attempt-login', username, password);
     }
 }
 

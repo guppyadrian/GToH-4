@@ -7,6 +7,7 @@ import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
 import { Multiplayer } from "../multiplayer.js";
 import { inLoginScreen, showLoginScreen } from "../account.js";
+import { runCommand } from "../game/commands.js";
 
 export class GameState {
     static redActive = false;
@@ -153,6 +154,13 @@ export class GameScene extends Scene {
         if (Input.justGet('login')) showLoginScreen();
         if (inLoginScreen) return; // TODO: will this break stuff?
 
+        if (Input.justGet('chat')) {
+            const p = prompt("enter message or command");
+            if (p != null && p != '') {
+                if (p[0] === '/') runCommand(p.substring(1, p.length));
+                else console.log("message sent");
+            } 
+        }
 
         this.physicsfps.tickStarted();
 

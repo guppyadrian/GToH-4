@@ -14,6 +14,7 @@ Input.addBind('down', ['KeyS', 'ArrowDown']);
 Input.addBind('exit', ['KeyR']);
 Input.addBind('options', ['KeyO']);
 Input.addBind('login', ['KeyL']);
+Input.addBind('chat', ['KeyT']);
 
 // instead of master we testing webgl
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);
