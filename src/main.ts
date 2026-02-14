@@ -20,7 +20,6 @@ Input.addBind('chat', ['KeyT']);
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);
 
 Multiplayer.start('localhost:3000');
-
 // Set up MASTER
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
 

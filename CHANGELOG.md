@@ -4,6 +4,7 @@
     - Registering
     - `/god` command
     - Chatting
+    - `/ip` command
 
 ## 0.10.0 Febuary 10, 2026
 - Added

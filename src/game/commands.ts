@@ -1,5 +1,6 @@
 import { Master } from "guppy-lib";
 import type { GameScene } from "../scenes/gameScene";
+import { Multiplayer } from "../multiplayer";
 
 type commandArg = 'string' | 'number'; // TODO: make a server command class that sends cmd to the server
 
@@ -34,11 +35,19 @@ export function runCommand(msg: string) {
     const args = msg.split(' ');
     const cmd = args.shift();
 
+    const scene = Master.currentScene as GameScene;
+
     switch (cmd) {
         case 'god':
-            const scene = Master.currentScene as GameScene;
             scene.player.godMode = !scene.player.godMode;
             scene.visualPlayer.godMode = !scene.visualPlayer.godMode; 
+            break;
+        case 'ip':
+            Multiplayer.restart(args[0]).then(() => {
+                Multiplayer.ready();
+            }).catch(() => {
+                Multiplayer.chatSystem.addMessageToLog("[System]", "Could not connect to server!");
+            });
             break;
     }
 }

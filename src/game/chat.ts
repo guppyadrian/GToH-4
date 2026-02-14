@@ -15,9 +15,7 @@ export class ChatSystem {
     }
     
     constructor() {
-        Multiplayer.socket.on('send-message', (author: string, text: string) => { // TODO: if scene gets reloaded how does this work?
-            this.addMessageToLog(author, text);
-        });
+        Multiplayer.chatSystem = this;
     }
 
     draw() {

@@ -101,6 +101,8 @@ export class GameScene extends Scene {
         this.lastFrameTime = 0;
 
         this.chat = new ChatSystem();
+
+        Multiplayer.ready();
     }
 
     startLevel(levelData: Array<any>[]): void;

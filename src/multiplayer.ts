@@ -3,7 +3,7 @@ import { OnlinePlayer } from "./game/multiplayer/onlinePlayer";
 import type { Player } from "./game/player";
 import { GameState } from "./scenes/gameScene";
 import { requestedUsername, setLoginStatus } from "./account";
-
+import type { ChatSystem } from "./game/chat";
 type UUID = string;
 
 type PlayerPacket =
@@ -18,8 +18,18 @@ class Multiplayer
     static started = false;
     static socket: Socket;
     static playerList: Map<UUID, OnlinePlayer> = new Map();
-    static _uuid: UUID;
+    private static _uuid: UUID;
     static username = 'Guest';
+    private static _chatSystem: ChatSystem;
+
+    static get chatSystem() {
+        return this._chatSystem;
+    }
+
+    static set chatSystem(val) {
+        
+        this._chatSystem = val;
+    }
 
     static get uuid() {
         return this._uuid;
@@ -34,6 +44,18 @@ class Multiplayer
     {
         if (!Multiplayer.started) return false;
         return Multiplayer.socket.connected;
+    }
+
+    static restart(serverIP: string)
+    {
+        Multiplayer.socket.disconnect();
+        Multiplayer.started = false;
+        Multiplayer.start(serverIP);
+
+        return new Promise<void>((resolve, reject) => {
+            Multiplayer.socket.once('connect', () => { resolve() });
+            Multiplayer.socket.once('connect_error', () => { reject( )});
+        })
     }
 
     static start(serverIP: string)
@@ -70,6 +92,10 @@ class Multiplayer
                 setLoginStatus(message);
             }
             // TODO: also send over username
+        });
+
+        Multiplayer.socket.on('send-message', (author: string, text: string) => { // TODO: if scene gets reloaded how does this work?
+            this.chatSystem.addMessageToLog(author, text);
         });
 
         Multiplayer.started = true;
@@ -119,6 +145,11 @@ class Multiplayer
     static attemptLogin(username: string, password: string, registering = false)
     {
         Multiplayer.socket.emit(registering ? 'attempt-register' : 'attempt-login', username, password);
+    }
+
+    static ready()
+    {
+        Multiplayer.socket.emit('player-ready');
     }
 }
 
