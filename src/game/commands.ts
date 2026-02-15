@@ -43,11 +43,26 @@ export function runCommand(msg: string) {
             scene.visualPlayer.godMode = !scene.visualPlayer.godMode; 
             break;
         case 'ip':
-            Multiplayer.restart(args[0]).then(() => {
+            let ipAddr = 'http://' + args[0]; // TODO: add http:// automatically ONLY if its missing
+            Multiplayer.restart(ipAddr).then(() => {
                 Multiplayer.ready();
             }).catch(() => {
                 Multiplayer.chatSystem.addMessageToLog("[System]", "Could not connect to server!");
             });
+            break;
+        case 'ban':
+            if (!args[0]) {
+                Multiplayer.chatSystem.addMessageToLog("[Notice]", "You must enter a username!");
+                break;
+            }
+            Multiplayer.socket.emit('ban', args[0]);
+            break;
+        case 'unban':
+            if (!args[0]) {
+                Multiplayer.chatSystem.addMessageToLog("[Notice]", "You must enter a username!");
+                break;
+            }
+            Multiplayer.socket.emit('pardon', args[0]);
             break;
     }
 }
