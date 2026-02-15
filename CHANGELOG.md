@@ -1,3 +1,7 @@
+## 0.12.2 February 15, 2026
+- Changed
+    - socket.io forces uses websocket
+
 ## 0.12.1 February 15, 2026
 - Changed
     - `/ip` command now auto adds `http://`

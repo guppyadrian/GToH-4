@@ -63,7 +63,8 @@ class Multiplayer
         if (Multiplayer.started) return false;
 
         Multiplayer.socket = io(serverIP, {
-            reconnectionAttempts: 2
+            reconnectionAttempts: 2,
+            transports: ["websocket"]
         });
 
         Multiplayer.socket.on("connect", this.onConnection);
