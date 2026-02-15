@@ -43,7 +43,9 @@ export function runCommand(msg: string) {
             scene.visualPlayer.godMode = !scene.visualPlayer.godMode; 
             break;
         case 'ip':
-            let ipAddr = 'http://' + args[0]; // TODO: add http:// automatically ONLY if its missing
+            let ipAddr = args[0]; // TODO: add http:// automatically ONLY if its missing
+            if (ipAddr.substring(0, 8) !== 'https://' && ipAddr.substring(0, 7) !== 'http://') ipAddr = 'https://' + ipAddr;
+            console.log('connecting to', ipAddr);
             Multiplayer.restart(ipAddr).then(() => {
                 Multiplayer.ready();
             }).catch(() => {
