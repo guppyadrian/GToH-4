@@ -1,3 +1,6 @@
+## 0.12.0 February 15, 2026
+- Added stuff ill add later
+
 ## 0.11.0 February 13, 2026
 - Added
     - Usernames shown

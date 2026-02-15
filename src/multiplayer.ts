@@ -2,7 +2,7 @@ import { io, Socket } from "socket.io-client";
 import { OnlinePlayer } from "./game/multiplayer/onlinePlayer";
 import type { Player } from "./game/player";
 import { GameState } from "./scenes/gameScene";
-import { requestedUsername, setLoginStatus } from "./account";
+import { attemptAutoLogin, requestedPassword, requestedUsername, setLoginStatus } from "./account";
 import type { ChatSystem } from "./game/chat";
 type UUID = string;
 
@@ -88,6 +88,8 @@ class Multiplayer
                 Multiplayer.uuid = message;
                 Multiplayer.username = requestedUsername;
                 setLoginStatus("Successfully logged in! You can go back to the game now");
+                localStorage.setItem('gtoh-password', requestedPassword);
+                localStorage.setItem('gtoh-username', requestedUsername);
             } else {
                 setLoginStatus(message);
             }
@@ -105,7 +107,13 @@ class Multiplayer
 
     private static onConnection()
     {
+        Multiplayer.username = 'Guest';
+        Multiplayer.playerList.clear();
         console.log("connected to server!");
+        const username = localStorage.getItem('gtoh-username');
+        const password = localStorage.getItem('gtoh-password');
+        if (!username || !password) return;
+        attemptAutoLogin(username, password);
     }
 
     static sendPlayer(player: Player)

@@ -6,6 +6,7 @@ import { Multiplayer } from "./multiplayer";
 export let inLoginScreen = false;
 export let requestedUsername = "ERR";
 let isRegistering = false; // if registering or logging in
+export let requestedPassword = "";
 
 const loginStatusElement = document.getElementById('login-status')!;
 const loginButton = document.getElementById('login-button')!;
@@ -29,12 +30,19 @@ export function hideLoginScreen() {
     Input.reset();
 }
 
+export function attemptAutoLogin(username: string, password: string) {
+    requestedPassword = password;
+    requestedUsername = username;
+    Multiplayer.attemptLogin(username, password, false);
+}
+
 export function attemptLogin() {
     const username = (document.getElementById('username-input') as HTMLInputElement).value;
     const password = (document.getElementById('password-input') as HTMLInputElement).value;
     const confirmPassword = (document.getElementById('password-confirm-input') as HTMLInputElement).value;
 
     requestedUsername = username;
+    requestedPassword = password;
 
     if (!Multiplayer.connected) {
         setLoginStatus("Not connected to server! Can't log in!");

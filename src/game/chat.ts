@@ -1,4 +1,4 @@
-import { Canvas } from "guppy-lib";
+import { Canvas, Input } from "guppy-lib";
 import { Multiplayer } from "../multiplayer";
 
 interface ChatMessage {
@@ -20,11 +20,12 @@ export class ChatSystem {
 
     draw() {
         const time = Date.now();
+        const pressingTab = Input.get('show-chat');
         Canvas.ctx.textAlign = 'left';
         Canvas.ctx.font = '20px MinecraftRegular';
         for (let i = 0; i < this.chatlog.length; i++) {
             const msg = this.chatlog[i];
-            if (time - msg.timeSent > 10 * 1000) break; // don't send messages after 10 seconds.
+            if (!pressingTab && time - msg.timeSent > 10 * 1000) break; // don't send messages after 10 seconds.
             Canvas.ctx.fillText(`${msg.author}: ${msg.text}`, 10, Canvas.height - 40 - 24 * i);
         } 
         Canvas.ctx.textAlign = 'center';

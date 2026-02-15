@@ -14,12 +14,15 @@ Input.addBind('down', ['KeyS', 'ArrowDown']);
 Input.addBind('exit', ['KeyR']);
 Input.addBind('options', ['KeyO']);
 Input.addBind('login', ['KeyL']);
-Input.addBind('chat', ['KeyT']);
+Input.addBind('chat', ['KeyT', 'Slash']);
+Input.addBind('show-chat', ['Tab']);
+
+window.addEventListener('keydown', e => {if (e.code === "Tab") e.preventDefault()})
 
 // instead of master we testing webgl
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);
 
-Multiplayer.start('localhost:3000');
+Multiplayer.start('http://superguppysite.org');
 // Set up MASTER
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
 

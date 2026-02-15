@@ -263,20 +263,23 @@ export class GameScene extends Scene {
 
         // debug
         Canvas.setFillStyle('black');
-        Canvas.ctx.font = '10px Arial';
-        Canvas.ctx.fillText("Physics FPS: " + this.physicsfps.fps.toString(), 40, 10);
-        Canvas.ctx.fillText("Physics idle: " + this.physicsfps.idleTime.toString(), 40, 30);
-        Canvas.ctx.fillText("Physics tick: " + this.physicsfps.tickTime.toString(), 40, 50);
+        // Canvas.ctx.font = '10px Arial';
+        // Canvas.ctx.fillText("Physics FPS: " + this.physicsfps.fps.toString(), 40, 10);
+        // Canvas.ctx.fillText("Physics idle: " + this.physicsfps.idleTime.toString(), 40, 30);
+        // Canvas.ctx.fillText("Physics tick: " + this.physicsfps.tickTime.toString(), 40, 50);
 
-        Canvas.ctx.fillText("Draw FPS: " + this.drawfps.fps.toString(), 120, 10);
-        Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
-        Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
+        // Canvas.ctx.fillText("Draw FPS: " + this.drawfps.fps.toString(), 120, 10);
+        // Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
+        // Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
 
-        Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
-        Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
+        // Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
+        // Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
 
-        Canvas.ctx.font = '15px Arial';
-        Canvas.ctx.fillText("Press O for options", 80, 90);
+        Canvas.ctx.font = '20px Arial';
+        Canvas.ctx.textAlign = 'left';
+        Canvas.ctx.fillText("Press O for options", 10, 40);
+        Canvas.ctx.fillText(Multiplayer.connected ? "Connected to server" : "Disconnected from server!", 10, 15);
+        Canvas.ctx.textAlign = 'center';
     }
 }
 
