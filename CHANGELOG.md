@@ -1,3 +1,7 @@
+## 0.12.1 February 15, 2026
+- Changed
+    - `/ip` command now auto adds `http://`
+
 ## 0.12.0 February 15, 2026
 - Added
     - `/ban` and `/unban`
