@@ -1,5 +1,9 @@
 ## 0.12.0 February 15, 2026
-- Added stuff ill add later
+- Added
+    - `/ban` and `/unban`
+    - Tab to show chat history
+    - Saving login info
+    - Show connection status at top left
 
 ## 0.11.0 February 13, 2026
 - Added
