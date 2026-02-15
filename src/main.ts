@@ -22,7 +22,7 @@ window.addEventListener('keydown', e => {if (e.code === "Tab") e.preventDefault(
 // instead of master we testing webgl
 //GL.initialize(document.getElementById("game-canvas") as HTMLCanvasElement);
 
-Multiplayer.start('http://superguppysite.org');
+Multiplayer.start('https://superguppysite.org');
 // Set up MASTER
 Master.initialize(document.getElementById("game-canvas") as HTMLCanvasElement, 40);
 
