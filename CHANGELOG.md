@@ -1,3 +1,14 @@
+## 0.12.0 February 15, 2026
+- Added stuff ill add later
+
+## 0.11.0 February 13, 2026
+- Added
+    - Usernames shown
+    - Registering
+    - `/god` command
+    - Chatting
+    - `/ip` command
+
 ## 0.10.0 Febuary 10, 2026
 - Added
     - Logging in

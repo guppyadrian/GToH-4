@@ -6,6 +6,7 @@ export default defineConfig({
 	plugins: [viteSingleFile(), json5Plugin()],
 	base: '/GToH-4/',
 	server: {
-		host: true
+		host: true,
+		allowedHosts: ['superguppysite.org']
 	}
 })

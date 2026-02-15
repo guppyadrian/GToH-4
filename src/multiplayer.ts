@@ -2,8 +2,8 @@ import { io, Socket } from "socket.io-client";
 import { OnlinePlayer } from "./game/multiplayer/onlinePlayer";
 import type { Player } from "./game/player";
 import { GameState } from "./scenes/gameScene";
-import { setLoginStatus } from "./account";
-
+import { attemptAutoLogin, requestedPassword, requestedUsername, setLoginStatus } from "./account";
+import type { ChatSystem } from "./game/chat";
 type UUID = string;
 
 type PlayerPacket =
@@ -18,7 +18,18 @@ class Multiplayer
     static started = false;
     static socket: Socket;
     static playerList: Map<UUID, OnlinePlayer> = new Map();
-    static _uuid: UUID;
+    private static _uuid: UUID;
+    static username = 'Guest';
+    private static _chatSystem: ChatSystem;
+
+    static get chatSystem() {
+        return this._chatSystem;
+    }
+
+    static set chatSystem(val) {
+        
+        this._chatSystem = val;
+    }
 
     static get uuid() {
         return this._uuid;
@@ -33,6 +44,18 @@ class Multiplayer
     {
         if (!Multiplayer.started) return false;
         return Multiplayer.socket.connected;
+    }
+
+    static restart(serverIP: string)
+    {
+        Multiplayer.socket.disconnect();
+        Multiplayer.started = false;
+        Multiplayer.start(serverIP);
+
+        return new Promise<void>((resolve, reject) => {
+            Multiplayer.socket.once('connect', () => { resolve() });
+            Multiplayer.socket.once('connect_error', () => { reject( )});
+        })
     }
 
     static start(serverIP: string)
@@ -63,11 +86,18 @@ class Multiplayer
         Multiplayer.socket.on('login-result', (success, message) => {
             if (success) {
                 Multiplayer.uuid = message;
+                Multiplayer.username = requestedUsername;
                 setLoginStatus("Successfully logged in! You can go back to the game now");
+                localStorage.setItem('gtoh-password', requestedPassword);
+                localStorage.setItem('gtoh-username', requestedUsername);
             } else {
                 setLoginStatus(message);
             }
             // TODO: also send over username
+        });
+
+        Multiplayer.socket.on('send-message', (author: string, text: string) => { // TODO: if scene gets reloaded how does this work?
+            this.chatSystem.addMessageToLog(author, text);
         });
 
         Multiplayer.started = true;
@@ -77,7 +107,13 @@ class Multiplayer
 
     private static onConnection()
     {
+        Multiplayer.username = 'Guest';
+        Multiplayer.playerList.clear();
         console.log("connected to server!");
+        const username = localStorage.getItem('gtoh-username');
+        const password = localStorage.getItem('gtoh-password');
+        if (!username || !password) return;
+        attemptAutoLogin(username, password);
     }
 
     static sendPlayer(player: Player)
@@ -114,9 +150,14 @@ class Multiplayer
         Multiplayer.playerList.delete(uuid);
     }
 
-    static attemptLogin(username: string, password: string)
+    static attemptLogin(username: string, password: string, registering = false)
     {
-        Multiplayer.socket.emit('attempt-login', username, password);
+        Multiplayer.socket.emit(registering ? 'attempt-register' : 'attempt-login', username, password);
+    }
+
+    static ready()
+    {
+        Multiplayer.socket.emit('player-ready');
     }
 }
 

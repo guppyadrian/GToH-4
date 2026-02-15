@@ -7,6 +7,8 @@ import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
 import { Multiplayer } from "../multiplayer.js";
 import { inLoginScreen, showLoginScreen } from "../account.js";
+import { runCommand } from "../game/commands.js";
+import { ChatSystem } from "../game/chat.js";
 
 export class GameState {
     static redActive = false;
@@ -36,6 +38,9 @@ export class GameScene extends Scene {
     visualPlayer;
     futurePos;
     lastFrameTime;
+
+    // systems
+    chat;
 
     static preload(): Promise<void> {
 
@@ -95,10 +100,9 @@ export class GameScene extends Scene {
 
         this.lastFrameTime = 0;
 
-        (window as any).fly = () => {
-            this.player.godMode = !this.player.godMode;
-            this.visualPlayer.godMode = this.player.godMode;
-        };
+        this.chat = new ChatSystem();
+
+        Multiplayer.ready();
     }
 
     startLevel(levelData: Array<any>[]): void;
@@ -153,6 +157,13 @@ export class GameScene extends Scene {
         if (Input.justGet('login')) showLoginScreen();
         if (inLoginScreen) return; // TODO: will this break stuff?
 
+        if (Input.justGet('chat')) {
+            const p = prompt("enter message or command");
+            if (p != null && p != '') {
+                if (p[0] === '/') runCommand(p.substring(1, p.length));
+                else this.chat.sendMessage(p);
+            } 
+        }
 
         this.physicsfps.tickStarted();
 
@@ -246,25 +257,29 @@ export class GameScene extends Scene {
             });
         }
         
+        this.chat.draw();
 
         this.drawfps.tickEnded();
 
         // debug
         Canvas.setFillStyle('black');
-        Canvas.ctx.font = '10px Arial';
-        Canvas.ctx.fillText("Physics FPS: " + this.physicsfps.fps.toString(), 40, 10);
-        Canvas.ctx.fillText("Physics idle: " + this.physicsfps.idleTime.toString(), 40, 30);
-        Canvas.ctx.fillText("Physics tick: " + this.physicsfps.tickTime.toString(), 40, 50);
+        // Canvas.ctx.font = '10px Arial';
+        // Canvas.ctx.fillText("Physics FPS: " + this.physicsfps.fps.toString(), 40, 10);
+        // Canvas.ctx.fillText("Physics idle: " + this.physicsfps.idleTime.toString(), 40, 30);
+        // Canvas.ctx.fillText("Physics tick: " + this.physicsfps.tickTime.toString(), 40, 50);
 
-        Canvas.ctx.fillText("Draw FPS: " + this.drawfps.fps.toString(), 120, 10);
-        Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
-        Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
+        // Canvas.ctx.fillText("Draw FPS: " + this.drawfps.fps.toString(), 120, 10);
+        // Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
+        // Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
 
-        Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
-        Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
+        // Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
+        // Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
 
-        Canvas.ctx.font = '15px Arial';
-        Canvas.ctx.fillText("Press O for options", 80, 90);
+        Canvas.ctx.font = '20px Arial';
+        Canvas.ctx.textAlign = 'left';
+        Canvas.ctx.fillText("Press O for options", 10, 40);
+        Canvas.ctx.fillText(Multiplayer.connected ? "Connected to server" : "Disconnected from server!", 10, 15);
+        Canvas.ctx.textAlign = 'center';
     }
 }
 
