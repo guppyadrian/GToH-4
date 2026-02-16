@@ -40,7 +40,8 @@ export function runCommand(msg: string) {
     switch (cmd) {
         case 'god':
             scene.player.godMode = !scene.player.godMode;
-            scene.visualPlayer.godMode = !scene.visualPlayer.godMode; 
+            scene.visualPlayer.godMode = !scene.visualPlayer.godMode;
+            scene.cheatsEnabled = true;
             break;
         case 'ip':
             let ipAddr = args[0]; // TODO: add http:// automatically ONLY if its missing

@@ -5,10 +5,12 @@
     - AFK notice for players
 - Changed
     - No longer gives up reconnecting after 2 failed attempts
+    - Padded chat and playerlist, they are less cluttered now. This also means chat now only stores 28 most recent messages
 - Fixed
     - Spectating someone who is spectating another person
     - usernames in `/spectate` being case sensitive
     - When spectating a player when you already spectating, notify original player that you stopped spectating them
+    - Records sent when cheating
 
 ## 0.14.0 February 15, 2026
 - Added

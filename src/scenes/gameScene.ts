@@ -36,6 +36,7 @@ export class GameScene extends Scene {
     player;
     drawfps;
     physicsfps;
+    cheatsEnabled;
 
     // linear interpolation
     visualPlayer;
@@ -104,7 +105,7 @@ export class GameScene extends Scene {
         Camera.z = 2;  //Canvas.width / 700;
 
         this.futurePos = Vector2.zero;
-
+        this.cheatsEnabled = false;
         this.lastFrameTime = 0;
         this.chat = new ChatSystem();
 
@@ -127,10 +128,14 @@ export class GameScene extends Scene {
     }
 
     winLevel(nextLevel: number) {
-        const levelName = GetLevel(GameState.currentLevel)?.about?.name;
-        if (levelName)
-            Multiplayer.alert(`${levelName} beaten in ${GameState.timer / 40} seconds`);
-        Multiplayer.uploadLevelTime(GameState.currentLevel, GameState.timer);
+        if (this.cheatsEnabled) {
+            Multiplayer.alert('Cheats enabled.');
+        } else {
+            const levelName = GetLevel(GameState.currentLevel)?.about?.name;
+            if (levelName)
+                Multiplayer.alert(`${levelName} beaten in ${GameState.timer / 40} seconds`);
+            Multiplayer.uploadLevelTime(GameState.currentLevel, GameState.timer);
+        }
         this.startLevel(nextLevel);
     }
 

@@ -80,11 +80,12 @@ export class Player extends Sprite {
 
     flyMovement() {
         if (!this.realPlayer) return;
+        const speed = 10;
         
         const movementVector = this.getMovementVector();
 
-        this.x += movementVector.x * 10;
-        this.y += movementVector.y * 10;
+        this.x += movementVector.x * speed;
+        this.y += movementVector.y * speed;
 
         this.vx = 0;
         this.vy = 0;
