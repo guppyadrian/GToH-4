@@ -1,19 +1,22 @@
 ## 0.15.0 February 16, 2026
 - Added
     - Start and stop spectating messages for people being spectated
-    - Notice on how to stop spectating
-    - AFK notice for players
+    - Instructions on how to stop spectating
+    - `(AFK)` tag next to name in playerlist for players who don't have the tab focused
     - version checking with server
+    - Server stores level records
+    - `/tp <player>` command
 - Changed
-    - No longer gives up reconnecting after 2 failed attempts
+    - No longer gives up reconnecting after 2 failed attempts. This means you no longer need to refresh the game to reconnect to the server
     - Padded chat and playerlist, they are less cluttered now. This also means chat now only stores 28 most recent messages
 - Fixed
     - Spectating someone who is spectating another person
     - usernames in `/spectate` being case sensitive
-    - When spectating a player when you already spectating, notify original player that you stopped spectating them
-    - Records sent when cheating
+    - Records being sent when cheating
     - Stuttering when high fps is disabled
     - Chat messages being sent multiple times when `GameScene` gets reloaded
+    - Game sending win message after touching win block and death block at the same time
+    - Level creator portal bricking your game
 
 ## 0.14.0 February 15, 2026
 - Added

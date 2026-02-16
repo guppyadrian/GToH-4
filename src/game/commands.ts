@@ -86,5 +86,26 @@ export function runCommand(msg: string) {
             if (GameState.spectating) Multiplayer.socket.emit('spectating', Multiplayer.getPlayer(GameState.spectating), false);
             GameState.spectating = args[0];
             break;
+        case 'teleport':
+        case 'tp':
+            if (!args[0]) {
+                Multiplayer.alert('You must specify someone to teleport to!');
+                break;
+            }
+            if (args[0].toLowerCase() === Multiplayer.username.toLowerCase()) {
+                break;
+            }
+            const playerTP = Multiplayer.getPlayer(args[0]) // TODO: move this player validation to own code
+            if (!playerTP) {
+                Multiplayer.alert('Player is not online!');
+                break;
+            }
+            scene.startLevel(playerTP.level);
+            scene.cheatsEnabled = true;
+            scene.player.x = playerTP.x;
+            scene.player.y = playerTP.y;
+            break;
+        default:
+            Multiplayer.alert("Unknown command");
     }
 }
