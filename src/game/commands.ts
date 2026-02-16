@@ -82,6 +82,7 @@ export function runCommand(msg: string) {
             }
             Multiplayer.alert("press ESCAPE to stop spectating");
             Multiplayer.socket.emit('spectating', player.uuid, true);
+            if (GameState.spectating) Multiplayer.socket.emit('spectating', Multiplayer.getPlayer(GameState.spectating), false);
             GameState.spectating = args[0];
             break;
     }
