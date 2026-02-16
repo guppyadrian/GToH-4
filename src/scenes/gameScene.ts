@@ -1,4 +1,4 @@
-import { Assets, Camera, Canvas, Input, Master, Scene, Vector2 } from "guppy-lib";
+import { Assets, Camera, Canvas, Input, Master, Scene, Sprite, Vector2 } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
 import { GetLevel, PromptPlayerLevel, type LevelData } from "../game/levels.js";
@@ -7,19 +7,22 @@ import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
 import { Multiplayer } from "../multiplayer.js";
 import { inLoginScreen, showLoginScreen } from "../account.js";
-import { runCommand } from "../game/commands.js";
 import { ChatSystem } from "../game/chat.js";
 
 export class GameState {
+    static timer = 0;
     static redActive = false;
     static currentLevel: number;
     static lobbyLevel: number;
     static lastLevel: number;
     static inventory: Record<string, boolean | number> = {};
+    static spectating: string | null = null;
+    static worldBeforeSpectate: number = -2;
 
     static resetState() {
         GameState.redActive = false;
         GameState.inventory = {};
+        GameState.timer = 0;
     }
 
     static changeLevel(newLvlID: number) {
@@ -169,6 +172,9 @@ export class GameScene extends Scene {
 
         this.physicsfps.tickStarted();
 
+        if (GameState.lobbyLevel !== GameState.currentLevel)
+            GameState.timer++;
+
         // TODO: Check when color swap is done; beofre or after player update?
         if (this.canMove && Input.justGet("swap")) {
             GameState.redActive = !GameState.redActive;
@@ -190,7 +196,8 @@ export class GameScene extends Scene {
         // TODO: when world updated?
         World.update();
 
-        this.player.update();
+        if (!GameState.spectating)
+            this.player.update();
 
         // for extrapolation
         this.visualPlayer.x = this.player.x;
@@ -199,16 +206,6 @@ export class GameScene extends Scene {
         this.visualPlayer.vy = this.player.vy;
         this.visualPlayer.update();
         this.futurePos = this.visualPlayer.pos;
-
-        if (!Options.HighFPS) {
-            if (Options.SmoothCamera) {
-                Camera.x += (this.player.center.x - Camera.x) / 10;
-                Camera.y += (this.player.center.y - Camera.y) / 10;
-            } else {
-                Camera.x = this.player.center.x;
-                Camera.y = this.player.center.y;
-            }
-        }
 
         if (this.canMove && Input.justGet("options")) {
             Master.changeScene(new OptionsScene());
@@ -221,6 +218,17 @@ export class GameScene extends Scene {
         this.physicsfps.tickEnded();
     }
 
+    updateCamera(follow: Sprite, deltaTime: number) {
+        const followSpeed = 5.5;
+        if (Options.SmoothCamera) {
+            Camera.x += (follow.center.x - Camera.x) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+            Camera.y += (follow.center.y - Camera.y) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
+        } else {
+            Camera.x = follow.center.x;
+            Camera.y = follow.center.y;
+        }
+    }
+
     draw() {
 
         const frameTime = performance.now();
@@ -230,17 +238,13 @@ export class GameScene extends Scene {
         const interpolation = Master.tickAcc / Master.tickTime;
         this.visualPlayer.pos = lerpVec2(this.player.pos, this.futurePos, interpolation);
 
-
-        const followSpeed = 5.5;
-        if (Options.HighFPS) {
-            if (Options.SmoothCamera) {
-                Camera.x += (this.visualPlayer.center.x - Camera.x) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
-                Camera.y += (this.visualPlayer.center.y - Camera.y) * (1 - Math.exp(-followSpeed * (deltaTime / 1000)));
-            } else {
-                Camera.x = this.visualPlayer.center.x;
-                Camera.y = this.visualPlayer.center.y;
-            }
-        }
+        if (!GameState.spectating) {
+            if (Options.HighFPS)
+                this.updateCamera(this.visualPlayer, deltaTime);
+            else
+                this.updateCamera(this.player, deltaTime);
+        } else
+            this.spectateUpdate(deltaTime);
 
         this.drawfps.tickStarted();
 
@@ -291,11 +295,33 @@ export class GameScene extends Scene {
         Canvas.ctx.textAlign = 'left';
         Canvas.ctx.fillText("X: " + this.player.x, 10, 70);
         Canvas.ctx.fillText("Y: " + this.player.y, 100, 70);
+        Canvas.ctx.fillText("Timer: " + GameState.timer / 40, 10, 100);
         Canvas.ctx.fillText("Press O for options", 10, 40);
         if (!Multiplayer.connected) Canvas.setFillStyle('red');
         Canvas.ctx.fillText(Multiplayer.connected ? "Connected to server" : "Disconnected from server!", 10, 15);
         if (!Multiplayer.connected) Canvas.setFillStyle('black');
         Canvas.ctx.textAlign = 'center';
+    }
+
+    spectateUpdate(deltaTime: number) {
+        this.player.x = -100000;
+        this.player.y = 100000;
+        if (Input.justGet('cancel')) {
+            GameState.spectating = null;
+            this.startLevel(GameState.worldBeforeSpectate);
+            return;
+        }
+        if (!GameState.spectating) return;
+        const spectatedPlayer = Multiplayer.getPlayer(GameState.spectating);
+        if (!spectatedPlayer) {
+            GameState.spectating = null;
+            this.startLevel(GameState.worldBeforeSpectate);
+            return;
+        }
+        if (spectatedPlayer.level !== GameState.currentLevel) {
+            this.startLevel(spectatedPlayer.level);
+        }
+        this.updateCamera(spectatedPlayer, deltaTime);
     }
 }
 

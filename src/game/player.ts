@@ -2,6 +2,7 @@ import { Assets, Canvas, Input, Master, Sprite, Vector2 } from "guppy-lib";
 import { World } from "./world.js";
 import { GameScene, GameState } from "../scenes/gameScene.js";
 import { Multiplayer } from "../multiplayer.js";
+import { GetLevel } from "./levels.js";
 
 const PlayerSettings = {
     speed: 5, // highest target speed (without speed modifiers)
@@ -216,6 +217,9 @@ export class Player extends Sprite {
         if (this.realPlayer && this.hasStatus('win')) {
             // trying this instead so you can see yourself in the win for 1 frame like original game
             this.nextLevel = GameState.lobbyLevel;
+            const levelName = GetLevel(GameState.currentLevel)?.about?.name;
+            if (levelName)
+                Multiplayer.alert(`${levelName} beaten in ${GameState.timer / 40} seconds`);
 
             // (Master.currentScene as GameScene).startLevel(GameState.lobbyLevel);
         } 
