@@ -2,10 +2,13 @@
 - Added
     - Start and stop spectating messages for people being spectated
     - Notice on how to stop spectating
+    - AFK notice for players
+- Changed
+    - No longer gives up reconnecting after 2 failed attempts
 - Fixed
     - Spectating someone who is spectating another person
 
-## 0.14.0 February 16, 2026
+## 0.14.0 February 15, 2026
 - Added
     - join and leave messages
     - `/spectate` command

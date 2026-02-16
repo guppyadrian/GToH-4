@@ -5,6 +5,7 @@ class OnlinePlayer extends Sprite {
     uuid: string;
     level: number;
     username: string;
+    afk = false;
     constructor(uuid: string, username: string) {
         super(Assets.get('player'), 0, 0);
         this.uuid = uuid;

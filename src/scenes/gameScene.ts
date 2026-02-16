@@ -109,6 +109,21 @@ export class GameScene extends Scene {
         this.chat = new ChatSystem();
 
         Multiplayer.ready();
+
+        document.addEventListener("visibilitychange", this.onVisibilityChange);
+    }
+
+    destroy(): void {
+        document.removeEventListener("visibilitychange", this.onVisibilityChange);
+        super.destroy();
+    }
+
+    private onVisibilityChange() {
+        if (document.hidden) {
+            Multiplayer.socket.emit('toggle-afk', true);
+        } else {
+            Multiplayer.socket.emit('toggle-afk', false);
+        }
     }
 
     startLevel(levelData: Array<any>[]): void;
@@ -265,6 +280,7 @@ export class GameScene extends Scene {
         
         this.chat.draw();
 
+        // draw the top right playerlist
         if (Input.get('show-chat'))
         { // TODO: move to own func
             const players = Multiplayer.playerList.entries();
@@ -272,7 +288,7 @@ export class GameScene extends Scene {
             let i = 0;
             for (const [_, value] of players) {
                 const level = GetLevel(value.level);
-                Canvas.ctx.fillText(`${value.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, (i++) * 25 + 60);
+                Canvas.ctx.fillText(`${value.afk ? "(AFK) " : ""}${value.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, (i++) * 30 + 65);
             }
             const level = GetLevel(GameState.currentLevel);
             Canvas.ctx.fillText(`${Multiplayer.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, 35);

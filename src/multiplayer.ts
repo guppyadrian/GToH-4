@@ -101,6 +101,11 @@ class Multiplayer
             this.chatSystem.addMessageToLog(author, text);
         });
 
+        Multiplayer.socket.on('toggle-afk', (uuid: string, afk: boolean) => {
+            const player = Multiplayer.playerList.get(uuid);
+            if (player) player.afk = afk;
+        });
+
         Multiplayer.started = true;
 
         return true;
