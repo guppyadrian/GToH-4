@@ -4,6 +4,12 @@ import { Input, Master } from "guppy-lib";
 //import { MainMenuScene } from "./scenes/mainMenuScene.js";
 import { Multiplayer } from "./multiplayer.js";
 
+// this is separate from actual game version. This is used for connecting to the server.
+// Major version change: client is incompatible with server and server will force disconnect the client.
+// Minor version change: new features are available to use or new levels exist. Server recommends updating.
+// Patch version change: bug fixes or small changes.
+export const CLIENT_VERSION = [1, 0, 0];
+
 // set up keyboard
 Input.initialize();
 Input.addBind('swap', ['Space']);

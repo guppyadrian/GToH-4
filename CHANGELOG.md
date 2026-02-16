@@ -3,6 +3,7 @@
     - Start and stop spectating messages for people being spectated
     - Notice on how to stop spectating
     - AFK notice for players
+    - version checking with server
 - Changed
     - No longer gives up reconnecting after 2 failed attempts
     - Padded chat and playerlist, they are less cluttered now. This also means chat now only stores 28 most recent messages
@@ -11,6 +12,7 @@
     - usernames in `/spectate` being case sensitive
     - When spectating a player when you already spectating, notify original player that you stopped spectating them
     - Records sent when cheating
+    - Stuttering when high fps is disabled
 
 ## 0.14.0 February 15, 2026
 - Added

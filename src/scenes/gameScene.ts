@@ -235,6 +235,9 @@ export class GameScene extends Scene {
         this.visualPlayer.update();
         this.futurePos = this.visualPlayer.pos;
 
+        if (!Options.HighFPS)
+            this.updateCamera(this.player, 25);
+
         if (this.canMove && Input.justGet("options")) {
             Master.changeScene(new OptionsScene());
         }
@@ -269,8 +272,6 @@ export class GameScene extends Scene {
         if (!GameState.spectating) {
             if (Options.HighFPS)
                 this.updateCamera(this.visualPlayer, deltaTime);
-            else
-                this.updateCamera(this.player, deltaTime);
         } else
             this.spectateUpdate(deltaTime);
 

@@ -4,6 +4,7 @@ import type { Player } from "./game/player";
 import { GameState } from "./scenes/gameScene";
 import { attemptAutoLogin, requestedPassword, requestedUsername, setLoginStatus } from "./account";
 import type { ChatSystem } from "./game/chat";
+import { CLIENT_VERSION } from "./main";
 type UUID = string;
 
 type PlayerPacket =
@@ -168,7 +169,7 @@ class Multiplayer
 
     static ready()
     {
-        Multiplayer.socket.emit('player-ready');
+        Multiplayer.socket.emit('player-ready', CLIENT_VERSION);
     }
 
     static getPlayer(username: string) {
