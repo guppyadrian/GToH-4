@@ -54,6 +54,7 @@ export class Player extends Sprite {
     }
  
     getMovementVector() {
+        if (Multiplayer.chatSystem.chatting) return Vector2.zero;
         return new Vector2(
             +Input.get('right') - +Input.get('left'),
             +Input.get('down') - +Input.get('up')

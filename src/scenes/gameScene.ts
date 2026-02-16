@@ -1,7 +1,7 @@
 import { Assets, Camera, Canvas, Input, Master, Scene, Vector2 } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
-import { GetLevel, Levels, PromptPlayerLevel, type LevelData } from "../game/levels.js";
+import { GetLevel, PromptPlayerLevel, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
@@ -41,6 +41,10 @@ export class GameScene extends Scene {
 
     // systems
     chat;
+
+    get canMove() {
+        return !this.chat.chatting;
+    }
 
     static preload(): Promise<void> {
 
@@ -99,7 +103,6 @@ export class GameScene extends Scene {
         this.futurePos = Vector2.zero;
 
         this.lastFrameTime = 0;
-
         this.chat = new ChatSystem();
 
         Multiplayer.ready();
@@ -154,25 +157,24 @@ export class GameScene extends Scene {
     }
 
     update() {
-        if (Input.justGet('login')) showLoginScreen();
+        if (!this.chat.chatting && Input.justGet('login')) showLoginScreen();
         if (inLoginScreen) return; // TODO: will this break stuff?
 
-        if (Input.justGet('chat')) {
-            const p = prompt("enter message or command");
-            if (p != null && p != '') {
-                if (p[0] === '/') runCommand(p.substring(1, p.length));
-                else this.chat.sendMessage(p);
-            } 
+        if (!this.chat.chatting && Input.justGet('chat')) { // TODO: move to a chat.update() method
+            this.chat.startChatting();
+        }
+        if (Input.justGet('cancel')) {
+            this.chat.finishChatting(false);
         }
 
         this.physicsfps.tickStarted();
 
         // TODO: Check when color swap is done; beofre or after player update?
-        if (Input.justGet("swap")) {
+        if (this.canMove && Input.justGet("swap")) {
             GameState.redActive = !GameState.redActive;
         }
 
-        if (Input.justGet("exit")) {
+        if (this.canMove && Input.justGet("exit")) {
             if (GameState.currentLevel === GameState.lobbyLevel) {
                 this.startLevel(GameState.lastLevel);
             } else {
@@ -180,7 +182,7 @@ export class GameScene extends Scene {
             }
         }
 
-        if (Input.justGet("load-level")) { // TODO: this doesn't exist anymore
+        if (this.canMove && Input.justGet("load-level")) { // TODO: this doesn't exist anymore
             const lvl = PromptPlayerLevel();
             if (lvl) this.startLevel(lvl);
         }
@@ -208,7 +210,7 @@ export class GameScene extends Scene {
             }
         }
 
-        if (Input.justGet("options")) {
+        if (this.canMove && Input.justGet("options")) {
             Master.changeScene(new OptionsScene());
         }
 

@@ -1,5 +1,6 @@
 import { Canvas, Input } from "guppy-lib";
 import { Multiplayer } from "../multiplayer";
+import { runCommand } from "./commands";
 
 interface ChatMessage {
     author: string,
@@ -7,8 +8,11 @@ interface ChatMessage {
     timeSent: number
 }
 
+export const chatbox = document.getElementById('chatbox')! as HTMLInputElement;
+
 export class ChatSystem {
     chatlog: ChatMessage[] = [];
+    chatting: boolean;
 
     get connected() {
         return Multiplayer.started && Multiplayer.connected;
@@ -16,6 +20,29 @@ export class ChatSystem {
     
     constructor() {
         Multiplayer.chatSystem = this;
+        this.chatting = false;
+        chatbox.addEventListener('keydown', e => {
+            if (e.code !== 'Enter') return;
+            this.finishChatting();
+        });
+    }
+
+    startChatting() {
+        chatbox.hidden = false;
+        chatbox.value = '';
+        this.chatting = true;
+        chatbox.focus();
+    }
+
+    finishChatting(sendMessage = true) {
+        const msg = chatbox.value;
+        Input.reset();
+        chatbox.hidden = true;
+        this.chatting = false;
+        if (msg === '' || !sendMessage) return;
+
+        if (msg[0] === '/') runCommand(msg.substring(1, msg.length));
+        else this.sendMessage(msg);
     }
 
     draw() {
@@ -25,7 +52,7 @@ export class ChatSystem {
         Canvas.ctx.font = '20px MinecraftRegular';
         for (let i = 0; i < this.chatlog.length; i++) {
             const msg = this.chatlog[i];
-            if (!pressingTab && time - msg.timeSent > 10 * 1000) break; // don't send messages after 10 seconds.
+            if (!this.chatting && !pressingTab && time - msg.timeSent > 10 * 1000) break; // don't send messages after 10 seconds.
             Canvas.ctx.fillText(`${msg.author}: ${msg.text}`, 10, Canvas.height - 40 - 24 * i);
         } 
         Canvas.ctx.textAlign = 'center';
