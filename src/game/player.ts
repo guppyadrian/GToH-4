@@ -21,6 +21,7 @@ export class Player extends Sprite {
     wallJumpCooldown;
     statuses;
     nextLevel: number | undefined; // where to go next frame
+    levelWon = false;
     realPlayer: boolean; // whether or not player is the actual one. Controls changing lvls and stuff
     gravityMult: number;
     godMode: boolean;
@@ -211,12 +212,16 @@ export class Player extends Sprite {
 
         // New level stuff
         if (this.realPlayer && this.nextLevel !== undefined) {
-            (Master.currentScene as GameScene).winLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
+            if (this.levelWon)
+                (Master.currentScene as GameScene).winLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
+            else
+                (Master.currentScene as GameScene).startLevel(this.nextLevel); // ^^^ nah lets duplicate it
             this.nextLevel = undefined; // TODO: If I don't have this line it breaks. But that shouldn't be the case!
         }
         if (this.realPlayer && this.hasStatus('win')) {
             // trying this instead so you can see yourself in the win for 1 frame like original game
             this.nextLevel = GameState.lobbyLevel;
+            this.levelWon = true;
 
             // (Master.currentScene as GameScene).startLevel(GameState.lobbyLevel);
         } 
