@@ -1,3 +1,10 @@
+## 0.13.0 February 15, 2026
+- Added
+    - Tab shows player list
+    - Added chatbox to not pause game
+- Changed
+    - Chat now only stores 50 most recent messages
+
 ## 0.12.2 February 15, 2026
 - Changed
     - socket.io forces uses websocket

@@ -42,6 +42,10 @@ export class GameScene extends Scene {
     // systems
     chat;
 
+    get canMove() {
+        return !this.chat.chatting;
+    }
+
     static preload(): Promise<void> {
 
         const blockAtlas = [ // TODO: for some reason i can't check if the textures fail to load. check assets.ts for more info but the onerror just isn't firing!
@@ -99,7 +103,6 @@ export class GameScene extends Scene {
         this.futurePos = Vector2.zero;
 
         this.lastFrameTime = 0;
-
         this.chat = new ChatSystem();
 
         Multiplayer.ready();
@@ -154,25 +157,24 @@ export class GameScene extends Scene {
     }
 
     update() {
-        if (Input.justGet('login')) showLoginScreen();
+        if (!this.chat.chatting && Input.justGet('login')) showLoginScreen();
         if (inLoginScreen) return; // TODO: will this break stuff?
 
-        if (Input.justGet('chat')) {
-            const p = prompt("enter message or command");
-            if (p != null && p != '') {
-                if (p[0] === '/') runCommand(p.substring(1, p.length));
-                else this.chat.sendMessage(p);
-            } 
+        if (!this.chat.chatting && Input.justGet('chat')) { // TODO: move to a chat.update() method
+            this.chat.startChatting();
+        }
+        if (Input.justGet('cancel')) {
+            this.chat.finishChatting(false);
         }
 
         this.physicsfps.tickStarted();
 
         // TODO: Check when color swap is done; beofre or after player update?
-        if (Input.justGet("swap")) {
+        if (this.canMove && Input.justGet("swap")) {
             GameState.redActive = !GameState.redActive;
         }
 
-        if (Input.justGet("exit")) {
+        if (this.canMove && Input.justGet("exit")) {
             if (GameState.currentLevel === GameState.lobbyLevel) {
                 this.startLevel(GameState.lastLevel);
             } else {
@@ -180,7 +182,7 @@ export class GameScene extends Scene {
             }
         }
 
-        if (Input.justGet("load-level")) { // TODO: this doesn't exist anymore
+        if (this.canMove && Input.justGet("load-level")) { // TODO: this doesn't exist anymore
             const lvl = PromptPlayerLevel();
             if (lvl) this.startLevel(lvl);
         }
@@ -208,7 +210,7 @@ export class GameScene extends Scene {
             }
         }
 
-        if (Input.justGet("options")) {
+        if (this.canMove && Input.justGet("options")) {
             Master.changeScene(new OptionsScene());
         }
 
@@ -259,6 +261,19 @@ export class GameScene extends Scene {
         
         this.chat.draw();
 
+        if (Input.get('show-chat'))
+        { // TODO: move to own func
+            const players = Multiplayer.playerList.entries();
+            Canvas.ctx.textAlign = 'right';
+            let i = 0;
+            for (const [_, value] of players) {
+                const level = GetLevel(value.level);
+                Canvas.ctx.fillText(`${value.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, (i++) * 25 + 60);
+            }
+            const level = GetLevel(GameState.currentLevel);
+            Canvas.ctx.fillText(`${Multiplayer.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, 35);
+        }
+
         this.drawfps.tickEnded();
 
         // debug
@@ -272,13 +287,14 @@ export class GameScene extends Scene {
         // Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
         // Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
 
-        // Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
-        // Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
-
         Canvas.ctx.font = '20px Arial';
         Canvas.ctx.textAlign = 'left';
+        Canvas.ctx.fillText("X: " + this.player.x, 10, 70);
+        Canvas.ctx.fillText("Y: " + this.player.y, 100, 70);
         Canvas.ctx.fillText("Press O for options", 10, 40);
+        if (!Multiplayer.connected) Canvas.setFillStyle('red');
         Canvas.ctx.fillText(Multiplayer.connected ? "Connected to server" : "Disconnected from server!", 10, 15);
+        if (!Multiplayer.connected) Canvas.setFillStyle('black');
         Canvas.ctx.textAlign = 'center';
     }
 }

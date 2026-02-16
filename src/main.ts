@@ -16,6 +16,7 @@ Input.addBind('options', ['KeyO']);
 Input.addBind('login', ['KeyL']);
 Input.addBind('chat', ['KeyT', 'Slash']);
 Input.addBind('show-chat', ['Tab']);
+Input.addBind('cancel', ['Escape']);
 
 window.addEventListener('keydown', e => {if (e.code === "Tab") e.preventDefault()})
 
