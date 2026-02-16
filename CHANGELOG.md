@@ -1,3 +1,11 @@
+## 0.14.0 February 16, 2026
+- Added
+    - join and leave messages
+    - `/spectate` command
+    - Notice for time taken to beat level
+- Changed
+    - Chat now only stores 33 most recent messages
+
 ## 0.13.0 February 15, 2026
 - Added
     - Tab shows player list

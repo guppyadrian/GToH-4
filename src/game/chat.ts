@@ -10,6 +10,8 @@ interface ChatMessage {
 
 export const chatbox = document.getElementById('chatbox')! as HTMLInputElement;
 
+const MAX_MESSAGES = 28;
+
 export class ChatSystem {
     chatlog: ChatMessage[] = [];
     chatting: boolean;
@@ -53,7 +55,7 @@ export class ChatSystem {
         for (let i = 0; i < this.chatlog.length; i++) {
             const msg = this.chatlog[i];
             if (!this.chatting && !pressingTab && time - msg.timeSent > 10 * 1000) break; // don't send messages after 10 seconds.
-            Canvas.ctx.fillText(`${msg.author}: ${msg.text}`, 10, Canvas.height - 40 - 24 * i);
+            Canvas.ctx.fillText(`${msg.author}: ${msg.text}`, 10, Canvas.height - 40 - 28 * i);
         } 
         Canvas.ctx.textAlign = 'center';
     }
@@ -66,7 +68,7 @@ export class ChatSystem {
     addMessageToLog(author: string, text: string) { // TODO: parameter for admin level!
         const msg: ChatMessage = {author, text, timeSent: Date.now()};
         this.chatlog.unshift(msg);
-        if (this.chatlog.length > 50) {
+        if (this.chatlog.length > MAX_MESSAGES) {
             this.chatlog.pop();
         }
     }

@@ -63,7 +63,7 @@ class Multiplayer
         if (Multiplayer.started) return false;
 
         Multiplayer.socket = io(serverIP, {
-            reconnectionAttempts: 2,
+            reconnectionAttempts: 5,
             transports: ["websocket"]
         });
 
@@ -144,11 +144,16 @@ class Multiplayer
     private static onPlayerJoin(uuid: UUID, username: string)
     {
         Multiplayer.playerList.set(uuid, new OnlinePlayer(uuid, username));
+        if (username !== 'Guest')
+            Multiplayer.chatSystem.addMessageToLog('[Server]', `${username} has joined!`);
     }
 
     private static onPlayerLeave(uuid: UUID)
     {
+        const username = Multiplayer.playerList.get(uuid)?.username;
         Multiplayer.playerList.delete(uuid);
+        if (username && username !== 'Guest')
+            Multiplayer.chatSystem.addMessageToLog('[Server]', `${username} has left!`);
     }
 
     static attemptLogin(username: string, password: string, registering = false)
@@ -159,6 +164,15 @@ class Multiplayer
     static ready()
     {
         Multiplayer.socket.emit('player-ready');
+    }
+
+    static getPlayer(username: string) {
+        return [...Multiplayer.playerList.values()].find(p => p.username === username);
+        
+    }
+
+    static alert(text: string) {
+        Multiplayer.chatSystem.addMessageToLog('[Notice]', text);
     }
 }
 

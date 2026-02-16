@@ -1,5 +1,5 @@
 import { Master } from "guppy-lib";
-import type { GameScene } from "../scenes/gameScene";
+import { GameState, type GameScene } from "../scenes/gameScene";
 import { Multiplayer } from "../multiplayer";
 
 type commandArg = 'string' | 'number'; // TODO: make a server command class that sends cmd to the server
@@ -61,10 +61,25 @@ export function runCommand(msg: string) {
             break;
         case 'unban':
             if (!args[0]) {
-                Multiplayer.chatSystem.addMessageToLog("[Notice]", "You must enter a username!");
+                Multiplayer.alert("You must enter a username!");
                 break;
             }
             Multiplayer.socket.emit('pardon', args[0]);
+            break;
+        case 'spectate':
+            if (!args[0]) {
+                Multiplayer.alert('You must specify someone to spectate!');
+                break;
+            }
+            if (args[0] === Multiplayer.username) {
+                Multiplayer.alert('You cannot spectate yourself!');
+                break;
+            }
+            if (!Multiplayer.getPlayer(args[0])) {
+                Multiplayer.alert('Player is not online!');
+                break;
+            }
+            GameState.spectating = args[0];
             break;
     }
 }
