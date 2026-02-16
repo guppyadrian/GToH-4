@@ -8,6 +8,7 @@
 - Fixed
     - Spectating someone who is spectating another person
     - usernames in `/spectate` being case sensitive
+    - When spectating a player when you already spectating, notify original player that you stopped spectating them
 
 ## 0.14.0 February 15, 2026
 - Added
