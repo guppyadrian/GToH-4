@@ -29,7 +29,12 @@
 - [ ] when colliding, player only needs to check collision with that one block. Honestly, could just teleport to the edge of the block!
 - Note with above ^ wouldn't that mess with some stuff technically? other blocked touched while moving over
 
-
+## ARCHITECTURE
+1. Client connects socket.io
+2. Client sends version #
+3. Server either closes connection or acknowledges
+4. Client sends ready signal
+5. Server syncs players and level times
 
 ## Redesign
 Maybe multiplayer should be separated from the rest of the game and just watches.

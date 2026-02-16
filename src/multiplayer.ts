@@ -172,12 +172,16 @@ class Multiplayer
     }
 
     static getPlayer(username: string) {
-        return [...Multiplayer.playerList.values()].find(p => p.username === username);
-        
+        const lowerUsername = username.toLowerCase();
+        return [...Multiplayer.playerList.values()].find(p => p.username.toLowerCase() === lowerUsername);
     }
 
     static alert(text: string) {
         Multiplayer.chatSystem.addMessageToLog('[Notice]', text);
+    }
+
+    static uploadLevelTime(levelID: number, time: number) {
+        Multiplayer.socket.emit('beat-level', levelID, time);
     }
 }
 

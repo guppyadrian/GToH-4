@@ -71,7 +71,7 @@ export function runCommand(msg: string) {
                 Multiplayer.alert('You must specify someone to spectate!');
                 break;
             }
-            if (args[0] === Multiplayer.username) {
+            if (args[0].toLowerCase() === Multiplayer.username.toLowerCase()) {
                 Multiplayer.alert('You cannot spectate yourself!');
                 break;
             }

@@ -1,4 +1,5 @@
 import JSON5 from 'json5';
+import { Multiplayer } from '../multiplayer';
 const modules = import.meta.glob('/src/levels/**/*.json5', { eager: true });
 
 export const Levels = new Map<number, LevelData>();
@@ -36,4 +37,16 @@ export function PromptPlayerLevel() {
     if (p === null || p === '') return false;
     const data = JSON5.parse(p);
     return data;
+}
+
+export class LevelSaveData {
+    static levels = new Map<number, number>();
+
+    static syncLevels() {
+        if (!Multiplayer.connected) {
+            Multiplayer.alert("Failed to fetch level times! You are offline!");
+            return;
+        }
+        Multiplayer.socket.emitWithAck('sync-levels').then();
+    }
 }

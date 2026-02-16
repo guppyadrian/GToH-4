@@ -126,6 +126,14 @@ export class GameScene extends Scene {
         }
     }
 
+    winLevel(nextLevel: number) {
+        const levelName = GetLevel(GameState.currentLevel)?.about?.name;
+        if (levelName)
+            Multiplayer.alert(`${levelName} beaten in ${GameState.timer / 40} seconds`);
+        Multiplayer.uploadLevelTime(GameState.currentLevel, GameState.timer);
+        this.startLevel(nextLevel);
+    }
+
     startLevel(levelData: Array<any>[]): void;
     startLevel(levelData: LevelData): void;
     startLevel(levelID: number): void;

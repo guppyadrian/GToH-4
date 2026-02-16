@@ -211,15 +211,12 @@ export class Player extends Sprite {
 
         // New level stuff
         if (this.realPlayer && this.nextLevel !== undefined) {
-            (Master.currentScene as GameScene).startLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
+            (Master.currentScene as GameScene).winLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
             this.nextLevel = undefined; // TODO: If I don't have this line it breaks. But that shouldn't be the case!
         }
         if (this.realPlayer && this.hasStatus('win')) {
             // trying this instead so you can see yourself in the win for 1 frame like original game
             this.nextLevel = GameState.lobbyLevel;
-            const levelName = GetLevel(GameState.currentLevel)?.about?.name;
-            if (levelName)
-                Multiplayer.alert(`${levelName} beaten in ${GameState.timer / 40} seconds`);
 
             // (Master.currentScene as GameScene).startLevel(GameState.lobbyLevel);
         } 

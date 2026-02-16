@@ -7,6 +7,7 @@
     - No longer gives up reconnecting after 2 failed attempts
 - Fixed
     - Spectating someone who is spectating another person
+    - usernames in `/spectate` being case sensitive
 
 ## 0.14.0 February 15, 2026
 - Added
