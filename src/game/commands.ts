@@ -75,10 +75,13 @@ export function runCommand(msg: string) {
                 Multiplayer.alert('You cannot spectate yourself!');
                 break;
             }
-            if (!Multiplayer.getPlayer(args[0])) {
+            const player = Multiplayer.getPlayer(args[0])
+            if (!player) {
                 Multiplayer.alert('Player is not online!');
                 break;
             }
+            Multiplayer.alert("press ESCAPE to stop spectating");
+            Multiplayer.socket.emit('spectating', player.uuid, true);
             GameState.spectating = args[0];
             break;
     }

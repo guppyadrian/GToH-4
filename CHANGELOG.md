@@ -1,3 +1,10 @@
+## 0.15.0 February 16, 2026
+- Added
+    - Start and stop spectating messages for people being spectated
+    - Notice on how to stop spectating
+- Fixed
+    - Spectating someone who is spectating another person
+
 ## 0.14.0 February 16, 2026
 - Added
     - join and leave messages

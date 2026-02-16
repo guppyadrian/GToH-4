@@ -304,18 +304,20 @@ export class GameScene extends Scene {
     }
 
     spectateUpdate(deltaTime: number) {
-        this.player.x = -100000;
+        this.player.x = 0;
         this.player.y = 100000;
+        if (!GameState.spectating) return;
+        const spectatedPlayer = Multiplayer.getPlayer(GameState.spectating);
         if (Input.justGet('cancel')) {
             GameState.spectating = null;
             this.startLevel(GameState.worldBeforeSpectate);
+            Multiplayer.socket.emit('spectating', spectatedPlayer?.uuid, false);
             return;
         }
-        if (!GameState.spectating) return;
-        const spectatedPlayer = Multiplayer.getPlayer(GameState.spectating);
-        if (!spectatedPlayer) {
+        if (!spectatedPlayer || spectatedPlayer.y === 100000) {
             GameState.spectating = null;
             this.startLevel(GameState.worldBeforeSpectate);
+            Multiplayer.socket.emit('spectating', spectatedPlayer?.uuid, false);
             return;
         }
         if (spectatedPlayer.level !== GameState.currentLevel) {
