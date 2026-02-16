@@ -1,7 +1,7 @@
 import { Assets, Camera, Canvas, Input, Master, Scene, Vector2 } from "guppy-lib";
 import { Player } from "../game/player.js";
 import { World } from "../game/world.js";
-import { GetLevel, PromptPlayerLevel, type LevelData } from "../game/levels.js";
+import { GetLevel, Levels, PromptPlayerLevel, type LevelData } from "../game/levels.js";
 import { FPSCounter } from "../game/fps.js";
 import { OptionsScene } from "./optionsScene.js";
 import { Options } from "../game/options.js";
@@ -259,6 +259,19 @@ export class GameScene extends Scene {
         
         this.chat.draw();
 
+        if (Input.get('show-chat'))
+        { // TODO: move to own func
+            const players = Multiplayer.playerList.entries();
+            Canvas.ctx.textAlign = 'right';
+            let i = 0;
+            for (const [_, value] of players) {
+                const level = GetLevel(value.level);
+                Canvas.ctx.fillText(`${value.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, (i++) * 25 + 60);
+            }
+            const level = GetLevel(GameState.currentLevel);
+            Canvas.ctx.fillText(`${Multiplayer.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, 35);
+        }
+
         this.drawfps.tickEnded();
 
         // debug
@@ -272,13 +285,14 @@ export class GameScene extends Scene {
         // Canvas.ctx.fillText("Draw idle: " + this.drawfps.idleTime.toString(), 120, 30);
         // Canvas.ctx.fillText("Draw tick: " + this.drawfps.tickTime.toString(), 120, 50);
 
-        // Canvas.ctx.fillText("Player X: " + this.player.x, 40, 70);
-        // Canvas.ctx.fillText("Player Y: " + this.player.y, 120, 70);
-
         Canvas.ctx.font = '20px Arial';
         Canvas.ctx.textAlign = 'left';
+        Canvas.ctx.fillText("X: " + this.player.x, 10, 70);
+        Canvas.ctx.fillText("Y: " + this.player.y, 100, 70);
         Canvas.ctx.fillText("Press O for options", 10, 40);
+        if (!Multiplayer.connected) Canvas.setFillStyle('red');
         Canvas.ctx.fillText(Multiplayer.connected ? "Connected to server" : "Disconnected from server!", 10, 15);
+        if (!Multiplayer.connected) Canvas.setFillStyle('black');
         Canvas.ctx.textAlign = 'center';
     }
 }

@@ -39,5 +39,8 @@ export class ChatSystem {
     addMessageToLog(author: string, text: string) { // TODO: parameter for admin level!
         const msg: ChatMessage = {author, text, timeSent: Date.now()};
         this.chatlog.unshift(msg);
+        if (this.chatlog.length > 50) {
+            this.chatlog.pop();
+        }
     }
 }
