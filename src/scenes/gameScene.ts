@@ -116,6 +116,7 @@ export class GameScene extends Scene {
 
     destroy(): void {
         document.removeEventListener("visibilitychange", this.onVisibilityChange);
+        this.chat.destroy();
         super.destroy();
     }
 

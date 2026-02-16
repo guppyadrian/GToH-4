@@ -13,6 +13,7 @@
     - When spectating a player when you already spectating, notify original player that you stopped spectating them
     - Records sent when cheating
     - Stuttering when high fps is disabled
+    - Chat messages being sent multiple times when `GameScene` gets reloaded
 
 ## 0.14.0 February 15, 2026
 - Added
