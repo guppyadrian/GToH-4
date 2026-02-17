@@ -1,3 +1,7 @@
+## 0.15.1 February 16, 2026
+- Fixed
+    - game version not notifying every time
+
 ## 0.15.0 February 16, 2026
 - Added
     - Start and stop spectating messages for people being spectated

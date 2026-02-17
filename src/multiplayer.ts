@@ -114,6 +114,7 @@ class Multiplayer
 
     private static onConnection()
     {
+        Multiplayer.sendGameVersion();
         Multiplayer.username = 'Guest';
         Multiplayer.playerList.clear();
         console.log("connected to server!");
@@ -169,7 +170,11 @@ class Multiplayer
 
     static ready()
     {
-        Multiplayer.socket.emit('player-ready', CLIENT_VERSION);
+        Multiplayer.socket.emit('player-ready');
+    }
+
+    static sendGameVersion() {
+        Multiplayer.socket.emit('game-version', CLIENT_VERSION);
     }
 
     static getPlayer(username: string) {
