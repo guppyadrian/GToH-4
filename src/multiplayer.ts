@@ -98,7 +98,7 @@ class Multiplayer
             // TODO: also send over username
         });
 
-        Multiplayer.socket.on('send-message', (author: string, text: string) => { // TODO: if scene gets reloaded how does this work?
+        Multiplayer.socket.on('send-message', (author: string, text: string) => {
             this.chatSystem.addMessageToLog(author, text);
         });
 
