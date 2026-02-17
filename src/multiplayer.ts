@@ -4,6 +4,7 @@ import type { Player } from "./game/player";
 import { GameState } from "./scenes/gameScene";
 import { attemptAutoLogin, requestedPassword, requestedUsername, setLoginStatus } from "./account";
 import type { ChatSystem } from "./game/chat";
+import { CLIENT_VERSION } from "./main";
 type UUID = string;
 
 type PlayerPacket =
@@ -63,7 +64,7 @@ class Multiplayer
         if (Multiplayer.started) return false;
 
         Multiplayer.socket = io(serverIP, {
-            reconnectionAttempts: 5,
+            //reconnectionAttempts: 5,
             transports: ["websocket"]
         });
 
@@ -97,8 +98,13 @@ class Multiplayer
             // TODO: also send over username
         });
 
-        Multiplayer.socket.on('send-message', (author: string, text: string) => { // TODO: if scene gets reloaded how does this work?
+        Multiplayer.socket.on('send-message', (author: string, text: string) => {
             this.chatSystem.addMessageToLog(author, text);
+        });
+
+        Multiplayer.socket.on('toggle-afk', (uuid: string, afk: boolean) => {
+            const player = Multiplayer.playerList.get(uuid);
+            if (player) player.afk = afk;
         });
 
         Multiplayer.started = true;
@@ -163,16 +169,20 @@ class Multiplayer
 
     static ready()
     {
-        Multiplayer.socket.emit('player-ready');
+        Multiplayer.socket.emit('player-ready', CLIENT_VERSION);
     }
 
     static getPlayer(username: string) {
-        return [...Multiplayer.playerList.values()].find(p => p.username === username);
-        
+        const lowerUsername = username.toLowerCase();
+        return [...Multiplayer.playerList.values()].find(p => p.username.toLowerCase() === lowerUsername);
     }
 
     static alert(text: string) {
         Multiplayer.chatSystem.addMessageToLog('[Notice]', text);
+    }
+
+    static uploadLevelTime(levelID: number, time: number) {
+        Multiplayer.socket.emit('beat-level', levelID, time);
     }
 }
 

@@ -40,7 +40,8 @@ export function runCommand(msg: string) {
     switch (cmd) {
         case 'god':
             scene.player.godMode = !scene.player.godMode;
-            scene.visualPlayer.godMode = !scene.visualPlayer.godMode; 
+            scene.visualPlayer.godMode = !scene.visualPlayer.godMode;
+            scene.cheatsEnabled = true;
             break;
         case 'ip':
             let ipAddr = args[0]; // TODO: add http:// automatically ONLY if its missing
@@ -71,15 +72,40 @@ export function runCommand(msg: string) {
                 Multiplayer.alert('You must specify someone to spectate!');
                 break;
             }
-            if (args[0] === Multiplayer.username) {
+            if (args[0].toLowerCase() === Multiplayer.username.toLowerCase()) {
                 Multiplayer.alert('You cannot spectate yourself!');
                 break;
             }
-            if (!Multiplayer.getPlayer(args[0])) {
+            const player = Multiplayer.getPlayer(args[0])
+            if (!player) {
                 Multiplayer.alert('Player is not online!');
                 break;
             }
+            Multiplayer.alert("press ESCAPE to stop spectating");
+            Multiplayer.socket.emit('spectating', player.uuid, true);
+            if (GameState.spectating) Multiplayer.socket.emit('spectating', Multiplayer.getPlayer(GameState.spectating), false);
             GameState.spectating = args[0];
             break;
+        case 'teleport':
+        case 'tp':
+            if (!args[0]) {
+                Multiplayer.alert('You must specify someone to teleport to!');
+                break;
+            }
+            if (args[0].toLowerCase() === Multiplayer.username.toLowerCase()) {
+                break;
+            }
+            const playerTP = Multiplayer.getPlayer(args[0]) // TODO: move this player validation to own code
+            if (!playerTP) {
+                Multiplayer.alert('Player is not online!');
+                break;
+            }
+            scene.startLevel(playerTP.level);
+            scene.cheatsEnabled = true;
+            scene.player.x = playerTP.x;
+            scene.player.y = playerTP.y;
+            break;
+        default:
+            Multiplayer.alert("Unknown command");
     }
 }

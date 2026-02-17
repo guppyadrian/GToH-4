@@ -21,6 +21,7 @@ export class Player extends Sprite {
     wallJumpCooldown;
     statuses;
     nextLevel: number | undefined; // where to go next frame
+    levelWon = false;
     realPlayer: boolean; // whether or not player is the actual one. Controls changing lvls and stuff
     gravityMult: number;
     godMode: boolean;
@@ -79,11 +80,12 @@ export class Player extends Sprite {
 
     flyMovement() {
         if (!this.realPlayer) return;
+        const speed = 10;
         
         const movementVector = this.getMovementVector();
 
-        this.x += movementVector.x * 10;
-        this.y += movementVector.y * 10;
+        this.x += movementVector.x * speed;
+        this.y += movementVector.y * speed;
 
         this.vx = 0;
         this.vy = 0;
@@ -211,15 +213,16 @@ export class Player extends Sprite {
 
         // New level stuff
         if (this.realPlayer && this.nextLevel !== undefined) {
-            (Master.currentScene as GameScene).startLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
+            if (this.levelWon)
+                (Master.currentScene as GameScene).winLevel(this.nextLevel);   // TODO: FIX THIS NOW!!! it looks ugly
+            else
+                (Master.currentScene as GameScene).startLevel(this.nextLevel); // ^^^ nah lets duplicate it
             this.nextLevel = undefined; // TODO: If I don't have this line it breaks. But that shouldn't be the case!
         }
         if (this.realPlayer && this.hasStatus('win')) {
             // trying this instead so you can see yourself in the win for 1 frame like original game
             this.nextLevel = GameState.lobbyLevel;
-            const levelName = GetLevel(GameState.currentLevel)?.about?.name;
-            if (levelName)
-                Multiplayer.alert(`${levelName} beaten in ${GameState.timer / 40} seconds`);
+            this.levelWon = true;
 
             // (Master.currentScene as GameScene).startLevel(GameState.lobbyLevel);
         } 

@@ -23,10 +23,16 @@ export class ChatSystem {
     constructor() {
         Multiplayer.chatSystem = this;
         this.chatting = false;
-        chatbox.addEventListener('keydown', e => {
-            if (e.code !== 'Enter') return;
-            this.finishChatting();
-        });
+        chatbox.addEventListener('keydown', this.onKeyDown);
+    }
+
+    private onKeyDown = (e: KeyboardEvent) => {
+        if (e.code !== 'Enter') return;
+        this.finishChatting();
+    }
+
+    destroy() {
+        chatbox.removeEventListener('keydown', this.onKeyDown);
     }
 
     startChatting() {

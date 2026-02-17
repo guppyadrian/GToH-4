@@ -36,6 +36,7 @@ export class GameScene extends Scene {
     player;
     drawfps;
     physicsfps;
+    cheatsEnabled;
 
     // linear interpolation
     visualPlayer;
@@ -104,11 +105,39 @@ export class GameScene extends Scene {
         Camera.z = 2;  //Canvas.width / 700;
 
         this.futurePos = Vector2.zero;
-
+        this.cheatsEnabled = false;
         this.lastFrameTime = 0;
         this.chat = new ChatSystem();
 
         Multiplayer.ready();
+
+        document.addEventListener("visibilitychange", this.onVisibilityChange);
+    }
+
+    destroy(): void {
+        document.removeEventListener("visibilitychange", this.onVisibilityChange);
+        this.chat.destroy();
+        super.destroy();
+    }
+
+    private onVisibilityChange() {
+        if (document.hidden) {
+            Multiplayer.socket.emit('toggle-afk', true);
+        } else {
+            Multiplayer.socket.emit('toggle-afk', false);
+        }
+    }
+
+    winLevel(nextLevel: number) {
+        if (this.cheatsEnabled) {
+            Multiplayer.alert('Cheats enabled.');
+        } else {
+            const levelName = GetLevel(GameState.currentLevel)?.about?.name;
+            if (levelName)
+                Multiplayer.alert(`${levelName} beaten in ${GameState.timer / 40} seconds`);
+            Multiplayer.uploadLevelTime(GameState.currentLevel, GameState.timer);
+        }
+        this.startLevel(nextLevel);
     }
 
     startLevel(levelData: Array<any>[]): void;
@@ -207,6 +236,9 @@ export class GameScene extends Scene {
         this.visualPlayer.update();
         this.futurePos = this.visualPlayer.pos;
 
+        if (!Options.HighFPS)
+            this.updateCamera(this.player, 25);
+
         if (this.canMove && Input.justGet("options")) {
             Master.changeScene(new OptionsScene());
         }
@@ -241,8 +273,6 @@ export class GameScene extends Scene {
         if (!GameState.spectating) {
             if (Options.HighFPS)
                 this.updateCamera(this.visualPlayer, deltaTime);
-            else
-                this.updateCamera(this.player, deltaTime);
         } else
             this.spectateUpdate(deltaTime);
 
@@ -265,6 +295,7 @@ export class GameScene extends Scene {
         
         this.chat.draw();
 
+        // draw the top right playerlist
         if (Input.get('show-chat'))
         { // TODO: move to own func
             const players = Multiplayer.playerList.entries();
@@ -272,7 +303,7 @@ export class GameScene extends Scene {
             let i = 0;
             for (const [_, value] of players) {
                 const level = GetLevel(value.level);
-                Canvas.ctx.fillText(`${value.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, (i++) * 25 + 60);
+                Canvas.ctx.fillText(`${value.afk ? "(AFK) " : ""}${value.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, (i++) * 30 + 65);
             }
             const level = GetLevel(GameState.currentLevel);
             Canvas.ctx.fillText(`${Multiplayer.username} in ${level?.type === 'lobby' ? level.about?.diff : level?.about?.name}`, Canvas.width - 10, 35);
@@ -304,18 +335,20 @@ export class GameScene extends Scene {
     }
 
     spectateUpdate(deltaTime: number) {
-        this.player.x = -100000;
+        this.player.x = 0;
         this.player.y = 100000;
+        if (!GameState.spectating) return;
+        const spectatedPlayer = Multiplayer.getPlayer(GameState.spectating);
         if (Input.justGet('cancel')) {
             GameState.spectating = null;
             this.startLevel(GameState.worldBeforeSpectate);
+            Multiplayer.socket.emit('spectating', spectatedPlayer?.uuid, false);
             return;
         }
-        if (!GameState.spectating) return;
-        const spectatedPlayer = Multiplayer.getPlayer(GameState.spectating);
-        if (!spectatedPlayer) {
+        if (!spectatedPlayer || spectatedPlayer.y === 100000) {
             GameState.spectating = null;
             this.startLevel(GameState.worldBeforeSpectate);
+            Multiplayer.socket.emit('spectating', spectatedPlayer?.uuid, false);
             return;
         }
         if (spectatedPlayer.level !== GameState.currentLevel) {
