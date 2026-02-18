@@ -118,7 +118,7 @@ export class Player extends Sprite {
         let previouslyTouchedIce = this.hasStatus('icy');
 
         // slowdown if not moving
-        if ((movementVector.x === 0 && !this.hasStatus('icy')) || this.hasStatus('mud')) {
+        if (((!Input.get('left') && !Input.get('right')) && !this.hasStatus('icy')) || this.hasStatus('mud')) {
             this.vx -= Math.sign(this.vx);
         }
         if (Math.abs(this.vx) > PlayerSettings.speedHardcap) {

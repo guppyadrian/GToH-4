@@ -1,6 +1,8 @@
 ## 0.15.2 February 16, 2026
 - Changed
     - World 2 to no longer kill you in the lobby
+- Fixed
+    - pressing both left and right not conserving your velocity
 
 ## 0.15.1 February 16, 2026
 - Fixed
